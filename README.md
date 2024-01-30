@@ -1,3 +1,3 @@
 # PROJECT WIP
 
-<img width="240" alt="image" src="https://github.com/T3AMARTISAN/frontend/assets/122417190/84268842-eb6e-42c6-ae2f-6c3db703bf5a">
+<img width="240" alt="image" src="https://github.com/T3AMARTISAN/dex-wallet/assets/122417190/05fb31de-c3f3-44c7-8701-5e30a65a2af0">
