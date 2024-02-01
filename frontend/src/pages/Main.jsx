@@ -14,6 +14,7 @@ const Main = () => {
       <div className="text-neutral-900 font-extrabold text-7xl mb-6">
         DEX WALLET
       </div>
+
       <div className="bg-neutral-500 rounded-lg w-11/12 h-1/3 mb-6 whitespace-pre flex justify-between relative">
         <div className="text-neutral-50 font-light m-6 text-2xl">
           {"February 29, 2024\n$100"}
