@@ -8,8 +8,8 @@ const NetworkSwitch = () => {
   };
 
   return (
-    <div className="bg-white absolute w-full h-[480px]">
-      <div className="bg-red-100 h-3/5 flex flex-col justify-center pl-3 gap-2">
+    <div className="bg-white absolute w-full h-[480px] rounded-lg">
+      <div className="h-3/5 flex flex-col justify-center pl-3 gap-2">
         <div>Main Network</div>
         <div className="border rounded-lg border-black py-1 px-1 mr-1">
           Ethereum Mainnet

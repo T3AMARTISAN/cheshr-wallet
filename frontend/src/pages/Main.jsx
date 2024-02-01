@@ -6,7 +6,11 @@ const Main = () => {
   const { isNetworkButtonClick } = useOutletContext();
 
   return (
-    <div className="bg-neutral-300 w-[480px] h-screen mx-auto flex flex-col items-center">
+    <div
+      className={` w-[480px] h-screen mx-auto flex flex-col items-center ${
+        isNetworkButtonClick ? "bg-opacity-30" : "bg-neutral-300"
+      }`}
+    >
       <div className="text-neutral-900 font-extrabold text-7xl mb-6">
         DEX WALLET
       </div>
@@ -44,7 +48,11 @@ const Main = () => {
           <div>$24.02</div>
         </div>
       </div>
-      <div className="bg-neutral-400 rounded-lg w-11/12 h-fit pb-10 my-10 flex flex-col">
+      <div
+        className={`bg-neutral-400 rounded-lg w-11/12 h-fit pb-10 my-10 flex flex-col ${
+          isNetworkButtonClick ? "bg-opacity-30" : "bg-neutral-400"
+        }`}
+      >
         <div className="flex flex-row justify-between m-4">
           <div>UNISWAP POOL</div>
           <div>See Profit</div>
