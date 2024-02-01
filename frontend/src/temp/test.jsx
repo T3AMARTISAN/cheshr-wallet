@@ -7,7 +7,7 @@ const Test = () => {
 
   const provider = new ethers.InfuraProvider(
     "sepolia",
-    "05d970b98aa746069e0827bf56ed73a8"
+    process.env.REACT_APP_INFURA_API_KEY
   );
   const account = "";
   const pvk = "";
@@ -24,7 +24,7 @@ const Test = () => {
   const transaction = () => {
     var signer = new ethers.Wallet(pvk, provider);
     var tx = { to: "342", value: 123123 };
-    var send = singer.sendTransaction(tx);
+    var send = signer.sendTransaction(tx);
   };
 
   return (
