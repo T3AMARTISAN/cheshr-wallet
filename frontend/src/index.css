@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container {
+    @apply w-[480px] h-screen mx-auto bg-neutral-300;
+  }
+  .roundBlock {
+    @apply rounded-lg  h-fit pb-10;
+  }
+  .homepageButton {
+    @apply py-3  w-full rounded-lg border border-green-800 text-white  font-bold text-nowrap   bg-neutral-600;
+  }
+}
