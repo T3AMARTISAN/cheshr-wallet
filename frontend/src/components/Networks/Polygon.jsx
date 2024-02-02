@@ -2,13 +2,15 @@ import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
 const Polygon = () => {
-  const { setIsNetworkButtonClick, setCurrentProvider } = useOutletContext();
+  const { setIsNetworkButtonClick, setCurrentProvider, setCurrentNetwork } =
+    useOutletContext();
 
   const onClickPolygon = () => {
     setCurrentProvider(
       new ethers.InfuraProvider("matic", process.env.INFURA_API_KEY)
     );
     setIsNetworkButtonClick(false);
+    setCurrentNetwork("Polygon");
   };
 
   return (

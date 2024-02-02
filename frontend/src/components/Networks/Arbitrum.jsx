@@ -2,13 +2,15 @@ import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
 const Arbitrum = () => {
-  const { setIsNetworkButtonClick, setCurrentProvider } = useOutletContext();
+  const { setIsNetworkButtonClick, setCurrentProvider, setCurrentNetwork } =
+    useOutletContext();
 
   const onClickArbitrum = () => {
     setCurrentProvider(
       new ethers.InfuraProvider("arbitrum", process.env.INFURA_API_KEY)
     );
     setIsNetworkButtonClick(false);
+    setCurrentNetwork("Arbitrum");
   };
   return (
     <button

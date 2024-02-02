@@ -2,11 +2,13 @@ import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
 const Ethereum = () => {
-  const { setIsNetworkButtonClick, setCurrentProvider } = useOutletContext();
+  const { setIsNetworkButtonClick, setCurrentProvider, setCurrentNetwork } =
+    useOutletContext();
 
   const onClickETH = () => {
     setCurrentProvider(new ethers.InfuraProvider());
     setIsNetworkButtonClick(false);
+    setCurrentNetwork("ETH");
   };
 
   return (

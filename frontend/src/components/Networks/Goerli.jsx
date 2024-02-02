@@ -2,13 +2,15 @@ import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
 const Goerli = () => {
-  const { setIsNetworkButtonClick, setCurrentProvider } = useOutletContext();
+  const { setIsNetworkButtonClick, setCurrentProvider, setCurrentNetwork } =
+    useOutletContext();
 
   const onClickETHGoerli = () => {
     setCurrentProvider(
       new ethers.InfuraProvider("goerli", process.env.INFURA_API_KEY)
     );
     setIsNetworkButtonClick(false);
+    setCurrentNetwork("Goerli");
   };
 
   return (

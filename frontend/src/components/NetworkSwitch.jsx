@@ -1,10 +1,10 @@
 import { useOutletContext } from "react-router-dom";
-import Ethereum from "./Ethereum";
-import Polygon from "./Polygon";
-import Optimism from "./Optimism";
-import Arbitrum from "./Arbitrum";
-import Sepolia from "./Sepolia";
-import Goerli from "./Goerli";
+import Ethereum from "./Networks/Ethereum";
+import Polygon from "./Networks/Polygon";
+import Optimism from "./Networks/Optimism";
+import Arbitrum from "./Networks/Arbitrum";
+import Sepolia from "./Networks/Sepolia";
+import Goerli from "./Networks/Goerli";
 
 const NetworkSwitch = () => {
   const { setIsNetworkButtonClick, setCurrentProvider } = useOutletContext();
@@ -22,7 +22,7 @@ const NetworkSwitch = () => {
   };
 
   return (
-    <div className="bg-white absolute w-full h-[480px] rounded-lg">
+    <div className="sticky top-16 bg-white h-[480px] rounded-lg">
       <div className="h-3/5 flex flex-col justify-center pl-3 gap-2">
         <div>Main Network</div>
         <Ethereum />
