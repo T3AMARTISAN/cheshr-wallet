@@ -4,7 +4,8 @@ import { useState } from "react";
 
 const Layout = () => {
   const [isNetworkButtonClick, setIsNetworkButtonClick] = useState();
-
+  const [currentProvider, setCurrentProvider] = useState();
+  const [currentNetwork, setCurrentNetwork] = useState("ETH");
   const [isCreateLoginButtonClick, setIsCreateLoginButtonClick] = useState(0);
   const [tabNumber, setTabNumber] = useState(0);
 
@@ -19,6 +20,10 @@ const Layout = () => {
             setTabNumber,
             isNetworkButtonClick,
             setIsNetworkButtonClick,
+            currentProvider,
+            setCurrentProvider,
+            currentNetwork,
+            setCurrentNetwork,
           }}
         />
       </div>
