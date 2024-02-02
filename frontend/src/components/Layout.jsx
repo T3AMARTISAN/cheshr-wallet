@@ -4,15 +4,25 @@ import { useState } from "react";
 
 const Layout = () => {
   const [isNetworkButtonClick, setIsNetworkButtonClick] = useState();
+  const [isCreateLoginButtonClick, setIsCreateLoginButtonClick] = useState(0);
+  const [tabNumber, setTabNumber] = useState(0);
 
   return (
     <>
-      <div className="bg-neutral-100">
-        <div className="mx-auto">
-          <Outlet context={{ isNetworkButtonClick, setIsNetworkButtonClick }} />
-        </div>
+      <div className="">
+        <Outlet
+          context={{
+            isCreateLoginButtonClick,
+            setIsCreateLoginButtonClick,
+            tabNumber,
+            setTabNumber,
+            isNetworkButtonClick,
+            setIsNetworkButtonClick,
+          }}
+        />
       </div>
-      <Menu />
+
+      <Menu tabNumber={tabNumber} setTabNumber={setTabNumber} />
     </>
   );
 };
