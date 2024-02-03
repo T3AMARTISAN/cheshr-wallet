@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Menu from "./Menu";
 import { useState } from "react";
 
@@ -8,6 +8,8 @@ const Layout = () => {
   const [currentNetwork, setCurrentNetwork] = useState("ETH");
   const [isCreateLoginButtonClick, setIsCreateLoginButtonClick] = useState(0);
   const [tabNumber, setTabNumber] = useState(0);
+
+  const location = useLocation();
 
   return (
     <>
@@ -28,7 +30,9 @@ const Layout = () => {
         />
       </div>
 
-      <Menu tabNumber={tabNumber} setTabNumber={setTabNumber} />
+      {location.pathname !== "/" && (
+        <Menu tabNumber={tabNumber} setTabNumber={setTabNumber} />
+      )}
     </>
   );
 };
