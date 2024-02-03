@@ -7,6 +7,7 @@ const Ethereum = () => {
     setCurrentProvider,
     setCurrentNetwork,
     setUnit,
+    setChainName,
   } = useOutletContext();
 
   const onClickETH = () => {
@@ -14,6 +15,7 @@ const Ethereum = () => {
     setIsNetworkButtonClick(false);
     setCurrentNetwork("ETH");
     setUnit("ETH");
+    setChainName("ethereum");
   };
 
   return (

@@ -7,6 +7,7 @@ const Arbitrum = () => {
     setCurrentProvider,
     setCurrentNetwork,
     setUnit,
+    setChainName,
   } = useOutletContext();
 
   const onClickArbitrum = () => {
@@ -16,6 +17,7 @@ const Arbitrum = () => {
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Arbitrum");
     setUnit("ARB");
+    setChainName("arbitrum");
   };
   return (
     <button

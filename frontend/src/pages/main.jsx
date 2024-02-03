@@ -5,6 +5,7 @@ import DeFi from "../components/DeFi";
 import Tokens from "../components/Tokens";
 import NetworkSwitch from "../components/NetworkSwitch";
 import Menu from "../components/Menu";
+import Nfts from "../components/Nfts";
 
 const Main = () => {
   const { tabNumber, setTabNumber, isNetworkButtonClick } = useOutletContext();
@@ -23,6 +24,7 @@ const Main = () => {
         <div className="my-3">
           {tabNumber == 0 ? <Tokens /> : ""}
           {tabNumber == 1 ? <DeFi /> : ""}
+          {tabNumber == 2 ? <Nfts /> : ""}
         </div>
       </div>
       <Menu tabNumber={tabNumber} setTabNumber={setTabNumber} />
