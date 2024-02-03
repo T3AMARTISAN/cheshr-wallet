@@ -109,7 +109,7 @@ const Signup = () => {
       ) : (
         ""
       )}
-      {passwordButtonClicked == 1 ? <NewWallet /> : ""}
+      {passwordButtonClicked == 1 ? <NewWallet /> : ""}{" "}
     </div>
   );
 };

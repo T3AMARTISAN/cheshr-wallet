@@ -2,6 +2,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 
 const NewWallet = () => {
   const {
+    currentAccount,
     confirmPassword,
     setPassword,
     setConfirmPassword,
@@ -35,9 +36,11 @@ const NewWallet = () => {
       </div>
       <div className="bg-green-100 h-5/6 mb-6">
         <div className="text-lg text-center pt-2">
-          Here is your private key:
+          Here is your wallet address:
         </div>
-        <div className="flex flex-col gap-2 p-6"></div>
+        <div className="flex flex-col gap-2 p-6">
+          
+        </div>
       </div>
       <div className="flex flex-row justify-around px-20">
         <button
