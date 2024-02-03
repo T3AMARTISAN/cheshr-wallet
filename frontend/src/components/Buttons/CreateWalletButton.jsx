@@ -1,12 +1,10 @@
-import { useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreateWalletButton = () => {
-  const { setIsCreateLoginButtonClick, isCeateLoginButtonClick } =
-    useOutletContext();
+  const navigate = useNavigate();
 
   const onClickCreateWallet = () => {
-    setIsCreateLoginButtonClick(1);
-    console.log(isCeateLoginButtonClick);
+    navigate("/signup");
   };
 
   return (
