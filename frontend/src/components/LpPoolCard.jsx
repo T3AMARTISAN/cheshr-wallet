@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-const LPTokens = () => {
+const LPPoolCard = () => {
   const [LPTokenName, setLPTokenName] = useState("");
   const [LPTokenAmount, setLPTokenAmount] = useState();
   const [PairAddress, setPairAddress] = useState();
@@ -72,4 +72,4 @@ const LPTokens = () => {
   );
 };
 
-export default LPTokens;
+export default LPPoolCard;

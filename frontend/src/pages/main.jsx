@@ -1,13 +1,10 @@
 import { useOutletContext } from "react-router-dom";
-import Assets from "../components/Tokens";
-import LpPoolCard from "../components/LpPoolCard";
-import TabBar from "../components/TabBar";
 import TotalAsset from "../components/TotalAsset";
 import WalletAddress from "../components/WalletAddress";
 import DeFi from "../components/DeFi";
 import Tokens from "../components/Tokens";
 import NetworkSwitch from "../components/NetworkSwitch";
-import LPTokens from "../components/LpPoolCard";
+import Menu from "../components/Menu";
 
 const Main = () => {
   const { tabNumber, setTabNumber, isNetworkButtonClick } = useOutletContext();
@@ -28,6 +25,7 @@ const Main = () => {
           {tabNumber == 1 ? <DeFi /> : ""}
         </div>
       </div>
+      <Menu tabNumber={tabNumber} setTabNumber={setTabNumber} />
     </div>
   );
 };
