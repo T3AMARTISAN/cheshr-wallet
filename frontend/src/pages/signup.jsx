@@ -39,7 +39,6 @@ const Signup = () => {
     const newPassword = event.target.value;
     setPassword(newPassword);
     validatePassword(newPassword);
-    console.log(password);
     if (confirmPassword) {
       checkPasswordsMatch();
     }
@@ -93,12 +92,14 @@ const Signup = () => {
               Cancel
             </button>
             <button
-              className={`bg-purple-100 rounded-md p-2 ${
-                !passwordValid || !passwordsMatch
-                  ? "bg-gray-500 cursor-not-allowed"
+              className={`rounded-md p-2 ${
+                !passwordValid || !passwordsMatch || password.length < 8
+                  ? "bg-neutral-500 cursor-not-allowed"
                   : "bg-purple-100"
               }`}
-              disabled={!passwordValid || !passwordsMatch}
+              disabled={
+                !passwordValid || !passwordsMatch || password.length < 8
+              }
               onClick={onClickConfirm}
             >
               Confirm
