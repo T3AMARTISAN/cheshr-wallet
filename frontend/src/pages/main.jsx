@@ -7,6 +7,7 @@ import WalletAddress from "../components/WalletAddress";
 import DeFi from "../components/DeFi";
 import Tokens from "../components/Tokens";
 import NetworkSwitch from "../components/NetworkSwitch";
+import LPTokens from "../components/LpPoolCard";
 
 const Main = () => {
   const { tabNumber, setTabNumber, isNetworkButtonClick } = useOutletContext();
@@ -25,8 +26,6 @@ const Main = () => {
         <div className="my-3">
           {tabNumber == 0 ? <Tokens /> : ""}
           {tabNumber == 1 ? <DeFi /> : ""}
-
-          <LPTokens />
         </div>
       </div>
     </div>
