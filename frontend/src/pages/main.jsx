@@ -7,6 +7,7 @@ import WalletAddress from "../components/WalletAddress";
 import DeFi from "../components/DeFi";
 import Tokens from "../components/Tokens";
 import NetworkSwitch from "../components/NetworkSwitch";
+import LPTokens from "../components/LPTokens";
 
 const Main = () => {
   const { tabNumber, setTabNumber, isNetworkButtonClick } = useOutletContext();

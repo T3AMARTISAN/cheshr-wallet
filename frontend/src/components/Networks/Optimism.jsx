@@ -2,8 +2,12 @@ import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
 const Optimism = () => {
-  const { setIsNetworkButtonClick, setCurrentProvider, setCurrentNetwork } =
-    useOutletContext();
+  const {
+    setIsNetworkButtonClick,
+    setCurrentProvider,
+    setCurrentNetwork,
+    setUnit,
+  } = useOutletContext();
 
   const onClickOptimism = () => {
     setCurrentProvider(
@@ -11,6 +15,7 @@ const Optimism = () => {
     );
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Optimism");
+    setUnit("ETH");
   };
   return (
     <button

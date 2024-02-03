@@ -2,8 +2,12 @@ import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
 const Arbitrum = () => {
-  const { setIsNetworkButtonClick, setCurrentProvider, setCurrentNetwork } =
-    useOutletContext();
+  const {
+    setIsNetworkButtonClick,
+    setCurrentProvider,
+    setCurrentNetwork,
+    setUnit,
+  } = useOutletContext();
 
   const onClickArbitrum = () => {
     setCurrentProvider(
@@ -11,6 +15,7 @@ const Arbitrum = () => {
     );
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Arbitrum");
+    setUnit("ARB");
   };
   return (
     <button

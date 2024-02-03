@@ -2,8 +2,12 @@ import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
 const Polygon = () => {
-  const { setIsNetworkButtonClick, setCurrentProvider, setCurrentNetwork } =
-    useOutletContext();
+  const {
+    setIsNetworkButtonClick,
+    setCurrentProvider,
+    setCurrentNetwork,
+    setUnit,
+  } = useOutletContext();
 
   const onClickPolygon = () => {
     setCurrentProvider(
@@ -11,6 +15,7 @@ const Polygon = () => {
     );
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Polygon");
+    setUnit("MATIC");
   };
 
   return (
