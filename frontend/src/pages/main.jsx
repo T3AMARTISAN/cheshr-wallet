@@ -26,7 +26,7 @@ const Main = () => {
           {tabNumber == 0 ? <Tokens /> : ""}
           {tabNumber == 1 ? <DeFi /> : ""}
 
-          {/* lp pool block */}
+          <LPTokens />
         </div>
       </div>
     </div>
