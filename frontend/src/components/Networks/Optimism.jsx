@@ -7,6 +7,7 @@ const Optimism = () => {
     setCurrentProvider,
     setCurrentNetwork,
     setUnit,
+    setChainName,
   } = useOutletContext();
 
   const onClickOptimism = () => {
@@ -16,6 +17,7 @@ const Optimism = () => {
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Optimism");
     setUnit("ETH");
+    setChainName("optimism");
   };
   return (
     <button

@@ -8,6 +8,7 @@ const Layout = () => {
     new ethers.InfuraProvider()
   );
   const [currentNetwork, setCurrentNetwork] = useState("ETH");
+  const [chainName, setChainName] = useState("ethereum");
   const [currentAccount, setCurrentAccount] = useState("");
   const [tabNumber, setTabNumber] = useState(0);
   const [balance, setBalance] = useState(0);
@@ -32,6 +33,8 @@ const Layout = () => {
             setBalance,
             unit,
             setUnit,
+            chainName,
+            setChainName,
           }}
         />
       </div>

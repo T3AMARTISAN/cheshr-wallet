@@ -7,6 +7,7 @@ const Polygon = () => {
     setCurrentProvider,
     setCurrentNetwork,
     setUnit,
+    setChainName,
   } = useOutletContext();
 
   const onClickPolygon = () => {
@@ -16,6 +17,7 @@ const Polygon = () => {
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Polygon");
     setUnit("MATIC");
+    setChainName("matic");
   };
 
   return (
