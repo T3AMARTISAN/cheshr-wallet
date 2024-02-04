@@ -3,6 +3,8 @@ import NewWallet from "../components/NewWallet";
 
 const Signup = () => {
   const {
+    currentAccount,
+    setCurrentAccount,
     passwordButtonClicked,
     setPasswordButtonClicked,
     password,
@@ -109,7 +111,14 @@ const Signup = () => {
       ) : (
         ""
       )}
-      {passwordButtonClicked == 1 ? <NewWallet /> : ""}{" "}
+      {passwordButtonClicked == 1 ? (
+        <NewWallet
+          currentAccount={currentAccount}
+          setCurrentAccount={setCurrentAccount}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
