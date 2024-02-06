@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
 const TotalAsset = () => {
@@ -23,7 +23,12 @@ const TotalAsset = () => {
         </li>
       </ul>
       <ul className="flex justify-between px-6">
-        <li className="py-2 w-1/3 text-center rounded-md bg-red-200">Send</li>
+        <Link
+          to="/send"
+          className="py-2 w-1/3 text-center rounded-md bg-red-200"
+        >
+          Send
+        </Link>
         <li className="py-2 w-1/3 text-center  rounded-md bg-red-200">
           Receive
         </li>
