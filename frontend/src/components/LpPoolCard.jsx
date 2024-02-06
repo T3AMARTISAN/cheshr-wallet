@@ -27,7 +27,7 @@ const LPPoolCard = () => {
         const token_url = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${pairAddress}&address=${testAccount}&tag=latest&apikey=${etherscanKey}`;
         const token_response = await fetch(token_url);
         const token = await token_response.json();
-        setLPTokenAmount(ethers.formatEther(token.result));
+        setLPTokenAmount(Number(ethers.formatEther(token.result)));
 
         //LP Contract의 심볼 불러오기
         const contract_url = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${pairAddress}&apikey=${etherscanKey}`;
@@ -53,13 +53,15 @@ const LPPoolCard = () => {
         const usdt_response = await fetch(usdt_url);
         console.log(usdt_url);
         const usdt = await usdt_response.json();
-        setUsdtAmountInLpContract(usdt.result / 10 ** 6);
+        setUsdtAmountInLpContract(Number(usdt.result) / 10 ** 6);
 
         //2. LP Contract에서 발행된 전체 LP 토큰 개수
         const totalLpTokenSupply_url = `https://api.etherscan.io/api?module=stats&action=tokensupply&contractaddress=${pairAddress}&apikey=${etherscanKey}`;
         const totalLpTokenSupply_response = await fetch(totalLpTokenSupply_url);
         const totalLpTokenSupply = await totalLpTokenSupply_response.json();
-        setTotalLpTokenAmount(ethers.formatEther(totalLpTokenSupply.result));
+        setTotalLpTokenAmount(
+          Number(ethers.formatEther(totalLpTokenSupply.result))
+        );
 
         //2. 사용자가 보유한 LP 토큰 개수가 가진 달러 가치 (TVL / 전체 LP 개수) * 사용자가 보유한 LP 개수
         // LP 토큰 1개 가격 = (TVL / 전체 LP 개수)
@@ -96,7 +98,7 @@ const LPPoolCard = () => {
         </div>
         <div className="flex flex-col gap-2">
           <div>USD</div>
-          <div>{userLpTokenValue.toFixed(2)}</div>
+          <div>{Number(userLpTokenValue).toFixed(2)}</div>
         </div>
       </div>
     </div>
