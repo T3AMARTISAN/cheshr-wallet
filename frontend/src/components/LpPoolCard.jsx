@@ -19,7 +19,7 @@ const LPPoolCard = () => {
   const [LPTokenName, setLPTokenName] = useState("");
   const [LPTokenAmount, setLPTokenAmount] = useState();
   const [tokens, setTokens] = useState([]);
-  const [primarytokens, setPrimaryTokens] = useState([]);
+  // const [primarytokens, setPrimaryTokens] = useState([]);
   const [tvl, setTvl] = useState();
   const [userLpValue, setUserLpValue] = useState();
 
@@ -47,67 +47,88 @@ const LPPoolCard = () => {
   };
 
   //스테이블코인이나 eth 처럼 tvl 계산에 사용할 primary token을 두 페어 중 앞에 배열해 구별해서 사용할 수 있도록 분류
-  const sortLpPairType = async () => {
-    var token0 = await lpContract.token0();
-    token0 = token0.toLowerCase();
-    var token1 = await lpContract.token1();
-    token1 = token1.toLowerCase();
-    setTokens([token0, token1]);
+  // const sortLpPairType = async () => {
+  //   var token0 = await lpContract.token0();
+  //   token0 = token0.toLowerCase();
+  //   var token1 = await lpContract.token1();
+  //   token1 = token1.toLowerCase();
+  //   setTokens([token0, token1]);
 
-    const stableCoinArray = [
-      USDT_CONTRACT,
-      USDC_CONTRACT,
-      DAI_CONTRACT,
-      WETH_CONTRACT,
-    ];
-    var count = 0;
+  //   const stableCoinArray = [
+  //     USDT_CONTRACT,
+  //     USDC_CONTRACT,
+  //     DAI_CONTRACT,
+  //     WETH_CONTRACT,
+  //   ];
+  //   var count = 0;
 
-    stableCoinArray.map((v, i) => {
-      if (token0 == v) {
-        setPrimaryTokens([token0, token1]);
-        count++;
-      } else if (token1 == v) {
-        setPrimaryTokens([token1, token0]);
-        count++;
-      }
-    });
-  };
+  //   stableCoinArray.map((v, i) => {
+  //     if (token0 == v) {
+  //       setPrimaryTokens([token0, token1]);
+  //       count++;
+  //     } else if (token1 == v) {
+  //       setPrimaryTokens([token1, token0]);
+  //       count++;
+  //     }
+  //   });
+  // };
 
   //LP 풀의 TVL 구하기 : 여기서 스테이블코인인지, 이더풀인지에 따라 구분하여 TVL 구함
   const getTvl = async () => {
     //스테이블코인이 primary token인 경우
-    if (primarytokens[0] !== WETH_CONTRACT) {
-      //token0과 token1 중 어떤 게 스테이블코인인지 파악해서 tvl 계산
-      if (tokens == primarytokens) {
-        const reserve = await lpContract.getReserves();
-        const dollars = Number(reserve[0]);
+    // if (primarytokens[0] !== WETH_CONTRACT) {
+    //   //token0과 token1 중 어떤 게 스테이블코인인지 파악해서 tvl 계산
+    //   if (tokens == primarytokens) {
+    //     const reserve = await lpContract.getReserves();
+    //     const dollars = Number(reserve[0]);
 
-        setTvl(dollars * 2);
-      } else {
-        const reserve = await lpContract.getReserves();
-        const dollars = Number(reserve[1]);
+    //     setTvl(dollars * 2);
+    //   } else {
+    //     const reserve = await lpContract.getReserves();
+    //     const dollars = Number(reserve[1]);
 
-        setTvl(dollars * 2);
-      }
-    } else {
-      //eth가 primary token인 경우
-      //ETH 시세 구하기
-      var ethValue = await lpContract.price0CumulativeLast();
-      ethValue = Number(ethValue);
+    //     setTvl(dollars * 2);
+    //   }
+    // } else {
+    //eth가 primary token인 경우
+    //ETH 시세 구하기
+    var token0Value = await lpContract.price0CumulativeLast();
+    // var token0Decimals = await lpContract.
+    token0Value = Number(token0Value);
+    var normalizedToken0Value = token0Value / 10 ** 18;
 
-      //token0 과 token1 중 어떤 게 이더인지 파악해서 tvl 계산
-      if (tokens == primarytokens) {
-        const reserve = await lpContract.getReserves();
-        const ethAmount = Number(reserve[0]);
+    var token1Value = await lpContract.price1CumulativeLast();
+    token1Value = Number(token1Value);
+    var normalizedToken1Value = token1Value / 10 ** 18;
 
-        setTvl(ethValue * ethAmount * 2);
-      } else {
-        const reserve = await lpContract.getReserves();
-        const ethAmount = Number(reserve[1]);
+    const reserve = await lpContract.getReserves();
+    const token0Amount = Number(reserve[0]);
+    const token1Amount = Number(reserve[1]);
 
-        setTvl(ethValue * ethAmount * 2);
-      }
-    }
+    console.log(1, token0Value);
+    console.log(2, token1Value);
+    console.log(3, token0Value / normalizedToken1Value);
+    // https://medium.com/@epheph/using-uniswap-v2-oracle-with-storage-proofs-3530e699e1d3
+    // https://uniswap.org/whitepaper.pdf
+
+    // everything in token1(usdt) tvl: reserve0 * price1CumulativeLast + reserve1??
+    //reserve0 * price1CumulativeLast: We're essentially converting the amount of token0 in the pool to its equivalent value in terms of token1.
+
+    setTvl(token0Value * token0Amount * 2);
+
+    // //token0 과 token1 중 어떤 게 이더인지 파악해서 tvl 계산
+    // if (tokens == primarytokens) {
+    //   const reserve = await lpContract.getReserves();
+    //   const ethAmount = Number(reserve[0]);
+
+    //   setTvl(ethValue * ethAmount * 2);
+    // } else {
+    //   const reserve = await lpContract.getReserves();
+    //   const ethAmount = Number(reserve[1]);
+
+    //   setTvl(ethValue * ethAmount * 2);
+    // }
+    // }
   };
 
   //최종적으로 사용자가 보유한 LP 토큰의 달러 가치 구하는 함수
@@ -129,12 +150,12 @@ const LPPoolCard = () => {
     setLpCA("0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852");
   }, [currentProvider]);
 
-  useEffect(() => {
-    if (!lpContract) {
-      return;
-    }
-    sortLpPairType();
-  }, [lpContract]);
+  // useEffect(() => {
+  //   if (!lpContract) {
+  //     return;
+  //   }
+  //   sortLpPairType();
+  // }, [lpContract]);
 
   useEffect(() => {
     if (!lpContract) {
