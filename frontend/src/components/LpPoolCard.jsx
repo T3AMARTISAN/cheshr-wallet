@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 import {
   USDT_CONTRACT,
@@ -40,6 +41,7 @@ const LPPoolCard = () => {
     setLPTokenName(contract_symbol);
   };
 
+  //사용자가 보유한 LP 토큰 수
   const getUserLpAmount = async (_address) => {
     var userLpAmount = await lpContract.balanceOf(_address);
     userLpAmount = Number(userLpAmount);
@@ -80,30 +82,40 @@ const LPPoolCard = () => {
       //token0과 token1 중 어떤 게 스테이블코인인지 파악해서 tvl 계산
       if (tokens == primarytokens) {
         const reserve = await lpContract.getReserves();
-        const dollars = Number(reserve[0]);
+        var dollars = Number(reserve[0]);
+        dollars = dollars / 10 ** 6;
 
         setTvl(dollars * 2);
       } else {
         const reserve = await lpContract.getReserves();
-        const dollars = Number(reserve[1]);
+        var dollars = Number(reserve[1]);
+        dollars = dollars / 10 ** 6;
 
         setTvl(dollars * 2);
       }
     } else {
       //eth가 primary token인 경우
-      //ETH 시세 구하기
-      var ethValue = await lpContract.price0CumulativeLast();
-      ethValue = Number(ethValue);
+      //ETH 시세 구하기->일단 바이낸스 api로 구현. price0CumulativeLast는 시세 아님.
+      // var ethValue = await lpContract.price0CumulativeLast();
+      // ethValue = Number(ethValue);
+
+      var response = await axios.get(
+        "https://api.binance.com/api/v3/ticker/price"
+      );
+      var ethValue = response.data[12].price;
+      console.log(ethValue);
 
       //token0 과 token1 중 어떤 게 이더인지 파악해서 tvl 계산
       if (tokens == primarytokens) {
         const reserve = await lpContract.getReserves();
-        const ethAmount = Number(reserve[0]);
+        var ethAmount = Number(reserve[0]);
+        ethAmount = ethAmount / 10 ** 18;
 
         setTvl(ethValue * ethAmount * 2);
       } else {
         const reserve = await lpContract.getReserves();
-        const ethAmount = Number(reserve[1]);
+        var ethAmount = Number(reserve[1]);
+        ethAmount = ethAmount / 10 ** 18;
 
         setTvl(ethValue * ethAmount * 2);
       }
@@ -115,10 +127,9 @@ const LPPoolCard = () => {
     var lpSupply = await lpContract.totalSupply();
     var lpSupply = Number(lpSupply);
 
-    var userLpValue = (tvl * LPTokenAmount) / lpSupply;
-    userLpValue = userLpValue / 10 ** 6;
+    var userLpValue = tvl * (LPTokenAmount / lpSupply);
+    userLpValue = userLpValue;
     userLpValue = userLpValue.toFixed(2);
-
     setUserLpValue(userLpValue);
   };
 
@@ -127,6 +138,8 @@ const LPPoolCard = () => {
       return;
     }
     setLpCA("0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852");
+    // pepe-eth : 0xa43fe16908251ee70ef74718545e4fe6c5ccec9f
+    // weth-usdt: "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852"
   }, [currentProvider]);
 
   useEffect(() => {
@@ -148,6 +161,8 @@ const LPPoolCard = () => {
       return;
     }
     getUserLpAmount(process.env.REACT_APP_TEST_ACCOUNT);
+    //pepe-eth 보유 지갑: "0x805B9Bd203ad2B69A241AE5084abEE11183f9429" -> 슬리피지? 이더스캔 가치랑 가격 차이 나네
+    //test 지갑: process.env.REACT_APP_TEST_ACCOUNT
   }, [lpContract]);
 
   useEffect(() => {
