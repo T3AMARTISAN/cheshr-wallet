@@ -29,9 +29,12 @@ const TotalAsset = () => {
         >
           Send
         </Link>
-        <li className="py-2 w-1/3 text-center  rounded-md bg-red-200">
+        <Link
+          className="py-2 w-1/3 text-center  rounded-md bg-red-200"
+          to="/history"
+        >
           Receive
-        </li>
+        </Link>
       </ul>
     </div>
   );

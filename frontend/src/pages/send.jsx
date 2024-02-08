@@ -1,20 +1,17 @@
-import { useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
 const Send = () => {
   const [value, setValue] = useState();
   const [toAddress, setToAddress] = useState();
+  const [receipt, setReceipt] = useState([{}]);
 
   const { password, currentProvider, balance, unit } = useOutletContext();
-
-  const navigate = useNavigate();
 
   const onSubmitSend = (e) => {
     e.preventDefault();
     async function Send() {
-      console.log(value);
-      console.log(toAddress);
       try {
         const encryptedJson = localStorage.getItem("data");
         const wallet = await ethers.decryptKeystoreJson(
@@ -26,14 +23,26 @@ const Send = () => {
           to: toAddress,
           value: ethers.parseUnits(value, "ether"),
         };
-        await signer.sendTransaction(tx);
+        const result = await signer.sendTransaction(tx);
+        setReceipt([
+          ...receipt,
+          {
+            from: result.from,
+            to: result.to,
+            value: Number(result.value),
+            chainId: Number(result.chainId),
+          },
+        ]);
       } catch (error) {
         console.error(error);
       }
     }
     Send();
-    navigate("/main");
   };
+  useEffect(() => {
+    const jsonArray = JSON.stringify(receipt);
+    localStorage.setItem("history", jsonArray);
+  }, [receipt]);
   return (
     <div className="container overflow-y-auto bg-blue-100">
       <form onSubmit={onSubmitSend}>
