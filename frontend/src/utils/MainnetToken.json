@@ -1,0 +1,204 @@
+// Ethereum Mainnet
+
+[
+  {
+    "name": "ETH",
+    "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+  },
+  {
+    "name": "USDT",
+    "address": "0xdac17f958d2ee523a2206206994597c13d831ec7"
+  },
+  {
+    "name": "USDC",
+    "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+  },
+  {
+    "name": "VEC",
+    "address": "0x1bb9b64927e0c5e207c9db4093b3738eef5d8447"
+  },
+  {
+    "name": "OLAS",
+    "address": "0x0001a500a6b18995b03f44bb040a5ffc28e45cb0"
+  },
+  {
+    "name": "BANA",
+    "address": "0x576e2bed8f7b46d34016198911cdf9886f78bea7"
+  },
+  {
+    "name": "stETH",
+    "address": "0x38e68a37e401f7271568cecaac63c6b1e19130b4"
+  },
+  {
+    "name": "BEAM",
+    "address": "0xae7ab96520de3a18e5e111b5eaab095312d7fe84"
+  },
+  {
+    "name": "DAI",
+    "address": "0x6b175474e89094c44da98b954eedeac495271d0f"
+  },
+  {
+    "name": "PEPE",
+    "address": "0x62d0a8458ed7719fdaf978fe5929c6d342b0bfce"
+  },
+  {
+    "name": "MKR",
+    "address": "0x6982508145454ce325ddbe47a25d4ec3d2311933"
+  },
+  {
+    "name": "0x0",
+    "address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2"
+  },
+  {
+    "name": "LBR",
+    "address": "0x5a3e6a77ba2f983ec0d371ea3b475f8bc0811ad5"
+  },
+  {
+    "name": "TOPIA",
+    "address": "0xed1167b6dc64e8a366db86f2e952a482d0981ebd"
+  },
+  {
+    "name": "VOW",
+    "address": "0xccccb68e1a848cbdb5b60a974e07aae143ed40c3"
+  },
+  {
+    "name": "ELON",
+    "address": "0x1bbf25e71ec48b84d773809b4ba55b6f4be946fb"
+  },
+  {
+    "name": "UNIB",
+    "address": "0xf819d9cb1c2a819fd991781a822de3ca8607c3c9"
+  },
+  {
+    "name": "SUPER",
+    "address": "0xe53ec727dbdeb9e2d5456c3be40cff031ab40a55"
+  },
+  {
+    "name": "WOO",
+    "address": "0x761d38e5ddf6ccf6cf7c55759d5210750b5d60f3"
+  },
+  {
+    "name": "DEXT",
+    "address": "0x4691937a7508860f876c9c0a2a617e7d9e945d4b"
+  },
+  {
+    "name": "$PAAL",
+    "address": "0xfb7b4564402e5500db5bb6d63ae671302777c75a"
+  },
+  {
+    "name": "ATOR",
+    "address": "0x14fee680690900ba0cccfc76ad70fd1b95d10e16"
+  },
+  {
+    "name": "BOTTO",
+    "address": "0x45804880de22913dafe09f4980848ece6ecbaf78"
+  },
+  {
+    "name": "AMPL",
+    "address": "0x0f7b3f5a8fed821c5eb60049538a548db2d479ce"
+  },
+  {
+    "name": "SHIDO",
+    "address": "0x9dfad1b7102d46b1b197b90095b5c4e9f5845bba"
+  },
+  {
+    "name": "PAXG",
+    "address": "0x72c60bfffef18dca51db32b52b819a951b6ddbed"
+  },
+  {
+    "name": "GF",
+    "address": "0xd46ba6d942050d489dbd938a2c909a5d5039a161"
+  },
+  {
+    "name": "ERN",
+    "address": "0xaaef88cea01475125522e117bfe45cf32044e238"
+  },
+  {
+    "name": "LINK",
+    "address": "0x514910771af9ca656af840dff83e8264ecf986ca"
+  },
+  {
+    "name": "FLOKI",
+    "address": "0xcf0c122c6b73ff809c693db761e7baebe62b6a2e"
+  },
+  {
+    "name": "RIO",
+    "address": "0xbbc2ae13b23d715c30720f079fcd9b4a74093505"
+  },
+  {
+    "name": "WBTC",
+    "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+  },
+  {
+    "name": "STARL",
+    "address": "0x8e6cd950ad6ba651f6dd608dc70e5886b1aa6b24"
+  },
+  {
+    "name": "RAD",
+    "address": "0x31c8eacbffdd875c74b94b077895bd78cf1e64a3"
+  },
+  {
+    "name": "CAW",
+    "address": "0xf3b9569f82b18aef890de263b84189bd33ebe452"
+  },
+  {
+    "name": "SFUND",
+    "address": "0x560363bda52bc6a44ca6c8c9b4a5fadbda32fa60"
+  },
+  {
+    "name": "pOHM",
+    "address": "0x88e08adb69f2618adf1a3ff6cc43c671612d1ca4"
+  },
+  {
+    "name": "POLS",
+    "address": "0x83e6f1e41cdd28eaceb20cb649155049fac3d5aa"
+  },
+  {
+    "name": "UNI",
+    "address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
+  },
+  {
+    "name": "PNK",
+    "address": "0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d"
+  },
+  {
+    "name": "UFO",
+    "address": "0x249e38ea4102d0cf8264d3701f1a0e39c4f2dc3b"
+  },
+  {
+    "name": "FOX",
+    "address": "0xc770eefad204b5180df6a14ee197d99d808ee52d"
+  },
+  {
+    "name": "WILD",
+    "address": "0x9b73ff728d7d4a423e2166a8dfaa1e79d30cdde9"
+  },
+  {
+    "name": "WOOO",
+    "address": "0x2a3bff78b79a009976eea096a51a948a3dc00e34"
+  },
+  {
+    "name": "DOGE",
+    "address": "0x4206931337dc273a630d328da6441786bfad668f"
+  },
+  {
+    "name": "HEZ",
+    "address": "0xeef9f339514298c6a857efcfc1a762af84438dee"
+  },
+  {
+    "name": "GEKKO",
+    "address": "0xf017d3690346eb8234b85f74cee5e15821fee1f4"
+  },
+  {
+    "name": "CAGA",
+    "address": "0xbddc20ed7978b7d59ef190962f441cd18c14e19f"
+  },
+  {
+    "name": "WISE",
+    "address": "0x66a0f676479cee1d7373f3dc2e2952778bff5bd6"
+  },
+  {
+    "name": "Tribe",
+    "address": "0xc7283b66eb1eb5fb86327f08e1b5816b0720212b"
+  }
+]
