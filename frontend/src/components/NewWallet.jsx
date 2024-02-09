@@ -32,7 +32,7 @@ const NewWallet = () => {
 
   const onClickOK = () => {
     passwordReset();
-    navigate("/main");
+    navigate("/feed");
   };
 
   const onClickAgree = () => {
@@ -42,6 +42,8 @@ const NewWallet = () => {
   const createWallet = async () => {
     const newEOA = ethers.Wallet.createRandom();
     const encryptedJSON = await newEOA.encrypt(confirmPassword);
+    // Store hashed password
+
     localStorage.setItem("data", encryptedJSON);
     setCurrentAccount(newEOA.address);
   };

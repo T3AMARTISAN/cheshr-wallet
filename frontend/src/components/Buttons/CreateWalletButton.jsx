@@ -4,7 +4,7 @@ const CreateWalletButton = () => {
   const navigate = useNavigate();
 
   const onClickCreateWallet = () => {
-    navigate("/signup");
+    navigate("/wallet");
   };
 
   return (

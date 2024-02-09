@@ -11,14 +11,15 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<WalletLayout />}>
           <Route index element={<Home />} />
-          <Route path="signup" element={<WalletLayout />}>
-            <Route index element={<Signup />} />
-          </Route>
-          <Route path="/main" element={<Main />} />
-          <Route path="/send" element={<Send />} />
-          {/* <Route path="/history" element={<TransactionHistory />} /> */}
+          <Route path="wallet" element={<Signup />} />
+          {/* <Route path="import" element={<Login />} /> */}
+        </Route>
+        <Route path="feed" element={<Layout />}>
+          <Route index element={<Main />} />
+          <Route path="send" element={<Send />} />
+          {/* <Route path="history" element={<TransactionHistory />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>
