@@ -1,10 +1,10 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import NewWallet from "../components/NewWallet";
 
-const Signup = () => {
+const Create = () => {
   const {
-    currentAccount,
-    setCurrentAccount,
+    // currentAccount,
+    // setCurrentAccount,
     passwordButtonClicked,
     setPasswordButtonClicked,
     password,
@@ -111,16 +111,9 @@ const Signup = () => {
       ) : (
         ""
       )}
-      {passwordButtonClicked == 1 ? (
-        <NewWallet
-          currentAccount={currentAccount}
-          setCurrentAccount={setCurrentAccount}
-        />
-      ) : (
-        ""
-      )}
+      {passwordButtonClicked == 1 ? <NewWallet /> : ""}
     </div>
   );
 };
 
-export default Signup;
+export default Create;
