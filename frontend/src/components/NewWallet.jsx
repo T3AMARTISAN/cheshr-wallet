@@ -40,11 +40,10 @@ const NewWallet = () => {
   };
 
   const createWallet = async () => {
+    // Store wallet data
     const newEOA = ethers.Wallet.createRandom();
     const encryptedJSON = await newEOA.encrypt(confirmPassword);
-    // Store hashed password
-
-    localStorage.setItem("data", encryptedJSON);
+    localStorage.setItem("dexwalletData", encryptedJSON);
     setCurrentAccount(newEOA.address);
   };
 
@@ -69,7 +68,10 @@ const NewWallet = () => {
           >
             {!currentAccount ? "Reveal Wallet Address" : `${currentAccount}`}
           </button>
-          <button onClick={copyWallet}>
+          <button
+            onClick={copyWallet}
+            className={`${currentAccount ? "block" : "hidden"}`}
+          >
             <FaRegCopy />
           </button>
         </div>

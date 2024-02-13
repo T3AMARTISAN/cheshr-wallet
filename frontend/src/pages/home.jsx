@@ -1,24 +1,25 @@
-import WalletName from "../components/WalletName";
-import CreateWalletButton from "../components/Buttons/CreateWalletButton";
-import SeedLoginButton from "../components/Buttons/SeedLoginButton";
+import { useEffect, useState } from "react";
+import LockScreen from "../components/LockScreen";
+import Landing from "../components/Landing";
+import { useOutletContext } from "react-router-dom";
 
 const Home = () => {
+  const checkLocalStorage = () => {
+    const walletData = localStorage.getItem("dexwalletData");
+    return !!walletData;
+  };
+
+  useEffect(() => {
+    checkLocalStorage();
+  }, [checkLocalStorage()]);
+
   return (
-    <div className="container items-center bg-green-200">
-      <div className="bg-yellow-300 top-0 sticky">
-        <WalletName />
-      </div>
-      <div className=" bg-red-300 h-full flex flex-col px-6">
-        <div className="grow flex flex-col gap-6 justify-center bg-purple-500">
-          <div>
-            <CreateWalletButton />
-          </div>
-          <div>
-            <SeedLoginButton />
-          </div>
-        </div>
-      </div>
-    </div>
+    // // 로컬스토리지에 json 파일이 있으면 Lock 페이지 보여주기
+    // // 없으면 기본 메인화면 보여주기
+    <>
+      {/* json 파일이 존재하면 LockScreen으로 이동 */}
+      {checkLocalStorage() ? <LockScreen /> : <Landing />}
+    </>
   );
 };
 

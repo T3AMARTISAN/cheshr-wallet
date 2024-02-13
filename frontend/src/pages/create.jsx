@@ -3,8 +3,6 @@ import NewWallet from "../components/NewWallet";
 
 const Create = () => {
   const {
-    // currentAccount,
-    // setCurrentAccount,
     passwordButtonClicked,
     setPasswordButtonClicked,
     password,
@@ -18,8 +16,16 @@ const Create = () => {
   } = useOutletContext();
   const navigate = useNavigate();
 
+  const passwordReset = () => {
+    setPassword("");
+    setConfirmPassword("");
+    setPasswordValid(false);
+    setPasswordsMatch(false);
+  };
+
   const onClickCancel = () => {
-    navigate("/");
+    passwordReset();
+    navigate(-1);
   };
 
   const onClickConfirm = () => {
@@ -111,7 +117,7 @@ const Create = () => {
       ) : (
         ""
       )}
-      {passwordButtonClicked == 1 ? <NewWallet /> : ""}
+      {passwordButtonClicked == 1 && <NewWallet />}
     </div>
   );
 };
