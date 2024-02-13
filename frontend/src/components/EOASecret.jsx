@@ -19,7 +19,7 @@ const EOASecret = () => {
   useEffect(() => {
     async function getSecrets() {
       try {
-        const encryptedJson = localStorage.getItem("data");
+        const encryptedJson = localStorage.getItem("dexwalletData");
         if (!encryptedJson) {
           throw new Error("Encrypted JSON not found in local storage");
         }

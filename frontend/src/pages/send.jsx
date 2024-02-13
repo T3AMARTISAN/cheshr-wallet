@@ -13,7 +13,7 @@ const Send = () => {
     e.preventDefault();
     async function Send() {
       try {
-        const encryptedJson = localStorage.getItem("data");
+        const encryptedJson = localStorage.getItem("dexwalletData");
         const wallet = await ethers.decryptKeystoreJson(
           encryptedJson,
           password

@@ -24,14 +24,14 @@ const TotalAsset = () => {
       </ul>
       <ul className="flex justify-between px-6">
         <Link
-          to="/send"
+          to="/feed/send"
           className="py-2 w-1/3 text-center rounded-md bg-red-200"
         >
           Send
         </Link>
         <Link
           className="py-2 w-1/3 text-center  rounded-md bg-red-200"
-          to="/history"
+          to="/feed/history"
         >
           Receive
         </Link>
