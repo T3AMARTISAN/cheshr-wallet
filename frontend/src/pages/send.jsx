@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 const Send = () => {
   const [value, setValue] = useState();
   const [toAddress, setToAddress] = useState();
-  const [receipt, setReceipt] = useState([{}]);
+  const [receipt, setReceipt] = useState([]);
 
   const { password, currentProvider, balance, unit } = useOutletContext();
 
