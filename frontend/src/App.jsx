@@ -5,6 +5,7 @@ import Main from "./pages/main";
 import WalletLayout from "./components/WalletLayout";
 import Signup from "./pages/signup";
 import Send from "./pages/send";
+import ImportTokens from "./pages/importTokens";
 // import TransactionHistory from "./pages/transactionHistory";
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
           </Route>
           <Route path="/main" element={<Main />} />
           <Route path="/send" element={<Send />} />
+          <Route path="/import" element={<ImportTokens />} />
           {/* <Route path="/history" element={<TransactionHistory />} /> */}
         </Route>
       </Routes>

@@ -52,6 +52,22 @@ const Tokens = () => {
       {balance?.map((v, i) => (
         <TokenCard key={i} ticker={v.ticker} value={v.value} />
       ))}
+      <TokenCard ticker={"USDT"} />
+      <TokenCard ticker={"ETH"} />
+      <TokenCard ticker={"MATIC"} />
+      <TokenCard ticker={"BNB"} />
+      <TokenCard ticker={"OP"} />
+      <TokenCard ticker={"ARB"} />
+      <TokenCard ticker={"AVAX"} />
+      <TokenCard ticker={"AVAX"} />
+      <TokenCard ticker={"AVAX"} />
+      <TokenCard ticker={"AVAX"} />
+      <TokenCard ticker={"AVAX"} />
+      <TokenCard ticker={"AVAX"} />
+      <TokenCard ticker={"AVAX"} />
+      <TokenCard ticker={"AVAX"} />
+      <TokenCard ticker={"AVAX"} />
+      <TokenCard ticker={"AVAX"} />
     </div>
   );
 };
