@@ -6,6 +6,7 @@ import WalletLayout from "./components/WalletLayout";
 import Create from "./pages/create";
 import Send from "./pages/send";
 import { AuthProvider } from "./components/Auth";
+import ImportTokens from "./pages/importTokens";
 // import TransactionHistory from "./pages/transactionHistory";
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
             <Route path="feed" element={<Layout />}>
               <Route index element={<Main />} />
               <Route path="send" element={<Send />} />
+              <Route path="/import" element={<ImportTokens />} />
               {/* <Route path="history" element={<TransactionHistory />} /> */}
             </Route>
           </Route>
