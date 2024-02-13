@@ -22,7 +22,7 @@ const App = () => {
             <Route path="feed" element={<Layout />}>
               <Route index element={<Main />} />
               <Route path="send" element={<Send />} />
-              <Route path="/import" element={<ImportTokens />} />
+              <Route path="import" element={<ImportTokens />} />
               {/* <Route path="history" element={<TransactionHistory />} /> */}
             </Route>
           </Route>

@@ -3,7 +3,7 @@ import WalletName from "../components/WalletName";
 import Create from "../pages/create";
 import { useNavigate } from "react-router-dom";
 // import CreateWalletButton from "../components/Buttons/CreateWalletButton";
-import SeedImportButton from "../components/Buttons/SeedImportButton";
+// import SeedImportButton from "../components/Buttons/SeedImportButton";
 
 const Landing = () => {
   const navigate = useNavigate();
