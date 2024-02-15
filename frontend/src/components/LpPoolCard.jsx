@@ -20,7 +20,7 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
   const [LPTokenName, setLPTokenName] = useState("");
   const [LPTokenAmount, setLPTokenAmount] = useState();
   const [tokens, setTokens] = useState([]);
-  const [primaryTokens, setPrimaryTokens] = useState([]);
+  const [primaryToken, setPrimaryToken] = useState([]);
   const [tvl, setTvl] = useState();
   const [userLpValue, setUserLpValue] = useState();
   const [totalLpSupply, setTotalLpSupply] = useState();
@@ -87,20 +87,20 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
       token1 = token1.toLowerCase();
       setTokens([token0, token1]);
 
-      //시세를 계산해 tvl 계산에 사용할 primary token을 usdt, usdc, dai, weth 중에서 정하고, 앞에 배치해 구별할 수 있도록 함
+      //시세를 계산해 tvl 계산에 사용할 primary token을 usdt, usdc, dai, weth 중에서 정함
 
       if (token0 == USDT_CONTRACT || token1 == USDT_CONTRACT) {
         //USDT는 바이낸스에서 시세 가져오는 게 아니라 usdt = 1 usdt 이기 때문에 우선적으로 페어에 usdt 있는 경우 usdt를 primary token[0]으로 지정
 
         if (token0 == USDT_CONTRACT) {
           //usdt가 첫 번째 페어인 경우
-          setPrimaryTokens([token0, token1]);
+          setPrimaryToken(token0);
         } else {
           //usdt가 두 번째 페어인 경우
-          setPrimaryTokens([token1, token0]);
+          setPrimaryToken(token1);
         }
       } else if (
-        //USDC, DAI 있는 경우 이를 primary token[0]으로 지정
+        //USDC, DAI 있는 경우 이를 primary token으로 지정
         token0 == USDC_CONTRACT ||
         token0 == DAI_CONTRACT ||
         token1 == USDC_CONTRACT ||
@@ -108,20 +108,20 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
       ) {
         if (token0 == USDC_CONTRACT || token0 == DAI_CONTRACT) {
           //usdc, dai가 첫 번째 페어인 경우
-          setPrimaryTokens([token0, token1]);
+          setPrimaryToken(token0);
         } else {
           //usdc, dai가 두 번째 페어인 경우
-          setPrimaryTokens([token1, token0]);
+          setPrimaryToken(token1);
         }
       } else {
         //나머지 경우는 다 WETH가 primary token
 
         if (token0 == WETH_CONTRACT) {
           //weth가 첫 번째 페어인 경우
-          setPrimaryTokens([token0, token1]);
+          setPrimaryToken(token0);
         } else if (token1 == WETH_CONTRACT) {
           //weth가 두 번째 페어인 경우
-          setPrimaryTokens([token1, token0]);
+          setPrimaryToken(token1);
         } else {
           //혹시나 weth이 없는 lp 페어의 경우 지금은 에러 처리
           console.log("error");
@@ -135,29 +135,29 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
   //LP 풀의 TVL 구하기: primary token에 따라 구분하여 바이낸스 api 시세 활용해 TVL 구함
   const getTvl = async () => {
     try {
-      if (primaryTokens.length < 2) return;
+      if (primaryToken.length == 0) return;
       if (LPTokenAmount == 0) return;
 
-      if (primaryTokens[0] == USDT_CONTRACT) {
+      if (primaryToken == USDT_CONTRACT) {
         //primary token이 USDT인 경우
 
         //token0과 token1 중 어떤 게 스테이블코인인지 파악해서 tvl 계산
-        if (tokens == primaryTokens) {
-          //primary token 순서가 원래 페어와 동일한 경우
+        if (tokens[0] == primaryToken) {
+          //token0 이 primaryToken인 경우
 
           const reserve = await lpContract.getReserves();
           var usdtReserve = Number(reserve[0]);
           usdtReserve = usdtReserve / 10 ** 6; //decimal
           setTvl(usdtReserve * 2);
         } else {
-          //primary token 순서가 원래 페어와 뒤바뀐 경우
+          //token1 이 primaryToken인 경우
 
           const reserve = await lpContract.getReserves();
           var usdtReserve = Number(reserve[1]);
           usdtReserve = usdtReserve / 10 ** 6; //decimal
           setTvl(usdtReserve * 2);
         }
-      } else if (primaryTokens[0] == USDC_CONTRACT) {
+      } else if (primaryToken == USDC_CONTRACT) {
         //primary token이 USDC인 경우
 
         //USDC-USDT 페어 시세 바이낸스에서 가져오기
@@ -166,22 +166,22 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
         );
         var usdcUsdt = response.data[422].price;
 
-        if (tokens[0] == primaryTokens[0]) {
-          //primary token 순서가 원래 페어와 동일한 경우
+        if (tokens[0] == primaryToken) {
+          //token0 이 primaryToken인 경우
 
           const reserve = await lpContract.getReserves();
           var usdcReserve = Number(reserve[0]);
           usdcReserve = usdcReserve / 10 ** 6; //decimal
           setTvl(usdcUsdt * usdcReserve * 2);
         } else {
-          //primary token 순서가 원래 페어와 뒤바뀐 경우
+          //token1 이 primaryToken인 경우
 
           const reserve = await lpContract.getReserves();
           var usdcReserve = Number(reserve[1]);
           usdcReserve = usdcReserve / 10 ** 6; //decimal
           setTvl(usdcUsdt * usdcReserve * 2);
         }
-      } else if (primaryTokens[0] == DAI_CONTRACT) {
+      } else if (primaryToken == DAI_CONTRACT) {
         //primary token이 DAI 경우
 
         //DAI-USDT 페어 시세 바이낸스에서 가져오기
@@ -190,22 +190,22 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
         );
         var daiUsdt = response.data[873].price;
 
-        if (tokens[0] == primaryTokens[0]) {
-          //primary token 순서가 원래 페어와 동일한 경우
+        if (tokens[0] == primaryToken) {
+          //token0 이 primaryToken인 경우
 
           const reserve = await lpContract.getReserves();
           var daiReserve = Number(reserve[0]);
           daiReserve = daiReserve / 10 ** 18; //decimal
           setTvl(daiUsdt * daiReserve * 2);
         } else {
-          //primary token 순서가 원래 페어와 뒤바뀐 경우
+          //token1 이 primaryToken인 경우
 
           const reserve = await lpContract.getReserves();
           var daiReserve = Number(reserve[1]);
           daiReserve = daiReserve / 10 ** 18;
           setTvl(daiUsdt * daiReserve * 2);
         }
-      } else if (primaryTokens[0] == WETH_CONTRACT) {
+      } else if (primaryToken == WETH_CONTRACT) {
         //primary token이 WETH인 경우
 
         //ETH-USDT 페어 시세 바이낸스에서 가져오기
@@ -214,15 +214,15 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
         );
         var ethUsdt = response.data[12].price;
 
-        if (tokens[0] == primaryTokens[0]) {
-          //primary token 순서가 원래 페어와 동일한 경우
+        if (tokens[0] == primaryToken) {
+          //token0 이 primaryToken인 경우
 
           const reserve = await lpContract.getReserves();
           var ethReserve = Number(reserve[0]);
           ethReserve = ethReserve / 10 ** 18; //decimal
           setTvl(ethUsdt * ethReserve * 2);
         } else {
-          //primary token 순서가 원래 페어와 뒤바뀐 경우
+          //token1 이 primaryToken인 경우
 
           const reserve = await lpContract.getReserves();
           var ethReserve = Number(reserve[1]);
@@ -296,11 +296,11 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
   }, [lpContract]);
 
   useEffect(() => {
-    if (primaryTokens.length < 2 || !lpContract || LPTokenAmount == 0) {
+    if (primaryToken.length == 0 || !lpContract || LPTokenAmount == 0) {
       return;
     }
     getTvl();
-  }, [primaryTokens, lpContract]);
+  }, [primaryToken, lpContract]);
 
   useEffect(() => {
     if (!tvl || !LPTokenAmount || !totalLpSupply) {
