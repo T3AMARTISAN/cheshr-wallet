@@ -6,7 +6,7 @@ import { useOutletContext } from "react-router-dom";
 const Home = () => {
   const checkLocalStorage = () => {
     const walletData = localStorage.getItem("dexwalletData");
-    return !!walletData;
+    return walletData;
   };
 
   useEffect(() => {

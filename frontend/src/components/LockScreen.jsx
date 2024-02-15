@@ -5,13 +5,21 @@ import { AuthContext } from "./Auth";
 
 const LockScreen = () => {
   const [unlockPassword, setUnlockPassword] = useState();
-  const { currentAccount } = useOutletContext();
+  const { currentAccount, setCurrentAccount, setPassword, setConfirmPassword, setPasswordValid, setPasswordsMatch } = useOutletContext();
   const { setLocked } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
     setUnlockPassword(newPassword);
+  };
+
+    const accountReset = () => {
+    setPassword("");
+    setCurrentAccount("");
+    setConfirmPassword("");
+    setPasswordValid(false);
+    setPasswordsMatch(false);
   };
 
   const decodeJson = async (pw) => {
@@ -27,6 +35,12 @@ const LockScreen = () => {
       navigate("/feed");
     }
   };
+
+  const onClickReset = () => {
+      accountReset();
+      localStorage.removeItem("dexwalletData")
+      navigate("/");
+    }
 
   return (
     <div className="container items-center bg-green-200">
@@ -58,7 +72,7 @@ const LockScreen = () => {
             >
               Confirm
             </button>
-            <button>Reset Wallet</button>
+            <button className="rounded-md p-2 bg-purple-100" onClick={onClickReset}>Reset Wallet</button>
           </div>
         </div>
       </div>

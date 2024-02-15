@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const checkStatus = () => {
-    return !!locked;
+    return locked;
   };
 
   useEffect(() => {

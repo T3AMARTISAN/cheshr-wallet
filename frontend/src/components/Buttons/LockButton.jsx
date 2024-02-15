@@ -8,7 +8,7 @@ const LockButton = () => {
 
   const onClickLogout = () => {
     setLocked(true);
-    // navigate("/");
+    navigate("/");
   };
 
   return <button onClick={onClickLogout}>Lock</button>;
