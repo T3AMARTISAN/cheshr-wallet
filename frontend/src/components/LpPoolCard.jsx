@@ -28,22 +28,7 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
   //하나의 LP 컨트랙트 주소를 받았을 때 lpCard의 contract 객체 설정
   const setLpCA = async () => {
     try {
-      if (!_lpAbi) {
-        //abi  이더스캔 호출 코드 혹시 몰라 저장해놓음
-        const contract_url = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${_lpContractAddress}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
-        const contract_response = await fetch(contract_url);
-        const { result } = await contract_response.json();
-        const contract_abi = result[0].ABI;
-        const contract = new ethers.Contract(
-          _lpContractAddress,
-          contract_abi,
-          currentProvider
-        );
-        setLpContract(contract);
-      }
-
       if (!currentProvider) return;
-
       const contract = new ethers.Contract(
         _lpContractAddress,
         _lpAbi,
