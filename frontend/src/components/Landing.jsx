@@ -1,9 +1,5 @@
-import { useState } from "react";
 import WalletName from "../components/WalletName";
-import Create from "../pages/create";
 import { useNavigate } from "react-router-dom";
-// import CreateWalletButton from "../components/Buttons/CreateWalletButton";
-// import SeedImportButton from "../components/Buttons/SeedImportButton";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -12,29 +8,32 @@ const Landing = () => {
     navigate("/wallet");
   };
 
-  //   const onClickSeedImport = () => {
-  //     // navigate("/import");
-  //   };
+  const onClickMountWallet = () => {
+    navigate("/mount");
+  };
 
   return (
     <>
       <div className="container items-center bg-green-200">
-        <div className="bg-yellow-300 top-0 sticky">
+        <div className="bg-cyan-950 top-0 sticky">
           <WalletName />
         </div>
-        <div className=" bg-red-300 h-full flex flex-col px-6">
-          <div className="grow flex flex-col gap-6 justify-center bg-purple-500">
+        <div className=" bg-cyan-100 h-full flex flex-col px-6">
+          <div className="grow flex flex-col gap-6 bg-teal-50">
             <div>
-              {/* <CreateWalletButton /> */}
+              <img
+                src="https://ipfs.io/ipfs/QmRtvNXVMaH8dgBQAF8CGSZVCJA2qPvJVisKUjDNGbzhPF"
+                alt="logo"
+              />
+
               <button className="homepageButton" onClick={onClickCreateWallet}>
-                create wallet button
+                I need a wallet
               </button>
             </div>
             <div>
-              {/* <SeedImportButton /> */}
-              {/* <button className="homepageButton" onClick={onClickSeedImport}>
-                seed phrase login button
-              </button> */}
+              <button className="homepageButton" onClick={onClickMountWallet}>
+                I have a wallet
+              </button>
             </div>
           </div>
         </div>

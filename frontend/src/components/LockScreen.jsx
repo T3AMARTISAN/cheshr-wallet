@@ -4,27 +4,71 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { AuthContext } from "./Auth";
 
 const LockScreen = () => {
-  const [unlockPassword, setUnlockPassword] = useState();
-  const { currentAccount } = useOutletContext();
-  const { setLocked } = useContext(AuthContext);
+  const {
+    setCurrentAccount,
+    setPassword,
+    setConfirmPassword,
+    setPasswordValid,
+    setPasswordsMatch,
+  } = useOutletContext();
+  const { setLocked, setPw } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const [unlockPassword, setUnlockPassword] = useState("");
+  const [wrongPassword, setWrongPassword] = useState(false);
 
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
     setUnlockPassword(newPassword);
   };
 
-  const decodeJson = async (pw) => {
-    const walletData = localStorage.getItem("dexwalletData");
-    const wallet = await ethers.Wallet.fromEncryptedJson(walletData, pw);
-    return wallet.address !== currentAccount;
+  const reset = () => {
+    setPassword("");
+    setUnlockPassword("");
+    setConfirmPassword("");
+    setPasswordValid(false);
+    setPasswordsMatch(false);
+    setWrongPassword(false);
   };
 
-  const onClickConfirm = () => {
-    const authorized = decodeJson(unlockPassword);
+  const decodeJson = async (pw) => {
+    try {
+      const walletData = localStorage.getItem("dexwalletData");
+      const wallet = await ethers.Wallet.fromEncryptedJson(walletData, pw);
+      setCurrentAccount(wallet.address);
+      return wallet.address.length > 3 ? true : false;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+
+  const onClickConfirm = async () => {
+    const authorized = await decodeJson(unlockPassword);
     if (authorized) {
+      setPw(unlockPassword);
+      reset();
       setLocked(false);
+      setWrongPassword(false);
       navigate("/feed");
+    } else {
+      reset();
+      setLocked(true);
+      setWrongPassword(true);
+    }
+  };
+
+  const resetWallet = () => {
+    localStorage.removeItem("dexwalletData");
+    setPw("");
+    setWrongPassword(false);
+  };
+
+  const onClickReset = async () => {
+    reset();
+    resetWallet();
+    if (!localStorage.getItem("dexwalletData")) {
+      window.location.reload();
     }
   };
 
@@ -40,25 +84,37 @@ const LockScreen = () => {
       <div className="bg-red-300 h-full flex flex-col px-6">
         <div className="flex flex-col gap-6 h-screen justify-center bg-purple-500">
           <input
-            className="rounded-md p-1"
+            className="rounded-md p-3 w-96 mx-auto"
             type="password"
             value={unlockPassword}
             onChange={handlePasswordChange}
             placeholder="Enter password to unlock wallet..."
           />
-          <div className="flex flex-row justify-around">
-            <button
-              className={`rounded-md p-2 ${
-                !unlockPassword
-                  ? "bg-neutral-500 cursor-not-allowed"
-                  : "bg-purple-100"
-              }`}
-              disabled={!unlockPassword}
-              onClick={onClickConfirm}
-            >
-              Confirm
-            </button>
-            <button>Reset Wallet</button>
+          <div className="flex flex-col items-center">
+            <div className="flex flex-row gap-8 justify-around">
+              <button
+                className={`rounded-md p-2 w-36 ${
+                  !unlockPassword
+                    ? "bg-neutral-500 cursor-not-allowed"
+                    : "bg-purple-100"
+                }`}
+                disabled={!unlockPassword}
+                onClick={onClickConfirm}
+              >
+                Confirm
+              </button>
+              <button
+                className="rounded-md p-2 w-36 bg-purple-100"
+                onClick={onClickReset}
+              >
+                Reset Wallet
+              </button>
+            </div>
+            {wrongPassword && (
+              <p className="mt-10 text-xs">
+                {`Invalid password. Please try again.`}
+              </p>
+            )}
           </div>
         </div>
       </div>

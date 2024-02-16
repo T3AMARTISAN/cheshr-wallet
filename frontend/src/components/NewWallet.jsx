@@ -1,7 +1,8 @@
 import { ethers } from "ethers";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { FaRegCopy } from "react-icons/fa";
+import { AuthContext } from "./Auth";
 import EOASecret from "./EOASecret";
 
 const NewWallet = () => {
@@ -15,6 +16,7 @@ const NewWallet = () => {
     setPasswordsMatch,
     setPasswordButtonClicked,
   } = useOutletContext();
+  const { setPw } = useContext(AuthContext);
   const [consent, setConsent] = useState(false);
   const navigate = useNavigate();
 
@@ -31,6 +33,7 @@ const NewWallet = () => {
   };
 
   const onClickOK = () => {
+    setPw(confirmPassword);
     passwordReset();
     navigate("/feed");
   };
