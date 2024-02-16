@@ -7,7 +7,8 @@ import Create from "./pages/create";
 import Send from "./pages/send";
 import { AuthProvider } from "./components/Auth";
 import ImportTokens from "./pages/importTokens";
-// import TransactionHistory from "./pages/transactionHistory";
+import TransactionHistory from "./pages/transactionHistory";
+import Mount from "./pages/mount";
 
 const App = () => {
   return (
@@ -17,13 +18,12 @@ const App = () => {
           <Route path="/" element={<WalletLayout />}>
             <Route index element={<Home />} />
             <Route path="wallet" element={<Create />} />
-            {/* <Route path="import" element={<Import />} /> */}
-            {/* <Route path="unlock" element={<Login />} /> */}
+            <Route path="mount" element={<Mount />} />
             <Route path="feed" element={<Layout />}>
               <Route index element={<Main />} />
               <Route path="send" element={<Send />} />
               <Route path="import" element={<ImportTokens />} />
-              {/* <Route path="history" element={<TransactionHistory />} /> */}
+              <Route path="history" element={<TransactionHistory />} />
             </Route>
           </Route>
         </Routes>

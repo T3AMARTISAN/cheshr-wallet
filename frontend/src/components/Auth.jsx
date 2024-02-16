@@ -5,10 +5,15 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [locked, setLocked] = useState(true);
+  const [pw, setPw] = useState("");
   const navigate = useNavigate();
 
   const checkStatus = () => {
     return locked;
+  };
+
+  const checkPw = () => {
+    return pw;
   };
 
   useEffect(() => {
@@ -19,8 +24,12 @@ const AuthProvider = ({ children }) => {
     }
   }, [checkStatus()]);
 
+  useEffect(() => {
+    const pwStatus = checkPw();
+  }, [checkPw()]);
+
   return (
-    <AuthContext.Provider value={{ locked, setLocked }}>
+    <AuthContext.Provider value={{ locked, setLocked, pw, setPw }}>
       {children}
     </AuthContext.Provider>
   );

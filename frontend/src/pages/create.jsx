@@ -1,6 +1,8 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import EOAPassword from "../components/EOAPassword";
 import NewWallet from "../components/NewWallet";
+import { useContext } from "react";
+import { AuthContext } from "../components/Auth";
 
 const Create = () => {
   const {
@@ -14,6 +16,7 @@ const Create = () => {
     passwordsMatch,
     setPasswordsMatch,
   } = useOutletContext();
+  const { setLocked } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const passwordReset = () => {
@@ -29,6 +32,7 @@ const Create = () => {
   };
 
   const onClickConfirm = () => {
+    setLocked(false);
     setPasswordButtonClicked(1);
   };
 

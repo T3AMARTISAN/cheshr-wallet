@@ -7,7 +7,11 @@ const NetworkButton = () => {
     setIsNetworkButtonClick(true);
   };
 
-  return <button onClick={onClickNetwork}>network : {currentNetwork}</button>;
+  return (
+    <button className="text-sm" onClick={onClickNetwork}>
+      ▼ network : {currentNetwork}
+    </button>
+  );
 };
 
 export default NetworkButton;

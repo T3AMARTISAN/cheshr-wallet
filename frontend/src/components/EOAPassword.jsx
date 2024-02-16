@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 
 const EOAPassword = () => {
@@ -11,6 +12,11 @@ const EOAPassword = () => {
     passwordsMatch,
     setPasswordsMatch,
   } = useOutletContext();
+
+  useEffect(() => {
+    setPassword("");
+    setConfirmPassword("");
+  }, []);
 
   const validatePassword = (password) => {
     // 대문자, 소문자, 숫자 및 기호 조합
