@@ -5,6 +5,7 @@ import { AuthContext } from "./Auth";
 
 const LockScreen = () => {
   const {
+    currentAccount,
     setCurrentAccount,
     setPassword,
     setConfirmPassword,
@@ -12,10 +13,9 @@ const LockScreen = () => {
     setPasswordsMatch,
   } = useOutletContext();
   const { setLocked, setPw } = useContext(AuthContext);
-  const navigate = useNavigate();
-
   const [unlockPassword, setUnlockPassword] = useState("");
   const [wrongPassword, setWrongPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
@@ -36,7 +36,7 @@ const LockScreen = () => {
       const walletData = localStorage.getItem("dexwalletData");
       const wallet = await ethers.Wallet.fromEncryptedJson(walletData, pw);
       setCurrentAccount(wallet.address);
-      return wallet.address.length > 3 ? true : false;
+      return currentAccount ? true : false;
     } catch (error) {
       console.error(error);
       return false;

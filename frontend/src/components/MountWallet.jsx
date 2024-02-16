@@ -18,7 +18,7 @@ const MountWallet = () => {
   const { setPw } = useContext(AuthContext);
   const [isToggled, setIsToggled] = useState(false);
   const [phrase, setPhrase] = useState("");
-  const [pvk, setPvk] = useState();
+  const [pvk, setPvk] = useState("");
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
 
@@ -46,18 +46,18 @@ const MountWallet = () => {
     navigate("/feed");
   };
 
-  const handlePhraseComplete = (phrase) => {
-    setPhrase(phrase);
+  const handlePhraseComplete = (_phrase) => {
+    setPhrase(_phrase);
   };
 
   const createWallet = async () => {
     try {
       if (phrase) {
         const newEOA = ethers.Wallet.fromPhrase(phrase);
-        setCurrentAccount(newEOA.address);
+        if (!newEOA) throw new Error();
       } else if (pvk) {
         const newEOA = new ethers.Wallet(pvk);
-        setCurrentAccount(newEOA.address);
+        if (!newEOA) throw new Error();
       }
 
       setProgress(1);
@@ -68,10 +68,16 @@ const MountWallet = () => {
 
   const encryptWallet = async () => {
     try {
-      const newEOA = ethers.Wallet.fromPhrase(phrase);
+      let newEOA;
+      if (phrase) {
+        newEOA = ethers.Wallet.fromPhrase(phrase);
+        if (!newEOA) throw new Error();
+      } else if (pvk) {
+        newEOA = new ethers.Wallet(pvk);
+        if (!newEOA) throw new Error();
+      }
       const encryptedJSON = await newEOA.encrypt(confirmPassword);
       localStorage.setItem("dexwalletData", encryptedJSON);
-      console.log("ecrypt success");
     } catch (error) {
       console.error(error);
     }
@@ -85,31 +91,30 @@ const MountWallet = () => {
           <ToggleButton isToggled={isToggled} setIsToggled={setIsToggled} />
           <div className="py-2 mx-auto text-center">
             {isToggled ? (
-              <PVKey />
+              <PVKey pvk={pvk} setPvk={setPvk} />
             ) : (
               <div>
                 <Seed onPhraseComplete={handlePhraseComplete} />
-                <div className="flex flex-row justify-around px-20 py-10">
-                  <button
-                    className="rounded-md p-2 px-4 bg-purple-100"
-                    onClick={onClickBack}
-                  >
-                    Back
-                  </button>
-                  <button
-                    className={`rounded-md p-2 px-4 ${
-                      !phrase
-                        ? "bg-neutral-500 cursor-not-allowed"
-                        : "bg-purple-100"
-                    }`}
-                    onClick={createWallet}
-                    disabled={!phrase}
-                  >
-                    OK
-                  </button>
-                </div>
               </div>
             )}
+            <div className="flex flex-row justify-around px-20 py-10">
+              <button
+                className="rounded-md p-2 px-4 bg-purple-100"
+                onClick={onClickBack}
+              >
+                Back
+              </button>
+              <button
+                className={`rounded-md p-2 px-4 ${
+                  phrase || pvk
+                    ? "bg-purple-100"
+                    : "bg-neutral-500 cursor-not-allowed"
+                }`}
+                onClick={createWallet}
+              >
+                OK
+              </button>
+            </div>
           </div>
         </div>
       )}
