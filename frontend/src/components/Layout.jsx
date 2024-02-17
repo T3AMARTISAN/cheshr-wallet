@@ -7,7 +7,7 @@ const Layout = () => {
   const [currentProvider, setCurrentProvider] = useState(
     new ethers.InfuraProvider()
   );
-  const [currentNetwork, setCurrentNetwork] = useState("ETH");
+  const [currentNetwork, setCurrentNetwork] = useState("Ethereum");
   const [chainName, setChainName] = useState("ethereum");
   const [currentAccount, setCurrentAccount] = useState("");
   const [tabNumber, setTabNumber] = useState(0);

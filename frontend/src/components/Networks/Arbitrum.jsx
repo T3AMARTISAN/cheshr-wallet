@@ -16,7 +16,7 @@ const Arbitrum = () => {
     );
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Arbitrum");
-    setUnit("ARB");
+    setUnit("ETH");
     setChainName("arbitrum");
   };
   return (

@@ -37,7 +37,7 @@ const TotalAsset = () => {
         </Link>
         <Link
           className="py-2 w-1/3 text-center  rounded-md bg-red-200"
-          to="/import"
+          to="/feed/import"
         >
           Import tokens
         </Link>

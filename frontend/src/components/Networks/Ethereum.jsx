@@ -13,7 +13,7 @@ const Ethereum = () => {
   const onClickETH = () => {
     setCurrentProvider(new ethers.InfuraProvider());
     setIsNetworkButtonClick(false);
-    setCurrentNetwork("ETH");
+    setCurrentNetwork("Ethereum");
     setUnit("ETH");
     setChainName("ethereum");
   };

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LockScreen from "../components/LockScreen";
 import Landing from "../components/Landing";
-import { useOutletContext } from "react-router-dom";
 
 const Home = () => {
   const checkLocalStorage = () => {
