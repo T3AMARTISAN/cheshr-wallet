@@ -27,20 +27,24 @@ const NetworkSwitch = () => {
         <div>Main Network</div>
         <Ethereum />
         <Polygon />
+        {/*
         <button
           className="border rounded-lg border-black py-1 pl-1 mr-1"
           onClick={onClickLinea}
         >
           Linea Mainnet
         </button>
+        */}
         <Optimism />
         <Arbitrum />
+        {/*
         <button
           className="border rounded-lg border-black py-1 pl-1 mr-1"
           onClick={onClickAvalanche}
         >
           Avalanche C-Chain
         </button>
+        */}
       </div>
       <div className="bg-blue-100 h-2/5 flex flex-col justify-center pl-3 gap-2">
         <div>Test Network</div>

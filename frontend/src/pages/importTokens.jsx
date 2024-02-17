@@ -7,39 +7,49 @@ const ImportTokens = () => {
   const [tokenAddress, setTokenAddress] = useState();
   const [ticker, setTicker] = useState();
   const [api, setApi] = useState();
+  const [apiKey, setApiKey] = useState();
   const [balance, setBalance] = useState([]);
 
-  const { password, currentProvider } = useOutletContext();
+  const { password, currentProvider, currentNetwork, currentAccount } =
+    useOutletContext();
 
   const onSubmitImportToken = async (e) => {
     e.preventDefault();
 
+    if (currentNetwork == "Polygon") {
+      setApi("api.polygonscan.com");
+      setApiKey(process.env.REACT_APP_POLYGONSCAN_API_KEY);
+    } else if (currentNetwork == "Ethereum") {
+      setApi("api.etherscan.io");
+      setApiKey(process.env.REACT_APP_ETHERSCAN_API_KEY);
+    } else if (currentNetwork == "Arbitrum") {
+      setApi("api.arbiscan.io");
+      setApiKey(process.env.REACT_APP_ARBISCAN_API_KEY);
+    } else if (currentNetwork == "Optimism") {
+      setApi("api-optimistic.etherscan.io");
+      setApiKey(process.env.REACT_APP_OPTIMISMSCAN_API_KEY);
+    }
+
     try {
-      const encryptedJson = localStorage.getItem("data");
+      const encryptedJson = localStorage.getItem("dexwalletData");
       const wallet = await ethers.decryptKeystoreJson(encryptedJson, password);
       const signer = new ethers.Wallet(wallet.privateKey, currentProvider);
-      const network = await currentProvider.getNetwork();
-      const chain = network.chainId;
-      if (Number(chain) == 137) {
-        setApi("polygonscan.com");
-      } else {
-        setApi("etherscan.io");
-      }
 
       const response = await axios.get(
-        `https://api.${api}/api?module=contract&action=getabi&address=${tokenAddress}&apikey=${process.env.REACT_APP_POLYGONSCAN_API_KEY}``https://api.etherscan.io/api?module=contract&action=getabi&address=0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413&apikey=YourApiKeyToken`
+        `https://${api}/api?module=contract&action=getabi&address=${tokenAddress}&apikey=${apiKey}`
       );
 
       var abi = JSON.parse(response.data.result);
 
       if (abi != "") {
         const contract = new ethers.Contract(tokenAddress, abi, signer);
-        const result = await contract.balanceOf(
-          "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382"
-        );
+        const result = await contract.balanceOf(currentAccount);
         setTicker(await contract.symbol());
         const value = ethers.formatEther(String(result));
-        setBalance([...balance, { ticker: ticker, value: Number(value) }]);
+        setBalance([
+          ...balance,
+          { ticker: ticker, value: Number(value), address: tokenAddress },
+        ]);
       } else {
         console.log("Error");
       }
@@ -48,8 +58,11 @@ const ImportTokens = () => {
     }
   };
   useEffect(() => {
+    console.log(currentNetwork);
+  });
+  useEffect(() => {
     const jsonArray = JSON.stringify(balance);
-    localStorage.setItem("tokenData", jsonArray);
+    localStorage.setItem(currentNetwork, jsonArray);
   }, [balance]);
   return (
     <div className="container overflow-y-auto bg-blue-100">
