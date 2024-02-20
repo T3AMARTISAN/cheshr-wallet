@@ -1,9 +1,5 @@
 const BurgerButton = () => {
-  return (
-    <button>
-      <img src="./images/burger-icon.svg" />
-    </button>
-  );
+  return <img src="./images/burger-icon.svg" />;
 };
 
 export default BurgerButton;
