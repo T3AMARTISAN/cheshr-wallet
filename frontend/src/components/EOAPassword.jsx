@@ -45,30 +45,30 @@ const EOAPassword = () => {
 
   return (
     <>
-      <div className="text-lg text-center pt-2">Set your password</div>
-      <div className="flex flex-col gap-2 p-6">
+      <div className="flex flex-col gap-2">
         <input
-          className="rounded-md p-1"
+          className="inputbox w-96 mx-auto"
           type="password"
-          value={password}
           onChange={handlePasswordChange}
           placeholder="Enter password"
         />
         {password && !passwordValid && (
-          <p className="text-xs">
-            Include 1 uppercase letter, 1 lowercase letter, 1 number, and 1
-            symbol and at least 8 characters (12+ recommended).
-          </p>
+          <div className="invalid-text -translate-y-9 whitespace-pre text-left">
+            <p>
+              💡Include 1 uppercase letter, 1 lowercase letter, 1 number, 1
+              symbol.
+            </p>
+            <p>💡At least 8 characters (12+ recommended).</p>
+          </div>
         )}
         <input
-          className="rounded-md p-1"
+          className="inputbox w-96 mx-auto mb-8"
           type="password"
-          value={confirmPassword}
           onChange={handleConfirmPasswordChange}
           placeholder="Confirm password"
         />
         {confirmPassword && !passwordsMatch && (
-          <p className="text-xs">Passwords do not match</p>
+          <p className="invalid-text translate-y-24">Passwords do not match.</p>
         )}
       </div>
     </>

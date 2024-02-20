@@ -4,6 +4,7 @@ import AddLpModal from "./AddLpModal";
 import lpContractDb from "../utils/LP.json";
 import { useOutletContext } from "react-router-dom";
 
+// @TODO
 //사용자가 보유한 LP 토큰을 보여주는 화면
 const DeFi = () => {
   const { currentAccount, setCurrentAccount } = useOutletContext(); //테스트->실제로 변경  시  setCurrentAccount useEffect 제거하면 됨
@@ -49,7 +50,7 @@ const DeFi = () => {
   }, [currentAccount, addLpButtonIsClicked]);
 
   return (
-    <div className="relative bg-pink-300 ">
+    <div className="relative container-dashboard dashboard-bg pt-2 flex flex-col overflow-auto">
       {/* lpArray 하나씩 조회해 각 lp 토큰 카드로 뿌려줌. 잔고 있는지 유무는 LpPoolCard 컴포넌트에서 판단 */}
       {lpArray?.map((v, i) => (
         <LpPoolCard

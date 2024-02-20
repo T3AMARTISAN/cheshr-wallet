@@ -1,9 +1,8 @@
 import { ethers } from "ethers";
 import { useContext, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { FaRegCopy } from "react-icons/fa";
 import { AuthContext } from "./Auth";
-import EOASecret from "./EOASecret";
+import CopyButton from "../components/Buttons/CopyButton";
 
 const NewWallet = () => {
   const {
@@ -17,8 +16,24 @@ const NewWallet = () => {
     setPasswordButtonClicked,
   } = useOutletContext();
   const { setPw } = useContext(AuthContext);
-  const [consent, setConsent] = useState(false);
+  const [phrase, setPhrase] = useState();
+  const [pvk, setPvk] = useState();
+  // State to manage the checkboxes
+  const [isChecked1, setIsChecked1] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(false);
   const navigate = useNavigate();
+
+  const copyAddress = () => {
+    navigator.clipboard.writeText(currentAccount);
+  };
+
+  const copyPhrase = () => {
+    navigator.clipboard.writeText(phrase);
+  };
+
+  const copyPvk = () => {
+    navigator.clipboard.writeText(pvk);
+  };
 
   const passwordReset = () => {
     setPassword("");
@@ -27,19 +42,10 @@ const NewWallet = () => {
     setPasswordsMatch(false);
   };
 
-  const onClickBack = () => {
-    passwordReset();
-    setPasswordButtonClicked(0);
-  };
-
   const onClickOK = () => {
     setPw(confirmPassword);
     passwordReset();
     navigate("/feed");
-  };
-
-  const onClickAgree = () => {
-    setConsent(true);
   };
 
   const createWallet = async () => {
@@ -48,78 +54,128 @@ const NewWallet = () => {
     const encryptedJSON = await newEOA.encrypt(confirmPassword);
     localStorage.setItem("dexwalletData", encryptedJSON);
     setCurrentAccount(newEOA.address);
+    setPhrase(newEOA.mnemonic.phrase);
+    setPvk(newEOA.privateKey);
   };
 
-  const copyWallet = () => {
-    navigator.clipboard.writeText(currentAccount);
+  // Handler to toggle the first checkbox
+  const handleCheckboxChange1 = (e) => {
+    setIsChecked1(e.target.checked);
+  };
+
+  // Handler to toggle the second checkbox
+  const handleCheckboxChange2 = (e) => {
+    setIsChecked2(e.target.checked);
   };
 
   return (
-    <div className="container overflow-y-auto">
-      <div className="bg-blue-100 text-center text-2xl p-2 mb-6">
-        create new wallet
-      </div>
-      <div className="bg-green-100 h-5/6 mb-6">
-        <div className="text-lg text-center pt-4">
-          ✨ Your wallet address is ready ✨
-        </div>
-        <div className="flex flex-row gap-1 justify-center items-center p-5">
-          <button
-            className="flex bg-green-300 p-2 rounded-md"
-            disabled={currentAccount}
-            onClick={createWallet}
-          >
-            {!currentAccount ? "Reveal Wallet Address" : `${currentAccount}`}
-          </button>
-          <button
-            onClick={copyWallet}
-            className={`${currentAccount ? "block" : "hidden"}`}
-          >
-            <FaRegCopy />
-          </button>
-        </div>
-        {currentAccount ? (
+    <>
+      <div className="pt-28 mt-4 flex flex-col px-6 h-fit">
+        {!currentAccount ? (
           <>
-            <EOASecret />
-            <div className="flex flex-col items-center gap-2 font-light text-md whitespace-pre px-6 text-center">
-              <div>
-                {`Make sure not to share this information with anybody!\nYour private key is the access your wallet.\nYou are responsible to keep it extra safe!`}
-              </div>
-              <button
-                className="bg-yellow-300 py-1 px-2 w-fit rounded-md text-center"
-                onClick={onClickAgree}
-              >
-                I understand
-              </button>
+            <div className="text-lg text-center mb-4 whitespace-pre-line">
+              {`Let the magic begin 🎩
+            Make sure nobody is watching!`}
             </div>
+            {/* 입력한 비밀번호로 지갑주소 생성 */}
+            <button
+              className={
+                !currentAccount ? "revealButton mx-auto mt-6" : "hidden"
+              }
+              disabled={currentAccount}
+              onClick={createWallet}
+            >
+              Reveal Wallet Address
+            </button>
           </>
         ) : (
-          ""
+          <>
+            {/* 버튼 클릭 후 계정 생성 성공 시 정보 표시 */}
+            <div className="text-lg text-center mb-12 whitespace-pre-line">
+              {`✨Your address is ready!✨`}
+            </div>
+            {currentAccount && (
+              <>
+                <div className="revealBox flex flex-col gap-6 mb-10 items-start">
+                  <div>
+                    <div className="flex flex-row gap-1 pt-2">
+                      <div className="dm-sans-title-reveal">Wallet Address</div>
+                      <button onClick={copyAddress}>
+                        <CopyButton />
+                      </button>
+                    </div>
+                    <div className="dm-sans-body-reveal break-all">
+                      {currentAccount && `${currentAccount}`}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex flex-row gap-1">
+                      <div className="dm-sans-title-reveal">Seed Phrase</div>
+                      <button onClick={copyPhrase}>
+                        <CopyButton />
+                      </button>
+                    </div>
+                    <div className="dm-sans-body-reveal break-words">
+                      {currentAccount && `${phrase}`}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex flex-row gap-1">
+                      <div className="dm-sans-title-reveal">Private Key</div>
+                      <button onClick={copyPvk}>
+                        <CopyButton />
+                      </button>
+                    </div>
+                    <div className="flex flex-row gap-1">
+                      <div className="dm-sans-body-reveal break-all pb-2">
+                        {currentAccount && `${pvk}`}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex mb-10 flex-col gap-2 font-light text-md whitespace-pre px-6 text-center">
+                  <div className="flex flex-row gap-1 items-center">
+                    <div className="consentBox">
+                      I will not share my seed phrase and private key.
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={isChecked1}
+                      onChange={handleCheckboxChange1}
+                      className="form-checkbox"
+                    />
+                  </div>
+                  <div className="flex flex-row gap-1 items-center">
+                    <div className="consentBox">
+                      cheshr cannot recover my password.
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={isChecked2}
+                      onChange={handleCheckboxChange2}
+                      className="form-checkbox"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-row justify-around px-20">
+                  <button
+                    className={`${
+                      isChecked1 && isChecked2
+                        ? "homepageButton"
+                        : "homepageButton-inactive"
+                    }`}
+                    onClick={onClickOK}
+                  >
+                    OK
+                  </button>
+                </div>
+              </>
+            )}
+          </>
         )}
       </div>
-      <div className="flex flex-row justify-around px-20">
-        <button
-          className={`rounded-md p-2 px-4 ${
-            currentAccount
-              ? "bg-neutral-500 cursor-not-allowed"
-              : "bg-purple-100"
-          }`}
-          disabled={currentAccount}
-          onClick={onClickBack}
-        >
-          Back
-        </button>
-        <button
-          className={`rounded-md p-2 px-4 ${
-            !consent ? "bg-neutral-500 cursor-not-allowed" : "bg-purple-100"
-          }`}
-          onClick={onClickOK}
-          disabled={!consent || !currentAccount}
-        >
-          OK
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 

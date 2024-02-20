@@ -1,13 +1,21 @@
+import { useNavigate } from "react-router-dom";
 import MountWallet from "../components/MountWallet";
+import BackButton from "../components/Buttons/BackButton";
 
 const Mount = () => {
+  const navigate = useNavigate();
+
+  const onClickBack = () => {
+    navigate(-1);
+  };
+
   return (
-    <div className="container overflow-y-auto">
-      <div className="bg-blue-100 text-center text-2xl p-2 mb-6">
-        Mount your wallet
-      </div>
+    <>
+      <button onClick={onClickBack}>
+        <BackButton />
+      </button>
       <MountWallet />
-    </div>
+    </>
   );
 };
 

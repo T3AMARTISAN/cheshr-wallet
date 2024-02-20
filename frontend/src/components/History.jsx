@@ -1,10 +1,10 @@
 import TransactionHistoryCard from "../components/TransactionHistoryCard";
 
 const TransactionHistory = () => {
-  const receipt = JSON.parse(localStorage.getItem("history"));
+  const receipt = JSON.parse(localStorage.getItem("dexwalletHistory"));
 
   return (
-    <div className="container overflow-y-auto bg-blue-100">
+    <div className="container-dashboard dashboard-bg pt-2 flex flex-col overflow-auto">
       <div className="bg-red-100 min-h-full m-5">
         <h3>Transactions</h3>
         {receipt?.map((v, i) => (

@@ -12,8 +12,7 @@ import { useEffect, useState } from "react";
 const Tokens = () => {
   const [tokenAddress, setTokenAddress] = useState([]);
   const [balance, setBalance] = useState([]);
-
-  const { password, currentAccount, currentProvider, currentNetwork } =
+  const { currentAccount, currentProvider, currentNetwork } =
     useOutletContext();
 
   const findERC20Tokens = async (currentAccount, tokenAddress, ticker) => {
@@ -55,6 +54,7 @@ const Tokens = () => {
     }
     setBalance([{ ticker: ticker, value: tokenBalances }]);
   };
+
   useEffect(() => {
     if (currentNetwork == "Polygon") {
       setTokenAddress(POLYGON_TOKEN_ADDRESS);
@@ -77,9 +77,8 @@ const Tokens = () => {
   }, [balance]);
 
   return (
-    <div className="bg-neutral-400 rounded-lg h-fit pb-10 flex flex-col">
-      <div className="flex flex-row justify-between"></div>
-      <div className="flex flex-row justify-between   text-neutral-200"></div>
+    <div className="container-dashboard dashboard-bg pt-2">
+      {/*@TODO*/}
       {balance.map((v, i) => (
         <TokenCard key={i} ticker={v.ticker} value={v.value} />
       ))}

@@ -1,33 +1,40 @@
 import { useOutletContext } from "react-router-dom";
+import MainLogo from "../components/Buttons/MainLogo";
+import WalletDropdown from "../components/WalletDropdown";
+import NetworkButton from "../components/NetworkButton";
 import TotalAsset from "../components/TotalAsset";
-import WalletAddress from "../components/WalletAddress";
-import DeFi from "../components/DeFi";
-import Tokens from "../components/Tokens";
-import NetworkSwitch from "../components/NetworkSwitch";
 import Menu from "../components/Menu";
+import Tokens from "../components/Tokens";
+import DeFi from "../components/DeFi";
 import Nfts from "../components/Nfts";
+import History from "../components/History";
 
 const Main = () => {
   const { tabNumber, setTabNumber, isNetworkButtonClick } = useOutletContext();
 
   return (
     //전체 컨테이너 - 모바일화면 크기
-    <div className=" container  bg-red-100  overflow-y-auto ">
-      <div className="bg-yellow-100 ">
-        {/* user wallet address */}
-        <div className="sticky top-0 ">
-          <WalletAddress />
-          {isNetworkButtonClick ? <NetworkSwitch /> : ""}
-        </div>
-        {/* total asset block */}
-        <TotalAsset />
-        <div className="my-3">
-          {tabNumber == 0 ? <Tokens /> : ""}
-          {tabNumber == 1 ? <DeFi /> : ""}
-          {tabNumber == 2 ? <Nfts /> : ""}
-        </div>
+    <div className="container h-screen">
+      <div className="sticky flex flex-row justify-between items-center w-full h-[80px]">
+        <MainLogo />
+        <WalletDropdown />
       </div>
-      <Menu tabNumber={tabNumber} setTabNumber={setTabNumber} />
+      {/*@TODO*/}
+      {/* <div className="absolute left-0">
+          {isNetworkButtonClick ? <NetworkSwitch /> : ""}
+        </div> */}
+      <div className="flex flex-col justify-center gap-1">
+        {/*@TODO*/}
+        <NetworkButton />
+        <TotalAsset />
+      </div>
+      <div className="my-3">
+        <Menu tabNumber={tabNumber} setTabNumber={setTabNumber} />
+        {tabNumber == 0 ? <Tokens /> : ""}
+        {tabNumber == 1 ? <DeFi /> : ""}
+        {tabNumber == 2 ? <Nfts /> : ""}
+        {tabNumber == 3 ? <History /> : ""}
+      </div>
     </div>
   );
 };

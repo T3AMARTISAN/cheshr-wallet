@@ -30,15 +30,6 @@ const MountWallet = () => {
     setConfirmPassword("");
   };
 
-  const onClickBack = () => {
-    reset();
-    if (progress > 0) {
-      setProgress(progress - 1);
-    } else {
-      navigate(-1);
-    }
-  };
-
   const onClickOK = async () => {
     await encryptWallet();
     await setPw(confirmPassword);
@@ -86,8 +77,9 @@ const MountWallet = () => {
   return (
     <>
       {progress == 0 && (
-        <div className="bg-green-100 h-5/6 mb-6">
-          <div className="text-lg text-center py-2">Select your method</div>
+        <div className="pt-28 mt-4 flex flex-col px-6 h-fit">
+          <div className="whitespace-pre-line text-center leading-6 text-lg pb-8">{`Let's mount your wallet.
+          Click the method you would like to use.`}</div>
           <ToggleButton isToggled={isToggled} setIsToggled={setIsToggled} />
           <div className="py-2 mx-auto text-center">
             {isToggled ? (
@@ -99,16 +91,8 @@ const MountWallet = () => {
             )}
             <div className="flex flex-row justify-around px-20 py-10">
               <button
-                className="rounded-md p-2 px-4 bg-purple-100"
-                onClick={onClickBack}
-              >
-                Back
-              </button>
-              <button
-                className={`rounded-md p-2 px-4 ${
-                  phrase || pvk
-                    ? "bg-purple-100"
-                    : "bg-neutral-500 cursor-not-allowed"
+                className={`${
+                  phrase || pvk ? "homepageButton" : "homepageButton-inactive"
                 }`}
                 onClick={createWallet}
               >
@@ -120,25 +104,25 @@ const MountWallet = () => {
       )}
       {progress == 1 && (
         <>
-          <EOAPassword />
-          <div className="flex flex-row justify-around px-20 py-10">
-            <button
-              className="rounded-md p-2 px-4 bg-purple-100"
-              onClick={onClickBack}
-            >
-              Back
-            </button>
-            <button
-              className={`rounded-md p-2 px-4 ${
-                !passwordsMatch
-                  ? "bg-neutral-500 cursor-not-allowed"
-                  : "bg-purple-100"
-              }`}
-              onClick={onClickOK}
-              disabled={!passwordsMatch}
-            >
-              OK
-            </button>
+          <div className="pt-28 mt-4 flex flex-col px-6 h-fit">
+            <div className="flex flex-col justify-center dm-sans-body">
+              <div className="whitespace-pre-line text-center leading-6 text-lg pb-10">{`Final step!
+          What password will you use?`}</div>
+              <EOAPassword />
+              <div className="flex flex-row justify-around px-20">
+                <button
+                  className={`rounded-md p-2 px-4 ${
+                    !passwordsMatch
+                      ? "homepageButton-inactive"
+                      : "homepageButton"
+                  }`}
+                  onClick={onClickOK}
+                  disabled={!passwordsMatch}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
           </div>
         </>
       )}

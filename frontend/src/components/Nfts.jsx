@@ -1,11 +1,9 @@
 import { useOutletContext } from "react-router";
-import TokenCard from "./TokenCard";
 import { useEffect, useState } from "react";
 import NftCard from "./NftCard";
 
 const Nfts = () => {
   const { chainName } = useOutletContext();
-
   const [nftData, setNftData] = useState([]);
 
   useEffect(() => {
@@ -26,9 +24,7 @@ const Nfts = () => {
       .catch((err) => console.error(err));
   });
   return (
-    <div className="bg-neutral-400 rounded-lg h-fit pb-10 flex flex-col">
-      <div className="flex flex-row justify-between"></div>
-      <div className="flex flex-row justify-between   text-neutral-200"></div>
+    <div className="container-dashboard dashboard-bg pt-2 flex flex-col overflow-auto">
       <ul className="grid grid-cols-3 gap-3">
         {nftData?.map((v, i) => (
           <NftCard key={i} image={v.image_url} name={v.name} />

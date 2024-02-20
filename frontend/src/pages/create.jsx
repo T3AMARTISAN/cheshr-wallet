@@ -1,8 +1,9 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import EOAPassword from "../components/EOAPassword";
 import NewWallet from "../components/NewWallet";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../components/Auth";
+import BackButton from "../components/Buttons/BackButton";
 
 const Create = () => {
   const {
@@ -10,6 +11,7 @@ const Create = () => {
     setPasswordButtonClicked,
     password,
     setPassword,
+    confirmPassword,
     setConfirmPassword,
     passwordValid,
     setPasswordValid,
@@ -26,8 +28,9 @@ const Create = () => {
     setPasswordsMatch(false);
   };
 
-  const onClickCancel = () => {
+  const onClickBack = () => {
     passwordReset();
+    setPasswordButtonClicked(0);
     navigate(-1);
   };
 
@@ -36,28 +39,31 @@ const Create = () => {
     setPasswordButtonClicked(1);
   };
 
+  useEffect(() => {
+    setPassword("");
+    setConfirmPassword("");
+  }, []);
+
   return (
-    <div className="container overflow-y-auto">
+    <>
+      <button onClick={onClickBack}>
+        <BackButton />
+      </button>
       {passwordButtonClicked == 0 && (
         <>
-          <div className="bg-blue-100 text-center text-2xl p-2 mb-6">
-            create wallet page
-          </div>
-          <div className="bg-green-100 h-5/6 mb-6">
-            <EOAPassword />
+          <div className="pt-28 mt-4 flex flex-col px-6 h-fit">
+            <div className="flex flex-col justify-center dm-sans-body">
+              <div className="whitespace-pre-line text-center leading-6 text-lg pb-10">{`Hello there,
+          what password will you use?`}</div>
+              <EOAPassword />
+            </div>
           </div>
           <div className="flex flex-row justify-around px-20">
             <button
-              className="bg-purple-100 rounded-md p-2"
-              onClick={onClickCancel}
-            >
-              Cancel
-            </button>
-            <button
-              className={`rounded-md p-2 ${
+              className={`${
                 !passwordValid || !passwordsMatch || password.length < 8
-                  ? "bg-neutral-500 cursor-not-allowed"
-                  : "bg-purple-100"
+                  ? "homepageButton-inactive"
+                  : "homepageButton"
               }`}
               disabled={
                 !passwordValid || !passwordsMatch || password.length < 8
@@ -70,7 +76,7 @@ const Create = () => {
         </>
       )}
       {passwordButtonClicked == 1 && <NewWallet />}
-    </div>
+    </>
   );
 };
 

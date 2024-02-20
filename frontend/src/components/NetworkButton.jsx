@@ -8,8 +8,8 @@ const NetworkButton = () => {
   };
 
   return (
-    <button className="text-sm" onClick={onClickNetwork}>
-      ▼ network : {currentNetwork}
+    <button className="toggle-dropdown w-fit text-sm" onClick={onClickNetwork}>
+      ▼ Network: {currentNetwork}
     </button>
   );
 };

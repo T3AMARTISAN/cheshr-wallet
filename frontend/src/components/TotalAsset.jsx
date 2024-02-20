@@ -14,34 +14,30 @@ const TotalAsset = () => {
     };
     showMyBalance();
   });
+
   return (
-    <div className="bg-neutral-500  py-3 h-[240px]  whitespace-pre">
-      <ul className="text-neutral-50 font-light m-6 text-2xl">
-        <li>February 29, 2024</li>
-        <li>
+    <div className="flex flex-row items-center justify-between mx-4 whitespace-pre">
+      <div className="my-20 text-2xl">
+        <p className="dm-sans-title-feed">February 29, 2024</p>
+        <p className="dm-sans-body-feed">
           {balance} {unit}
-        </li>
-      </ul>
-      <ul className="flex justify-between px-6">
-        <Link
-          to="/feed/send"
-          className="py-2 w-1/3 text-center rounded-md bg-red-200"
-        >
+        </p>
+      </div>
+      <div className="flex flex-col items-start gap-2 justify-center">
+        <Link to="/feed/send" className="feed-button">
           Send
         </Link>
-        <Link
-          className="py-2 w-1/3 text-center  rounded-md bg-red-200"
+        {/* 메뉴탭에 추가하기 */}
+        {/* <Link
+          className="rounded-md bg-red-200 w-20 px-4 text-center"
           to="/feed/history"
         >
-          Receive
+          Log
+        </Link> */}
+        <Link to="/feed/import" className="feed-button">
+          Import
         </Link>
-        <Link
-          className="py-2 w-1/3 text-center  rounded-md bg-red-200"
-          to="/feed/import"
-        >
-          Import tokens
-        </Link>
-      </ul>
+      </div>
     </div>
   );
 };
