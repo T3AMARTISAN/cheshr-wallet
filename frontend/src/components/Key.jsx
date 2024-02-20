@@ -1,4 +1,4 @@
-const PVKey = ({ pvk, setPvk }) => {
+const PVKey = ({ setPvk }) => {
   const handlePrivateKeyChange = (event) => {
     const _key = event.target.value.trim();
     setPvk(_key);
@@ -7,9 +7,8 @@ const PVKey = ({ pvk, setPvk }) => {
   return (
     <div>
       <input
-        className="border border-gray-300 rounded w-2/3 px-2 py-1 mt-4"
+        className="inputbox w-96 mx-auto"
         type="password"
-        value={pvk}
         placeholder="Enter your private key"
         onChange={handlePrivateKeyChange}
       />

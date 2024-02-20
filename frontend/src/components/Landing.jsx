@@ -1,4 +1,3 @@
-import WalletName from "../components/WalletName";
 import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
@@ -14,28 +13,24 @@ const Landing = () => {
 
   return (
     <>
-      <div className="container items-center bg-green-200">
-        <div className="bg-cyan-950 top-0 sticky">
-          <WalletName />
-        </div>
-        <div className=" bg-cyan-100 h-full flex flex-col px-6">
-          <div className="grow flex flex-col gap-6 bg-teal-50">
-            <div>
-              <img
-                src="https://ipfs.io/ipfs/QmRtvNXVMaH8dgBQAF8CGSZVCJA2qPvJVisKUjDNGbzhPF"
-                alt="logo"
-              />
-
-              <button className="homepageButton" onClick={onClickCreateWallet}>
-                I need a wallet
-              </button>
-            </div>
-            <div>
-              <button className="homepageButton" onClick={onClickMountWallet}>
-                I have a wallet
-              </button>
-            </div>
+      <div className="pt-28 mt-12 flex flex-col px-6 h-fit">
+        <div className="flex flex-col gap-4 items-center justify-center dm-sans-body">
+          <div className="text-center leading-6 text-lg pb-10">
+            <p className="bg-lime-200 font-medium">cheshr wallet</p>
+            <p>for your defi journey</p>
           </div>
+          <button
+            className="homepageButton-rounded"
+            onClick={onClickCreateWallet}
+          >
+            I need a wallet
+          </button>
+          <button
+            className="homepageButton-rounded"
+            onClick={onClickMountWallet}
+          >
+            I have a wallet
+          </button>
         </div>
       </div>
     </>

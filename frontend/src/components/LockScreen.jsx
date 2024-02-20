@@ -73,48 +73,35 @@ const LockScreen = () => {
   };
 
   return (
-    <div className="container items-center bg-green-200">
-      {/* network 설정 모달 추가 */}
-      {/* {isNetworkButtonClick ? <NetworkSwitch /> : ""} */}
-      <div className="bg-yellow-300 top-0 sticky">
-        <div className="text-neutral-900 font-extrabold text-4xl py-8 flex justify-center">
-          WELCOME BACK
-        </div>
-      </div>
-      <div className="bg-red-300 h-full flex flex-col px-6">
-        <div className="flex flex-col gap-6 h-screen justify-center bg-purple-500">
-          <input
-            className="rounded-md p-3 w-96 mx-auto"
-            type="password"
-            value={unlockPassword}
-            onChange={handlePasswordChange}
-            placeholder="Enter password to unlock wallet..."
-          />
-          <div className="flex flex-col items-center">
-            <div className="flex flex-row gap-8 justify-around">
-              <button
-                className={`rounded-md p-2 w-36 ${
-                  !unlockPassword
-                    ? "bg-neutral-500 cursor-not-allowed"
-                    : "bg-purple-100"
-                }`}
-                disabled={!unlockPassword}
-                onClick={onClickConfirm}
-              >
-                Confirm
-              </button>
-              <button
-                className="rounded-md p-2 w-36 bg-purple-100"
-                onClick={onClickReset}
-              >
-                Reset Wallet
-              </button>
-            </div>
-            {wrongPassword && (
-              <p className="mt-10 text-xs">
-                {`Invalid password. Please try again.`}
-              </p>
-            )}
+    <div className="pt-28 mt-12 flex flex-col px-6 h-fit">
+      <div className="flex flex-col justify-center dm-sans-body">
+        <div className="whitespace-pre-line text-center leading-6 text-lg pb-10">{`Welcome back!
+          Enter your password`}</div>
+        <input
+          className="relative inputbox w-96 mx-auto mb-8"
+          type="password"
+          onChange={handlePasswordChange}
+          placeholder="Enter password"
+        />
+        {wrongPassword && (
+          <p className="invalid-text">
+            {`Invalid password. Please try again.`}
+          </p>
+        )}
+        <div className="flex flex-col items-center">
+          <div className="flex flex-row gap-8 justify-around">
+            <button
+              className={`${
+                !unlockPassword ? "homepageButton-inactive" : "homepageButton"
+              }`}
+              disabled={!unlockPassword}
+              onClick={onClickConfirm}
+            >
+              Confirm
+            </button>
+            <button className="homepageButton" onClick={onClickReset}>
+              Wallet Reset
+            </button>
           </div>
         </div>
       </div>

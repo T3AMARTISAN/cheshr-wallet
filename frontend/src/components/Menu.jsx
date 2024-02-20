@@ -1,10 +1,20 @@
-import { Link } from "react-router-dom";
-import TabBar from "./TabBar";
+import { useEffect } from "react";
+import DeFiButton from "./Buttons/DeFiButton";
+import NFTsButton from "./Buttons/NFTsButton";
+import TokenButton from "./Buttons/TokenButton";
+import HistoryButton from "./Buttons/HistoryButton";
 
 const Menu = ({ tabNumber, setTabNumber }) => {
+  useEffect(() => {
+    console.log(tabNumber);
+  });
+
   return (
-    <div className="sticky bg-neutral-600 bottom-0 w-[480px] h-16 mx-auto rounded-b-xl ">
-      <TabBar tabNumber={tabNumber} setTabNumber={setTabNumber} />
+    <div className="dashboard-navibar">
+      <TokenButton tabNumber={tabNumber} setTabNumber={setTabNumber} />
+      <DeFiButton tabNumber={tabNumber} setTabNumber={setTabNumber} />
+      <NFTsButton tabNumber={tabNumber} setTabNumber={setTabNumber} />
+      <HistoryButton tabNumber={tabNumber} setTabNumber={setTabNumber} />
     </div>
   );
 };

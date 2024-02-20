@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { ethers } from "ethers";
+import WalletDropdown from "./WalletDropdown";
 
 const Layout = () => {
-  const [isNetworkButtonClick, setIsNetworkButtonClick] = useState();
+  const [isNetworkButtonClick, setIsNetworkButtonClick] = useState(false);
   const [currentProvider, setCurrentProvider] = useState(
     new ethers.InfuraProvider()
   );
@@ -15,30 +16,28 @@ const Layout = () => {
   const [unit, setUnit] = useState("ETH");
 
   return (
-    <>
-      <div className="">
-        <Outlet
-          context={{
-            tabNumber,
-            setTabNumber,
-            isNetworkButtonClick,
-            setIsNetworkButtonClick,
-            currentProvider,
-            setCurrentProvider,
-            currentNetwork,
-            setCurrentNetwork,
-            currentAccount,
-            setCurrentAccount,
-            balance,
-            setBalance,
-            unit,
-            setUnit,
-            chainName,
-            setChainName,
-          }}
-        />
-      </div>
-    </>
+    <div className="container-feed radial-bg-feed">
+      <Outlet
+        context={{
+          tabNumber,
+          setTabNumber,
+          isNetworkButtonClick,
+          setIsNetworkButtonClick,
+          currentProvider,
+          setCurrentProvider,
+          currentNetwork,
+          setCurrentNetwork,
+          currentAccount,
+          setCurrentAccount,
+          balance,
+          setBalance,
+          unit,
+          setUnit,
+          chainName,
+          setChainName,
+        }}
+      />
+    </div>
   );
 };
 
