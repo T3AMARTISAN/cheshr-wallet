@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 const Layout = () => {
   const [isNetworkButtonClick, setIsNetworkButtonClick] = useState();
   const [currentProvider, setCurrentProvider] = useState(
-    new ethers.InfuraProvider()
+    new ethers.InfuraProvider("mainnet", process.env.INFURA_API_KEY)
   );
   const [currentNetwork, setCurrentNetwork] = useState("ETH");
   const [chainName, setChainName] = useState("ethereum");

@@ -24,6 +24,7 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
   const [tvl, setTvl] = useState();
   const [userLpValue, setUserLpValue] = useState();
   const [totalLpSupply, setTotalLpSupply] = useState();
+  const [volume24h, setVolume24h] = useState();
 
   //하나의 LP 컨트랙트 주소를 받았을 때 lpCard의 contract 객체 설정
   const setLpCA = async () => {
@@ -251,6 +252,16 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
     }
   };
 
+  //일 거래량으로 수익률 보여주기
+  // Volume24h * 0.003 * 365 * 100 / TVL
+  const getAPY = async () => {
+    const response = await axios.get(
+      "https://api.geckoterminal.com/api/v2/networks/eth/dexes/uniswap_v2/pools"
+    );
+    console.log(response);
+    // var volume24 = response.data;
+  };
+
   //테스트 지갑 주소 하드코딩 부분. 테스트 ->실제 변경 시 유즈이펙트 제거해주면 됨
   useEffect(() => {
     setCurrentAccount(process.env.REACT_APP_TEST_ACCOUNT);
@@ -325,9 +336,7 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           <div className="flex flex-row justify-between mx-4 text-neutral-50">
             <div className="flex flex-col justify-center gap-2">
               <div>PROVIDED</div>
-              <div>
-                {LPTokenName} : {_pairname}
-              </div>
+              <div>{_pairname}</div>
             </div>
             <div className="flex flex-col gap-2">
               <div>Amount</div>

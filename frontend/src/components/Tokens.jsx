@@ -45,6 +45,7 @@ const Tokens = () => {
     getBalance();
     console.log(balance);
   }, [currentAccount]);
+
   return (
     <div className="bg-neutral-400 rounded-lg h-fit pb-10 flex flex-col">
       <div className="flex flex-row justify-between"></div>
