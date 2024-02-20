@@ -3,13 +3,130 @@
 @tailwind utilities;
 
 @layer components {
-  .container {
-    @apply w-[480px] h-screen mx-auto bg-neutral-300;
+  .container-home {
+    @apply w-[480px] h-screen mx-auto bg-[#CBE5F8];
+  }
+  .container-feed {
+    @apply w-[480px] h-screen mx-auto bg-teal-50;
+  }
+  .container-dashboard {
+    @apply w-[480px] h-screen mx-auto bg-[#E3D3F8];
   }
   .roundBlock {
-    @apply rounded-lg  h-fit pb-10;
+    @apply rounded-lg h-fit pb-10;
   }
   .homepageButton {
-    @apply py-3  w-full rounded-lg border border-green-800 text-white  font-bold text-nowrap   bg-neutral-600;
+    @apply rounded-md p-2 w-28 bg-indigo-500 border border-indigo-800 text-white text-nowrap active:bg-green-100;
+  }
+  .revealButton {
+    @apply rounded-md p-10 px-10 w-fit bg-white border border-indigo-800 text-indigo-950 text-nowrap active:bg-green-50;
+  }
+  .revealBox {
+    @apply w-[400px] mx-auto rounded-md p-2 bg-white border border-indigo-800 text-indigo-950 whitespace-pre-wrap;
+  }
+  .consentBox {
+    @apply w-[360px] mx-auto rounded-md p-1 bg-[#88F7F0] border border-indigo-800 text-indigo-950 text-wrap;
+  }
+  .homepageButton-rounded {
+    @apply rounded-2xl p-2 w-60 bg-indigo-500 border border-indigo-800 text-white text-nowrap active:bg-indigo-50 active:text-indigo-950;
+  }
+  .homepageButton-inactive {
+    @apply rounded-md p-2 w-28 bg-[#4E4D58] border border-indigo-800 text-[#9E9EAB] text-nowrap cursor-not-allowed;
+  }
+  .inputbox {
+    @apply w-2/3 rounded-2xl border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700 p-2;
+  }
+  .invalid-text {
+    @apply absolute text-xs text-pink-600 translate-y-10 translate-x-7;
+  }
+  .form-checkbox {
+    @apply h-6 w-6 bg-red-100 focus:text-purple-600 border-indigo-900 rounded-2xl;
+  }
+  .toggle-dropdown {
+    @apply relative flex flex-row gap-1 items-center border border-purple-950 bg-white rounded-lg px-3 mx-4;
+  }
+  .toggle-menu {
+    @apply block px-4 py-2 text-gray-800 hover:bg-[#9EFFAE] text-center;
+  }
+  .feed-button {
+    @apply border border-purple-900 rounded-md bg-[#E3D3F8] w-20 text-center p-1;
+  }
+  .dashboard-menu {
+    @apply block px-1 text-gray-800 hover:bg-[#9effaeab] text-center;
+  }
+  .dashboard-bg {
+    @apply flex flex-col border border-x-purple-950;
+  }
+  .dashboard-navibar {
+    @apply dm-sans-title-dashboard border border-purple-950 border-b-0 h-16 bg-[#E3D3F8] rounded-t-3xl px-8 flex justify-between items-center;
+  }
+}
+
+@layer utilities {
+  .dm-sans-title {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 2.6rem;
+    color: #0c074b;
+  }
+  .dm-sans-title-feed {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 2rem;
+    color: #060327;
+  }
+  .dm-sans-title-dashboard {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.2rem;
+    color: #060327;
+  }
+  .dm-sans-body {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: #060327;
+  }
+  .dm-sans-body-feed {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    color: #0c074b;
+  }
+  .dm-sans-title-reveal {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #060327;
+  }
+  .dm-sans-body-reveal {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-size: 0.9rem;
+    color: #060327;
+  }
+  .radial-bg-home {
+    background-image: radial-gradient(
+      circle at right 80%,
+      #f7d7ff 10%,
+      transparent 90%
+    );
+  }
+  .radial-bg-feed {
+    background-image: radial-gradient(
+      circle at right 80%,
+      #cbfbd3 50%,
+      transparent 80%
+    );
   }
 }
