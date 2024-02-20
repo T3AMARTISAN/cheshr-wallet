@@ -1,9 +1,5 @@
 const CopyButton = () => {
-  return (
-    <button>
-      <img src="./images/copy-icon.svg" />
-    </button>
-  );
+  return <img src="./images/copy-icon.svg" />;
 };
 
 export default CopyButton;
