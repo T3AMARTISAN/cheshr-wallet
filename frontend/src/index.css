@@ -43,7 +43,7 @@
     @apply h-6 w-6 bg-red-100 focus:text-purple-600 border-indigo-900 rounded-2xl;
   }
   .toggle-dropdown {
-    @apply relative flex flex-row gap-1 items-center border border-purple-950 bg-white rounded-lg px-3 mx-4;
+    @apply relative flex flex-row gap-1 items-center border border-purple-950 bg-white rounded-lg w-36 mx-4 px-3;
   }
   .toggle-menu {
     @apply block px-4 py-2 text-gray-800 hover:bg-[#9EFFAE] text-center;
@@ -52,7 +52,7 @@
     @apply border border-purple-900 rounded-md bg-[#E3D3F8] w-20 text-center p-1;
   }
   .dashboard-menu {
-    @apply block px-1 text-gray-800 hover:bg-[#9effaeab] text-center;
+    @apply block px-1 text-gray-800 hover:bg-[#9effae58] text-center active:bg-[#9effaeab];
   }
   .dashboard-bg {
     @apply flex flex-col border border-x-purple-950;

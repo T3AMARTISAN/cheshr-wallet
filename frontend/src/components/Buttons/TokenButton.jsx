@@ -1,11 +1,16 @@
-import { useOutletContext } from "react-router-dom";
-
-const TokenButton = ({ setTabNumber, tabNumber }) => {
+const TokenButton = ({ tabNumber, setTabNumber }) => {
   const onClickTokens = () => {
     setTabNumber(0);
   };
 
-  return <button onClick={onClickTokens}>Tokens</button>;
+  return (
+    <button
+      onClick={onClickTokens}
+      className={`dashboard-menu ${tabNumber === 0 && "bg-[#9EFFAE]"}`}
+    >
+      TOKENS
+    </button>
+  );
 };
 
 export default TokenButton;

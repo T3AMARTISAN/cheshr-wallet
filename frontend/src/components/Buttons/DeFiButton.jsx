@@ -5,7 +5,14 @@ const DeFiButton = ({ setTabNumber, tabNumber }) => {
     setTabNumber(1);
   };
 
-  return <button onClick={onClickDeFi}>DeFi</button>;
+  return (
+    <button
+      onClick={onClickDeFi}
+      className={`dashboard-menu ${tabNumber === 1 && "bg-[#9EFFAE]"}`}
+    >
+      DeFI
+    </button>
+  );
 };
 
 export default DeFiButton;
