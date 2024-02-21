@@ -60,6 +60,12 @@
   .dashboard-navibar {
     @apply dm-sans-title-dashboard border border-purple-950 border-b-0 h-16 bg-[#E3D3F8] rounded-t-3xl px-8 flex justify-between items-center;
   }
+  .token-container {
+    @apply flex mt-4 mx-6 items-center mb-6;
+  }
+  .token-symbol {
+    @apply h-12 w-12 rounded-full bg-purple-400 text-center;
+  }
 }
 
 @layer utilities {
@@ -93,6 +99,20 @@
     font-weight: 400;
     font-style: normal;
     color: #060327;
+  }
+  .dm-sans-token {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    color: #230641;
+  }
+  .dm-sans-token-info {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    color: #0a3d4d;
   }
   .dm-sans-body-feed {
     font-family: "DM Sans", sans-serif;
