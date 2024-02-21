@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
+import NetworkSwitch from "./NetworkSwitch";
 
 const TotalAsset = () => {
   const testAccount = process.env.REACT_APP_TEST_ACCOUNT;
-  const { currentProvider, setBalance, balance, unit } = useOutletContext();
+  const { currentProvider, balance, setBalance, unit } = useOutletContext();
 
   useEffect(() => {
     const showMyBalance = async () => {
@@ -13,7 +14,7 @@ const TotalAsset = () => {
       setBalance(Number(value));
     };
     showMyBalance();
-  });
+  }, [balance]);
 
   return (
     <div className="flex flex-row items-center justify-between mx-4 whitespace-pre">
@@ -22,6 +23,7 @@ const TotalAsset = () => {
         <p className="dm-sans-body-feed">
           {balance} {unit}
         </p>
+        <NetworkSwitch />
       </div>
       <div className="flex flex-col items-start gap-2 justify-center">
         <Link to="/feed/send" className="feed-button">

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import DeFiButton from "./Buttons/DeFiButton";
 import NFTsButton from "./Buttons/NFTsButton";
 import TokenButton from "./Buttons/TokenButton";

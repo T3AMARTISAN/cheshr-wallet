@@ -315,13 +315,29 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
       {/* UNISWAP V2 POOL 예시 */}
       <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-6 mt-4 mb-10 flex flex-col gap-2">
         {/* 헤더 */}
-        <div className="dm-sans-defi flex flex-row justify-between m-4">
+        <div className="dm-sans-defi flex flex-row justify-between items-center m-4">
           <div>UNISWAP V2 POOL</div>
-          {/* 수익률 */}
-          <div className="text-rose-500">-%0.04</div>
+          <div className="flex flex-col items-start">
+            {/* 수익률 */}
+            <div className="text-rose-500">-%0.04</div>
+            {/* 수익률 기간토글 */}
+            <div className="flex flex-row gap-1 items-center text-xs ">
+              <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
+                <button className="px-1 bg-green-200 hover:bg-green-100 rounded-s-md">
+                  D
+                </button>
+                <button className="px-1 hover:bg-green-100">W</button>
+                <button className="px-1 hover:bg-green-100">M</button>
+                <button className="px-1 hover:bg-green-100 rounded-e-md">
+                  Y
+                </button>
+              </div>
+              <span className=" text-base">ⓘ</span>
+            </div>
+          </div>
         </div>
         {/* 바디 */}
-        <div className="pb-5">
+        <div className="pb-1">
           {/* 구분 */}
           <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
             <div>PAIR AMOUNT ⓘ</div>
@@ -346,31 +362,6 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
               <div className="text-xl">$17.8623</div>
             </div>
           </div>
-          {/* 보상 */}
-          <div className="pt-6">
-            <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-              <div>REWARD AMOUNT ⓘ</div>
-              <div>USD VALUE</div>
-            </div>
-            <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
-              <div className="flex flex-col justify-center">
-                <div>
-                  {/* {LPTokenName}: {_pairname} */}
-                  {/* {LPTokenName} */}
-                  1.4962 ETH
-                </div>
-                <div>
-                  {/* {LPTokenName}: {_pairname} */}
-                  {/* {_pairname} */}
-                  2.9384 USDT
-                </div>
-              </div>
-              <div>
-                {/* <div>{userLpValue}</div> */}
-                <div className="text-xl">$5.2698</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       {/* UNISWAP V3 POOL 예시 */}
@@ -382,8 +373,24 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
             <div>UNISWAP V3 POOL</div>
             <div className="text-sm">PROVIDED #365520</div>
           </div>
-          {/* 수익률 */}
-          <div className="text-green-500">+%1.78</div>
+          <div className="flex flex-col items-start">
+            {/* 수익률 */}
+            <div className="text-green-500">+%1.78</div>
+            {/* 수익률 기간토글 */}
+            <div className="flex flex-row gap-1 items-center text-xs ">
+              <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
+                <button className="px-1 bg-green-200 hover:bg-green-100 rounded-s-md">
+                  D
+                </button>
+                <button className="px-1 hover:bg-green-100">W</button>
+                <button className="px-1 hover:bg-green-100">M</button>
+                <button className="px-1 hover:bg-green-100 rounded-e-md">
+                  Y
+                </button>
+              </div>
+              <span className=" text-base">ⓘ</span>
+            </div>
+          </div>
         </div>
         {/* 바디 */}
         <div className="pb-5">

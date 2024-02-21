@@ -12,14 +12,18 @@ const WalletDropdown = () => {
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  const getAddress = async () => {
+  const decrypt = async () => {
     try {
       const encryptedJson = localStorage.getItem("dexwalletData");
-      if (!encryptedJson) {
-        throw new Error("Encrypted JSON not found in local storage");
-      }
+      return await ethers.Wallet.fromEncryptedJson(encryptedJson, pw);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-      const wallet = await ethers.Wallet.fromEncryptedJson(encryptedJson, pw);
+  const getAddress = async () => {
+    try {
+      const wallet = await decrypt();
       setCurrentAccount(wallet.address);
     } catch (error) {
       console.error(error);
@@ -46,14 +50,15 @@ const WalletDropdown = () => {
     <div className="relative">
       <button
         onClick={toggleDropdown}
-        className={`toggle-dropdown focus:outline-none ${
+        className={`toggle-dropdown focus:outline-none inset-x-0 ${
           isOpen && "rounded-b-none"
         }`}
       >
-        {/*@TODO*/}
-        {currentAccount.substring(0, 5)}...
-        {currentAccount.substring(currentAccount.length - 4)}
-        <BurgerButton />
+        <div className="dm-sans flex flex-row gap-3 justify-center">
+          {currentAccount.substring(0, 5)}...
+          {currentAccount.substring(currentAccount.length - 4)}
+          <BurgerButton />
+        </div>
       </button>
 
       {isOpen && (
@@ -65,6 +70,7 @@ const WalletDropdown = () => {
           <div className="toggle-menu text-sm" onClick={onClickLogout}>
             Lock Wallet
           </div>
+          {/*@TODO*/}
           <div className="toggle-menu text-sm border border-t-1 border-t-purple-900 border-b-0">
             🔑 Seed Phrase
           </div>

@@ -1,7 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import MainLogo from "../components/Buttons/MainLogo";
 import WalletDropdown from "../components/WalletDropdown";
-import NetworkButton from "../components/NetworkButton";
 import TotalAsset from "../components/TotalAsset";
 import Menu from "../components/Menu";
 import Tokens from "../components/Tokens";
@@ -19,13 +18,7 @@ const Main = () => {
         <MainLogo />
         <WalletDropdown />
       </div>
-      {/*@TODO*/}
-      {/* <div className="absolute left-0">
-          {isNetworkButtonClick ? <NetworkSwitch /> : ""}
-        </div> */}
       <div className="flex flex-col justify-center gap-1">
-        {/*@TODO*/}
-        <NetworkButton />
         <TotalAsset />
       </div>
       <div className="my-3">

@@ -19,11 +19,8 @@ const Ethereum = () => {
   };
 
   return (
-    <button
-      className="border rounded-lg border-black py-1 px-1 mr-1"
-      onClick={onClickETH}
-    >
-      Ethereum Mainnet
+    <button className="toggle-menu text-sm" onClick={onClickETH}>
+      Ethereum
     </button>
   );
 };

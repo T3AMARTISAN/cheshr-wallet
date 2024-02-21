@@ -21,11 +21,8 @@ const Polygon = () => {
   };
 
   return (
-    <button
-      className="border rounded-lg border-black py-1 pl-1 mr-1"
-      onClick={onClickPolygon}
-    >
-      Polygon Mainnet
+    <button className="toggle-menu text-sm" onClick={onClickPolygon}>
+      Polygon
     </button>
   );
 };
