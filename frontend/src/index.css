@@ -103,9 +103,10 @@
   .dm-sans-token {
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 600;
+    font-weight: 400;
     font-style: normal;
-    color: #230641;
+    font-size: 1.2rem;
+    color: #000000;
   }
   .dm-sans-token-info {
     font-family: "DM Sans", sans-serif;

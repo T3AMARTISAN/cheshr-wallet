@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 const Tokens = () => {
   const [tokenAddress, setTokenAddress] = useState([]);
   const [balance, setBalance] = useState([]);
-  const { currentAccount, currentProvider, currentNetwork } =
+  const { currentAccount, setCurrentAccount, currentProvider, currentNetwork } =
     useOutletContext();
 
   // const findERC20Tokens = async (currentAccount, tokenAddress, ticker) => {
@@ -70,7 +70,6 @@ const Tokens = () => {
   // }, [currentNetwork]);
 
   // useEffect(() => {
-  //   console.log(currentNetwork);
   //   tokenAddress.map((v, i) => {
   //     findERC20Tokens(currentAccount, v.address, v.name);
   //   });
@@ -78,18 +77,23 @@ const Tokens = () => {
   // }, [balance]);
 
   return (
-    <div className="container-dashboard dashboard-bg pt-2 relative">
-      <div className="absolute sticky flex flex-row justify-between px-6 py-2 text-base dm-sans-token text-purple-900">
-        <div>AMOUNT</div>
-        <div>USD VALUE</div>
-      </div>
-      {/*@TODO*/}
-      {/* {balance.map((v, i) => (
-        <TokenCard key={i} ticker={v.ticker} value={v.value} />
+    <div className="container-dashboard dashboard-bg pt-2 relative flex flex-col">
+      <div className="flex-grow overflow-auto">
+        <div className="sticky flex flex-row justify-between px-6 py-2 text-base dm-sans-token text-purple-900">
+          <div>AMOUNT</div>
+          <div>USD VALUE</div>
+        </div>
+
+        {/* {balance.map((v, i) => (
+        // <TokenCard key={i} ticker={v.ticker} value={v.value} />
       ))} */}
-      <TokenCard />
-      <TokenCard />
-      <TokenCard />
+        <TokenCard />
+        <TokenCard />
+        <TokenCard />
+      </div>
+      <div className="sticky bottom-2 text-right bg-green-200 m-2 px-auto dm-sans-token">
+        TOTAL VALUE: $108
+      </div>
     </div>
   );
 };
