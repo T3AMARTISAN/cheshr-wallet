@@ -49,6 +49,7 @@ const EOAPassword = () => {
         <input
           className="inputbox w-96 mx-auto"
           type="password"
+          value={password}
           onChange={handlePasswordChange}
           placeholder="Enter password"
         />
@@ -64,6 +65,7 @@ const EOAPassword = () => {
         <input
           className="inputbox w-96 mx-auto mb-8"
           type="password"
+          value={confirmPassword}
           onChange={handleConfirmPasswordChange}
           placeholder="Confirm password"
         />

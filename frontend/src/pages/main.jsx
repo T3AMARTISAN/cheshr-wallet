@@ -14,7 +14,7 @@ const Main = () => {
 
   return (
     //전체 컨테이너 - 모바일화면 크기
-    <div className="container h-screen">
+    <div className="container-feed h-screen radial-bg-feed">
       <div className="sticky top-0 z-20 flex flex-row justify-between items-center w-full h-[80px]">
         <MainLogo />
         <WalletDropdown />

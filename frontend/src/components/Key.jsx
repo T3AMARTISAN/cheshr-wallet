@@ -1,4 +1,4 @@
-const PVKey = ({ setPvk }) => {
+const PVKey = ({ pvk, setPvk }) => {
   const handlePrivateKeyChange = (event) => {
     const _key = event.target.value.trim();
     setPvk(_key);
@@ -9,6 +9,7 @@ const PVKey = ({ setPvk }) => {
       <input
         className="inputbox w-96 mx-auto"
         type="password"
+        value={pvk}
         placeholder="Enter your private key"
         onChange={handlePrivateKeyChange}
       />

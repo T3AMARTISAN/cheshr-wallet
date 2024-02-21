@@ -57,9 +57,7 @@ const ImportTokens = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    console.log(currentNetwork);
-  });
+
   useEffect(() => {
     const jsonArray = JSON.stringify(balance);
     localStorage.setItem(currentNetwork, jsonArray);

@@ -50,7 +50,7 @@ const DeFi = () => {
   }, [currentAccount, addLpButtonIsClicked]);
 
   return (
-    <div className="container-dashboard dashboard-bg pt-2 relative flex flex-col">
+    <div className="container-dashboard dashboard-bg border-t-0 relative flex flex-col">
       <div className="flex-grow overflow-auto">
         <LpPoolCard />
         {/* lpArray 하나씩 조회해 각 lp 토큰 카드로 뿌려줌. 잔고 있는지 유무는 LpPoolCard 컴포넌트에서 판단 */}
