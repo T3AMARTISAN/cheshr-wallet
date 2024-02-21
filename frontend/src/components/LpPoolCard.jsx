@@ -311,37 +311,136 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
 
   return (
     <>
-      {userLpValue ? (
-        <div className="bg-neutral-400 rounded-lg w-11/12 h-fit pb-10 my-10 flex flex-col">
-          <div className="flex flex-row justify-between m-4">
-            <div>UNISWAP V2 POOL</div>
-            {/* <a
-        href={`https://etherscan.io/address/${PairAddress}`}
-        className="font-light text-xs"
-      >
-        See Etherscan
-      </a> */}
+      {/* {userLpValue ? ( */}
+      {/* UNISWAP V2 POOL 예시 */}
+      <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-6 mt-4 mb-10 flex flex-col gap-2">
+        {/* 헤더 */}
+        <div className="dm-sans-defi flex flex-row justify-between m-4">
+          <div>UNISWAP V2 POOL</div>
+          {/* 수익률 */}
+          <div className="text-rose-500">-%0.04</div>
+        </div>
+        {/* 바디 */}
+        <div className="pb-5">
+          {/* 구분 */}
+          <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
+            <div>PAIR AMOUNT</div>
+            <div>USD VALUE</div>
           </div>
-          <div className="flex flex-row justify-between mx-4 text-neutral-50">
-            <div className="flex flex-col justify-center gap-2">
-              <div>PROVIDED</div>
+          {/* 제공한 페어 */}
+          <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
+            <div className="flex flex-col justify-center">
               <div>
-                {LPTokenName} : {_pairname}
+                {/* {LPTokenName}: {_pairname} */}
+                {/* {LPTokenName} */}
+                8.9377 ETH
+              </div>
+              <div className="m-sans-body-reveal">
+                {/* {LPTokenName}: {_pairname} */}
+                {/* {_pairname} */}
+                10.8323 USDT
               </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <div>Amount</div>
-              <div>{(LPTokenAmount / 10 ** 18).toFixed(12)}</div>
+            <div>
+              {/* <div>{userLpValue}</div> */}
+              <div className="text-xl">$17.8623</div>
             </div>
-            <div className="flex flex-col gap-2">
-              <div>USDT</div>
-              <div>{userLpValue}</div>
+          </div>
+          {/* 보상 */}
+          <div className="pt-6">
+            <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
+              <div>REWARD AMOUNT</div>
+              <div>USD VALUE</div>
+            </div>
+            <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
+              <div className="flex flex-col justify-center">
+                <div>
+                  {/* {LPTokenName}: {_pairname} */}
+                  {/* {LPTokenName} */}
+                  1.4962 ETH
+                </div>
+                <div>
+                  {/* {LPTokenName}: {_pairname} */}
+                  {/* {_pairname} */}
+                  2.9384 USDT
+                </div>
+              </div>
+              <div>
+                {/* <div>{userLpValue}</div> */}
+                <div className="text-xl">$5.2698</div>
+              </div>
             </div>
           </div>
         </div>
-      ) : (
+      </div>
+      {/* UNISWAP V3 POOL 예시 */}
+      <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-2 my-10 flex flex-col gap-2">
+        {/* 헤더 */}
+        <div className="dm-sans-defi flex flex-row justify-between m-4">
+          {/* 카드이름 */}
+          <div className="flex flex-col">
+            <div>UNISWAP V3 POOL</div>
+            <div className="text-sm">PROVIDED #365520</div>
+          </div>
+          {/* 수익률 */}
+          <div className="text-green-500">+%1.78</div>
+        </div>
+        {/* 바디 */}
+        <div className="pb-5">
+          {/* 구분 */}
+          <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
+            <div>PAIR AMOUNT</div>
+            <div>USD VALUE</div>
+          </div>
+          {/* 제공한 페어 */}
+          <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
+            <div className="flex flex-col justify-center">
+              <div>
+                {/* {LPTokenName}: {_pairname} */}
+                {/* {LPTokenName} */}
+                8.9377 ETH
+              </div>
+              <div className="m-sans-body-reveal">
+                {/* {LPTokenName}: {_pairname} */}
+                {/* {_pairname} */}
+                10.8323 USDT
+              </div>
+            </div>
+            <div>
+              {/* <div>{userLpValue}</div> */}
+              <div className="text-xl">$17.8623</div>
+            </div>
+          </div>
+          {/* 보상 */}
+          <div className="pt-6">
+            <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
+              <div>REWARD AMOUNT</div>
+              <div>USD VALUE</div>
+            </div>
+            <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
+              <div className="flex flex-col justify-center">
+                <div>
+                  {/* {LPTokenName}: {_pairname} */}
+                  {/* {LPTokenName} */}
+                  1.4962 ETH
+                </div>
+                <div>
+                  {/* {LPTokenName}: {_pairname} */}
+                  {/* {_pairname} */}
+                  2.9384 USDT
+                </div>
+              </div>
+              <div>
+                {/* <div>{userLpValue}</div> */}
+                <div className="text-xl">$5.2698</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* ) : (
         ""
-      )}
+      )} */}
     </>
   );
 };

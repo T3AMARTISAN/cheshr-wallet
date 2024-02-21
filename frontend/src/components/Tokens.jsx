@@ -83,7 +83,6 @@ const Tokens = () => {
           <div>AMOUNT</div>
           <div>USD VALUE</div>
         </div>
-
         {/* {balance.map((v, i) => (
         // <TokenCard key={i} ticker={v.ticker} value={v.value} />
       ))} */}
