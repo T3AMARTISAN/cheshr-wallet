@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import WalletName from "./WalletName";
+import Footer from "./Footer";
 
 const WalletLayout = () => {
   const [currentAccount, setCurrentAccount] = useState();
@@ -11,7 +12,7 @@ const WalletLayout = () => {
   const [passwordsMatch, setPasswordsMatch] = useState(false);
 
   return (
-    <div className="container-home radial-bg-home">
+    <div className="relative container-home radial-bg-home">
       <WalletName />
       <Outlet
         context={{
@@ -29,6 +30,7 @@ const WalletLayout = () => {
           setPasswordButtonClicked,
         }}
       />
+      <Footer />
     </div>
   );
 };
