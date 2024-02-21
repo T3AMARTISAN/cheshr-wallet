@@ -5,8 +5,7 @@ const TransactionHistory = () => {
 
   return (
     <div className="container-dashboard dashboard-bg border-t-0 relative flex flex-col">
-      <div className="bg-red-100 min-h-full m-5">
-        <h3>Transactions</h3>
+      <div className="flex-grow overflow-auto">
         {/* 하드코딩한 예시 */}
         <TransactionHistoryCard />
         {/* {receipt?.map((v, i) => (
