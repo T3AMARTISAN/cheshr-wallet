@@ -72,6 +72,11 @@
 }
 
 @layer utilities {
+  .dm-sans {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  }
   .dm-sans-title {
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;

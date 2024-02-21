@@ -50,15 +50,15 @@ const WalletDropdown = () => {
     <div className="relative">
       <button
         onClick={toggleDropdown}
-        className={`toggle-dropdown  focus:outline-none ${
+        className={`toggle-dropdown focus:outline-none inset-x-0 ${
           isOpen && "rounded-b-none"
         }`}
       >
-        <div className="dm-sans">
+        <div className="dm-sans flex flex-row gap-3 justify-center">
           {currentAccount.substring(0, 5)}...
           {currentAccount.substring(currentAccount.length - 4)}
+          <BurgerButton />
         </div>
-        <BurgerButton />
       </button>
 
       {isOpen && (
