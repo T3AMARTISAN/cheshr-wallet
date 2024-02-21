@@ -6,7 +6,7 @@ import WalletDropdown from "./WalletDropdown";
 const Layout = () => {
   const [isNetworkButtonClick, setIsNetworkButtonClick] = useState(false);
   const [currentProvider, setCurrentProvider] = useState(
-    new ethers.InfuraProvider()
+    new ethers.providers.EtherscanProvider()
   );
   const [currentNetwork, setCurrentNetwork] = useState("Ethereum");
   const [chainName, setChainName] = useState("ethereum");

@@ -42,14 +42,17 @@ const Send = () => {
       async function Send() {
         try {
           const encryptedJson = localStorage.getItem("dexwalletData");
-          const wallet = await ethers.decryptKeystoreJson(
+          // v6 : await ethers.decryptKeystoreJson
+          // v5
+          const wallet = await ethers.Wallet.fromEncryptedJson(
             encryptedJson,
             password
           );
           const signer = new ethers.Wallet(wallet.privateKey, currentProvider);
           const tx = {
             to: toAddress,
-            value: ethers.parseUnits(value, "ether"),
+            // v6 : ethers.parseUnits(value, "ether")
+            value: ethers.utils.parseEther(value),
           };
           const result = await signer.sendTransaction(tx);
           setReceipt([
@@ -82,7 +85,7 @@ const Send = () => {
         }
         try {
           const encryptedJson = localStorage.getItem("dexwalletData");
-          const wallet = await ethers.decryptKeystoreJson(
+          const wallet = await ethers.Wallet.fromEncryptedJson(
             encryptedJson,
             password
           );
@@ -102,7 +105,8 @@ const Send = () => {
             );
             const result = await contract.transfer(
               toAddress,
-              ethers.parseUnits(value, "ether")
+              // v6 : ethers.parseUnits(value, "ether")
+              ethers.utils.parseEther(value)
             );
 
             setReceipt([

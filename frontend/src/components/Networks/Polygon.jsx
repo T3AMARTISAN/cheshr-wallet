@@ -12,7 +12,11 @@ const Polygon = () => {
 
   const onClickPolygon = () => {
     setCurrentProvider(
-      new ethers.InfuraProvider("matic", process.env.INFURA_API_KEY)
+      // v6 : new ethers.InfuraProvider("matic", process.env.INFURA_API_KEY)
+      new ethers.providers.EtherscanProvider(
+        "matic",
+        process.env.REACT_APP_POLYGONSCAN_API_KEY
+      )
     );
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Polygon");

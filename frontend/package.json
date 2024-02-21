@@ -10,7 +10,7 @@
     "@uniswap/v2-sdk": "^4.1.0",
     "axios": "^1.6.7",
     "dotenv": "^16.4.1",
-    "ethers": "^6.10.0",
+    "ethers": "5.7",
     "node-fetch": "^3.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

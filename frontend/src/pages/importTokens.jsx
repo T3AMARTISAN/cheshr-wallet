@@ -32,7 +32,10 @@ const ImportTokens = () => {
 
     try {
       const encryptedJson = localStorage.getItem("dexwalletData");
-      const wallet = await ethers.decryptKeystoreJson(encryptedJson, password);
+      const wallet = await ethers.Wallet.fromEncryptedJson(
+        encryptedJson,
+        password
+      );
       const signer = new ethers.Wallet(wallet.privateKey, currentProvider);
 
       const response = await axios.get(
@@ -45,7 +48,9 @@ const ImportTokens = () => {
         const contract = new ethers.Contract(tokenAddress, abi, signer);
         const result = await contract.balanceOf(currentAccount);
         setTicker(await contract.symbol());
-        const value = ethers.formatEther(String(result));
+        // v6 : ethers.formatEther(String(result));
+        // v5
+        const value = ethers.utils.formatEther(String(response));
         setBalance([
           ...balance,
           { ticker: ticker, value: Number(value), address: tokenAddress },

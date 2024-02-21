@@ -6,13 +6,8 @@ const TokenCard = ({ ticker, value }) => {
       <div className="grow flex justify-between text-lg">
         <div className="flex flex-col items-start pl-2">
           {/* 틱커 */}
-          {/* <div>{ticker}</div> */}
-          <div className="dm-sans-token-info">21.0314</div>
-          {/* <div className="dm-sans-token-info">{ticker}</div> */}
-
-          {/* <div className="text-xs text-gray-800 ">{value}</div> */}
-          <div className="dm-sans-body-feed text-base">USDT</div>
-          {/* <div className="dm-sans-body-feed text-base">{value}</div> */}
+          <div className="dm-sans-token-info">{value}</div>
+          <div className="dm-sans-body-feed text-base">{ticker}</div>
         </div>
         <div className="flex flex-col items-end">
           {/*USD 가치*/}
