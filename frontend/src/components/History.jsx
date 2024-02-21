@@ -4,10 +4,12 @@ const TransactionHistory = () => {
   const receipt = JSON.parse(localStorage.getItem("dexwalletHistory"));
 
   return (
-    <div className="container-dashboard dashboard-bg pt-2 flex flex-col overflow-auto">
+    <div className="container-dashboard dashboard-bg border-t-0 relative flex flex-col">
       <div className="bg-red-100 min-h-full m-5">
         <h3>Transactions</h3>
-        {receipt?.map((v, i) => (
+        {/* 하드코딩한 예시 */}
+        <TransactionHistoryCard />
+        {/* {receipt?.map((v, i) => (
           <TransactionHistoryCard
             key={i}
             from={v.from}
@@ -15,7 +17,7 @@ const TransactionHistory = () => {
             value={v.value}
             chainId={v.chainId}
           />
-        ))}
+        ))} */}
       </div>
     </div>
   );

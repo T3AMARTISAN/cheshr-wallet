@@ -77,7 +77,7 @@ const Tokens = () => {
   // }, [balance]);
 
   return (
-    <div className="container-dashboard dashboard-bg pt-2 relative flex flex-col">
+    <div className="container-dashboard dashboard-bg border-t-0 relative flex flex-col">
       <div className="flex-grow overflow-auto">
         <div className="sticky flex flex-row justify-between px-6 py-2 text-base dm-sans-token text-purple-900">
           <div>AMOUNT</div>

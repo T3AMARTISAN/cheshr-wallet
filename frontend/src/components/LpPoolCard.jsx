@@ -324,8 +324,8 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
         <div className="pb-5">
           {/* 구분 */}
           <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-            <div>PAIR AMOUNT</div>
-            <div>USD VALUE</div>
+            <div>PAIR AMOUNT ⓘ</div>
+            <div>USD VALUE </div>
           </div>
           {/* 제공한 페어 */}
           <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
@@ -349,7 +349,7 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           {/* 보상 */}
           <div className="pt-6">
             <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-              <div>REWARD AMOUNT</div>
+              <div>REWARD AMOUNT ⓘ</div>
               <div>USD VALUE</div>
             </div>
             <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
@@ -389,7 +389,7 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
         <div className="pb-5">
           {/* 구분 */}
           <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-            <div>PAIR AMOUNT</div>
+            <div>PAIR AMOUNT ⓘ</div>
             <div>USD VALUE</div>
           </div>
           {/* 제공한 페어 */}
@@ -414,7 +414,7 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           {/* 보상 */}
           <div className="pt-6">
             <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-              <div>REWARD AMOUNT</div>
+              <div>REWARD AMOUNT ⓘ</div>
               <div>USD VALUE</div>
             </div>
             <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">

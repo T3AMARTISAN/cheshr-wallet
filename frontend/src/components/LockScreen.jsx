@@ -5,8 +5,6 @@ import { AuthContext } from "./Auth";
 
 const LockScreen = () => {
   const {
-    currentAccount,
-    setCurrentAccount,
     setPassword,
     setConfirmPassword,
     setPasswordValid,
@@ -35,8 +33,7 @@ const LockScreen = () => {
     try {
       const walletData = localStorage.getItem("dexwalletData");
       const wallet = await ethers.Wallet.fromEncryptedJson(walletData, pw);
-      setCurrentAccount(wallet.address);
-      return currentAccount ? true : false;
+      return wallet.address;
     } catch (error) {
       console.error(error);
       return false;
@@ -44,18 +41,17 @@ const LockScreen = () => {
   };
 
   const onClickConfirm = async () => {
-    const authorized = await decodeJson(unlockPassword);
-    if (authorized) {
+    const account = await decodeJson(unlockPassword);
+    if (account) {
       setPw(unlockPassword);
-      reset();
       setLocked(false);
       setWrongPassword(false);
       navigate("/feed");
     } else {
-      reset();
       setLocked(true);
       setWrongPassword(true);
     }
+    reset();
   };
 
   const resetWallet = () => {
@@ -77,12 +73,15 @@ const LockScreen = () => {
       <div className="flex flex-col justify-center dm-sans-body">
         <div className="whitespace-pre-line text-center leading-6 text-lg pb-10">{`Welcome back!
           Enter your password`}</div>
-        <input
-          className="relative inputbox w-96 mx-auto mb-8"
-          type="password"
-          onChange={handlePasswordChange}
-          placeholder="Enter password"
-        />
+        <div className="flex flex-row justify-around">
+          <input
+            className="relative inputbox w-96 mb-8"
+            type="password"
+            value={unlockPassword}
+            onChange={handlePasswordChange}
+            placeholder="Enter password"
+          />
+        </div>
         {wrongPassword && (
           <p className="invalid-text">
             {`Invalid password. Please try again.`}

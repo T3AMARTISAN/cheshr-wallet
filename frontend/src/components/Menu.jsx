@@ -5,10 +5,6 @@ import TokenButton from "./Buttons/TokenButton";
 import HistoryButton from "./Buttons/HistoryButton";
 
 const Menu = ({ tabNumber, setTabNumber }) => {
-  useEffect(() => {
-    console.log(tabNumber);
-  });
-
   return (
     <div className="dashboard-navibar">
       <TokenButton tabNumber={tabNumber} setTabNumber={setTabNumber} />

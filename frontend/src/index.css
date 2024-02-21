@@ -7,7 +7,7 @@
     @apply w-[480px] h-screen mx-auto bg-[#CBE5F8];
   }
   .container-feed {
-    @apply w-[480px] h-screen mx-auto bg-teal-50;
+    @apply w-[480px] h-screen mx-auto bg-green-50;
   }
   .container-dashboard {
     @apply w-[480px] h-screen mx-auto bg-[#E3D3F8];
