@@ -22,14 +22,19 @@ const Nfts = () => {
       .then((response) => response.json())
       .then((response) => setNftData(response.nfts))
       .catch((err) => console.error(err));
-  });
+  }, [chainName]);
 
   return (
     <div className="container-dashboard dashboard-bg border-t-0 relative flex flex-col flex-grow">
       <div className="flex-grow overflow-auto">
         <ul className="grid grid-cols-3 gap-3">
           {nftData?.map((v, i) => (
-            <NftCard key={i} image={v.image_url} name={v.name} />
+            <NftCard
+              key={i}
+              image={v.image_url}
+              name={v.name}
+              url={v.opensea_url}
+            />
           ))}
         </ul>
       </div>
