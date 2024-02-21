@@ -19,11 +19,8 @@ const Sepolia = () => {
   };
 
   return (
-    <button
-      className="border rounded-lg border-black py-1 pl-1 mr-1"
-      onClick={onclickETHSepolia}
-    >
-      ETH Sepolia Test Network
+    <button className="toggle-menu text-sm" onClick={onclickETHSepolia}>
+      ETH Sepolia
     </button>
   );
 };

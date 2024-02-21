@@ -13,12 +13,12 @@ const WalletDropdown = () => {
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const decrypt = async () => {
-    const encryptedJson = localStorage.getItem("dexwalletData");
-    if (!encryptedJson) {
-      throw new Error("Encrypted JSON not found in local storage");
+    try {
+      const encryptedJson = localStorage.getItem("dexwalletData");
+      return await ethers.Wallet.fromEncryptedJson(encryptedJson, pw);
+    } catch (error) {
+      console.error(error);
     }
-
-    return await ethers.Wallet.fromEncryptedJson(encryptedJson, pw);
   };
 
   const getAddress = async () => {

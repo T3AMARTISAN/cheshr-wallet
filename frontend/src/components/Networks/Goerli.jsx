@@ -19,11 +19,8 @@ const Goerli = () => {
   };
 
   return (
-    <button
-      className="border rounded-lg border-black py-1 pl-1 mr-1"
-      onClick={onClickETHGoerli}
-    >
-      ETH Goerli Test Network
+    <button className="toggle-menu text-sm" onClick={onClickETHGoerli}>
+      ETH Goerli
     </button>
   );
 };

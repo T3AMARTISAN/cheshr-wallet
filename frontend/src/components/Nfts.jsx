@@ -25,7 +25,7 @@ const Nfts = () => {
   });
 
   return (
-    <div className="container-dashboard dashboard-bg border-t-0 relative flex flex-col">
+    <div className="container-dashboard dashboard-bg border-t-0 relative flex flex-col flex-grow">
       <div className="flex-grow overflow-auto">
         <ul className="grid grid-cols-3 gap-3">
           {nftData?.map((v, i) => (

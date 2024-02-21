@@ -20,11 +20,8 @@ const Arbitrum = () => {
     setChainName("arbitrum");
   };
   return (
-    <button
-      className="border rounded-lg border-black py-1 pl-1 mr-1"
-      onClick={onClickArbitrum}
-    >
-      Arbitrum Mainnet
+    <button className="toggle-menu text-sm" onClick={onClickArbitrum}>
+      Arbitrum
     </button>
   );
 };

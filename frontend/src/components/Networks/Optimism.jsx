@@ -20,11 +20,8 @@ const Optimism = () => {
     setChainName("optimism");
   };
   return (
-    <button
-      className="border rounded-lg border-black py-1 pl-1 mr-1"
-      onClick={onClickOptimism}
-    >
-      Optimism Mainnet
+    <button className="toggle-menu text-sm" onClick={onClickOptimism}>
+      Optimism
     </button>
   );
 };
