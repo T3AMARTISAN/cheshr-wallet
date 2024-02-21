@@ -50,36 +50,40 @@ const DeFi = () => {
   }, [currentAccount, addLpButtonIsClicked]);
 
   return (
-    <div className="relative container-dashboard dashboard-bg pt-2 flex flex-col overflow-auto">
-      {/* lpArray 하나씩 조회해 각 lp 토큰 카드로 뿌려줌. 잔고 있는지 유무는 LpPoolCard 컴포넌트에서 판단 */}
-      {lpArray?.map((v, i) => (
-        <LpPoolCard
-          _lpContractAddress={v.address}
-          _lpAbi={v.abi}
-          _pairname={v.name}
-          key={i}
-        />
-      ))}
-
-      {/* 모달창 */}
-      {addLpButtonIsClicked > 0 && (
-        <AddLpModal
-          addLpButtonIsClicked={addLpButtonIsClicked}
-          setAddLpButtonIsClicked={setAddLpButtonIsClicked}
-          addedLps={addedLps}
-          setAddedLps={setAddedLps}
-          lpArray={lpArray}
-        />
-      )}
-
-      {/* lp 토큰 추가하기 버튼, 누르면 AddLpModal 모달창이 나온다 */}
-      <div className="absolute bottom-4 right-4">
-        <button
-          className="bg-green-300  w-16 h-16 rounded-full"
-          onClick={() => setAddLpButtonIsClicked(1)}
-        >
-          +
-        </button>
+    <div className="container-dashboard dashboard-bg pt-2 relative flex flex-col">
+      <div className="flex-grow overflow-auto">
+        <LpPoolCard />
+        {/* lpArray 하나씩 조회해 각 lp 토큰 카드로 뿌려줌. 잔고 있는지 유무는 LpPoolCard 컴포넌트에서 판단 */}
+        {/* {lpArray?.map((v, i) => (
+          <LpPoolCard
+            _lpContractAddress={v.address}
+            _lpAbi={v.abi}
+            _pairname={v.name}
+            key={i}
+          />
+        ))} */}
+        {/* 모달창
+        {addLpButtonIsClicked > 0 && (
+          <AddLpModal
+            addLpButtonIsClicked={addLpButtonIsClicked}
+            setAddLpButtonIsClicked={setAddLpButtonIsClicked}
+            addedLps={addedLps}
+            setAddedLps={setAddedLps}
+            lpArray={lpArray}
+          />
+        )}        */}
+        {/* lp 토큰 추가하기 버튼, 누르면 AddLpModal 모달창이 나온다 */}
+        {/* <div className="absolute bottom-4 right-4">
+          <button
+            className="bg-green-300  w-16 h-16 rounded-full"
+            onClick={() => setAddLpButtonIsClicked(1)}
+          >
+            +
+          </button>
+        </div>{" "} */}
+      </div>
+      <div className="sticky bottom-2 text-right bg-green-200 m-2 px-auto dm-sans-token">
+        TOTAL VALUE: $108
       </div>
     </div>
   );
