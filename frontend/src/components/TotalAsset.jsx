@@ -7,6 +7,7 @@ import Send from "../pages/send";
 const TotalAsset = () => {
   const testAccount = process.env.REACT_APP_TEST_ACCOUNT;
   const { currentProvider, balance, setBalance, unit } = useOutletContext();
+  const [sendOpen, setSendOpen] = useState(false);
 
   useEffect(() => {
     const showMyBalance = async () => {
@@ -27,7 +28,16 @@ const TotalAsset = () => {
         <NetworkSwitch />
       </div>
       <div className="flex flex-col items-start gap-2 justify-center">
-        <Send />
+        {sendOpen ? (
+          <Send sendOpen={sendOpen} setSendOpen={setSendOpen} />
+        ) : (
+          <div
+            className="feed-button click:bg-purple-300 hover:bg-purple-400"
+            onClick={() => setSendOpen(!sendOpen)}
+          >
+            Send
+          </div>
+        )}
         {/* <Link to="/feed/send" className="feed-button">
           Send
         </Link> */}
@@ -38,7 +48,10 @@ const TotalAsset = () => {
         >
           Log
         </Link> */}
-        <Link to="/feed/import" className="feed-button">
+        <Link
+          to="/feed/import"
+          className="feed-button click:bg-purple-300 hover:bg-purple-400"
+        >
           Import
         </Link>
       </div>

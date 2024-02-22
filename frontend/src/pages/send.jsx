@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 import MyOwnAsset from "../components/MyOwnAsset";
 import axios from "axios";
@@ -7,7 +7,7 @@ import BackButton from "../components/Buttons/BackButton";
 import { AuthContext } from "../components/Auth";
 import { HiSelector } from "react-icons/hi";
 
-const Send = () => {
+const Send = ({ setSendOpen, sendOpen }) => {
   const [value, setValue] = useState();
   const [toAddress, setToAddress] = useState();
   const [receipt, setReceipt] = useState([]);
@@ -23,8 +23,6 @@ const Send = () => {
   const { currentProvider, currentNetwork, balance, unit, currentAccount } =
     useOutletContext();
   const { pw } = useContext(AuthContext);
-
-  const navigate = useNavigate();
 
   const onClickSelectAsset = () => {
     setIsClick(!isClick);
@@ -119,7 +117,7 @@ const Send = () => {
   };
 
   const onClickBack = () => {
-    navigate(-1);
+    setSendOpen(!sendOpen);
   };
 
   useEffect(() => {
@@ -148,29 +146,40 @@ const Send = () => {
         {/* 헤더 */}
         <div className="dm-sans-title-feed pb-4 text-center">SEND</div>
 
-        {/* 트랜잭션 정보 입력란 */}
+        {/* 트랜잭션 정보 */}
         <form
           onSubmit={onSubmitSend}
-          className="flex flex-col gap-2 justify-center items-center"
+          className="flex flex-col gap-2 justify-center items-center mt-4"
         >
-          <div className="flex flex-col justify-center items-end gap-3">
-            {/* 보내는 주소 */}
-            <div className="flex flex-row gap-2">
-              <div className="dm-sans-title-dashboard bg-lime-200">TO</div>
+          <div className="flex flex-row justify-center">
+            {/* 항목 */}
+            <div className="flex flex-col justify-center items-start gap-5 mx-2">
+              {/* 보내는 주소 */}
+              <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
+                TO
+              </div>
+              <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
+                ASSET
+              </div>
+              <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
+                AMOUNT
+              </div>
+            </div>
+
+            {/* 입력란 */}
+            <div className="flex flex-col justify-center items-end gap-3">
               <input
                 type="text"
                 onChange={(e) => setToAddress(e.target.value)}
-                className="modal-inputbox"
+                className="modal-inputbox p-2 dm-sans text-sm"
+                placeholder="Enter wallet address"
               ></input>
-            </div>
-            {/* 토큰 선택 */}
-            <div className="flex flex-row gap-2 items-center">
-              <div className="dm-sans-title-dashboard bg-lime-200">ASSET</div>
+              {/* 토큰 선택 */}
               {isClick ? (
-                <div className="flex flex-col">
+                <>
                   {/* 클릭하면 보유한 토큰 보여주기 */}
                   <div
-                    className={`modal-dropdown ${
+                    className={`relative z-20 modal-dropdown ${
                       isClick && "rounded-b-none border-b-0"
                     }`}
                     onClick={onClickSelectAsset}
@@ -179,7 +188,7 @@ const Send = () => {
                     <HiSelector />
                   </div>
                   <div
-                    className={`modal-dropdown ${
+                    className={`absolute translate-y-8 z-20 modal-dropdown ${
                       isClick && "rounded-t-none border-t-0"
                     }`}
                     onClick={onClickSelectOriginal}
@@ -205,7 +214,7 @@ const Send = () => {
                       />
                     );
                   })}
-                </div>
+                </>
               ) : (
                 // 클릭하면 드롭다운 닫기
                 <>
@@ -215,27 +224,36 @@ const Send = () => {
                   </span>
                 </>
               )}
-            </div>
-
-            <div className="flex flex-row gap-2">
-              <div className="dm-sans-title-dashboard gap-2 bg-lime-200">
-                AMOUNT
-              </div>
               <input
                 type="text"
                 onChange={(e) => setValue(e.target.value)}
-                className="modal-inputbox"
+                className="modal-inputbox p-2 dm-sans text-sm"
+                placeholder="Enter amount"
               ></input>
-            </div>
-
-            <div className="w-72 h-32 bg-teal-100 border border-purple-950">
-              <div className="dm-sans-body-reveal text-xl text-center my-2">
-                Estimated Gas Fee
-              </div>
             </div>
           </div>
 
-          <input type="submit" value="Send" className="modal-button mt-10" />
+          {/* 예상가스비 */}
+          <div className="w-96 h-28 bg-teal-100 rounded-lg border border-purple-950 mt-8">
+            <div className="dm-sans-title-reveal text-lg text-center py-3 text-green-800">
+              Estimated Gas Fee
+            </div>
+            <ul className="text-center dm-sans-modal-info text-sm">
+              <div className="flex flex-row justify-between mx-4">
+                <div className="text-left font-semibold">
+                  <li>Estimated Fee</li>
+                  <li>Market -30 sec</li>
+                </div>
+                <div className="text-right">
+                  <li>0.00003411 SepholiaETH</li>
+                  <li>Max Fee: 0.0003525 SepholiaETH</li>
+                </div>
+              </div>
+            </ul>
+          </div>
+
+          {/* Send버튼 */}
+          <input type="submit" value="Send" className="modal-button mt-8" />
         </form>
       </div>
     </div>
