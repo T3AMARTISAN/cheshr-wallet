@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
-import MyOwnAsset from "./MyOwnAsset";
 import axios from "axios";
-import BackButton from "./Buttons/BackButton";
-import { AuthContext } from "./Auth";
 import { HiSelector } from "react-icons/hi";
+import MyOwnAsset from "./MyOwnAsset";
+import { AuthContext } from "./Auth";
+import BackButton from "./Buttons/BackButton";
 
 const Send = ({ setSendOpen, sendOpen }) => {
   const [value, setValue] = useState();
@@ -27,6 +27,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
   const onClickSelectAsset = () => {
     setIsClick(!isClick);
   };
+
   const onClickSelectOriginal = () => {
     setIsClick(!isClick);
     setCurrentBalance(balance);
@@ -144,7 +145,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
         </button>
 
         {/* 헤더 */}
-        <div className="dm-sans-title-feed pb-4 text-center">SEND</div>
+        <div className="dm-sans-title-feed py-4 text-center">SEND</div>
 
         {/* 트랜잭션 정보 */}
         <form

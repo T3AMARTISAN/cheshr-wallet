@@ -181,6 +181,13 @@
     font-size: 0.9rem;
     color: #060327;
   }
+  .dm-sans-toggle {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: 1.1rem;
+    color: #060327;
+  }
   .dm-sans-modal-info {
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
