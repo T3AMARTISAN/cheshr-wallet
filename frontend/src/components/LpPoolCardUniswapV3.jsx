@@ -1,19 +1,14 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 // import JSBI from "jsbi";
 import * as JSBI from "jsbi/dist/jsbi-umd.js";
-
 //npm i jsbi
 //npm install jsbi@3.2.5
 
 import { abiLPUniV3 } from "../utils/abiLPUniV3.js";
-
 import { abiMainnetToken } from "../utils/abiMainnetToken.js";
-
-import { useOutletContext } from "react-router-dom";
-
-//test lp CA와 지갑은 현재 useEffect 인풋값으로 들어감.
 
 const LpPoolCardUniswapV3 = ({
   tokenId,
@@ -21,20 +16,15 @@ const LpPoolCardUniswapV3 = ({
   feeGrowthInside0LastX128,
   feeGrowthInside1LastX128,
   liquidity,
-  nonce,
-  operator,
   tickLower,
   tickUpper,
   token0,
   token1,
-  tokensOwed0,
-  tokensOwed1,
   time,
   totalValue,
   setTotalValue,
 }) => {
-  const { currentProvider, setCurrentAccount, currentAccount } =
-    useOutletContext();
+  const { currentProvider, currentAccount } = useOutletContext();
 
   const [sqrtPriceX96, setSqrtPriceX96] = useState();
   const [Decimal0, setDecimal0] = useState();
@@ -70,11 +60,9 @@ const LpPoolCardUniswapV3 = ({
     try {
       if (!lpDollarValue) return;
       if (addedTotal == false) {
-        // console.log("43", typeof userLpValue);
         var total =
           Number(totalValue) + Number(lpDollarValue) + Number(feeDollarValue);
         setTotalValue(total);
-        console.log("45", total);
         setAddedTotal(true);
       } else {
         return;
@@ -83,11 +71,6 @@ const LpPoolCardUniswapV3 = ({
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (!lpDollarValue || addedTotal) return;
-    addTotal();
-  }, [lpDollarValue]);
 
   const factoryAbi = [
     { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -433,31 +416,6 @@ const LpPoolCardUniswapV3 = ({
           feeOutsideOfTickUpper.feeGrowthOutside1X128;
         setFeeGrowth1Hi(feeOutsideOfTickUpper1X128);
 
-        ///여기까지 줄이기 가가능
-
-        // ////여기부부터 줄이기 가능
-        // var feeOutsideOfTickLower0X128 = await v3PoolContract.ticks(tickLower);
-        // feeOutsideOfTickLower0X128 =
-        //   feeOutsideOfTickLower0X128.feeGrowthOutside0X128;
-        // setFeeGrowth0Low(feeOutsideOfTickLower0X128);
-
-        // var feeOutsideOfTickLower1X128 = await v3PoolContract.ticks(tickLower);
-        // feeOutsideOfTickLower1X128 =
-        //   feeOutsideOfTickLower1X128.feeGrowthOutside1X128;
-        // setFeeGrowth1Low(feeOutsideOfTickLower1X128);
-
-        // var feeOutsideOfTickUpper0X128 = await v3PoolContract.ticks(tickUpper);
-        // feeOutsideOfTickUpper0X128 =
-        //   feeOutsideOfTickUpper0X128.feeGrowthOutside0X128;
-        // setFeeGrowth0Hi(feeOutsideOfTickUpper0X128);
-
-        // var feeOutsideOfTickUpper1X128 = await v3PoolContract.ticks(tickUpper);
-        // feeOutsideOfTickUpper1X128 =
-        //   feeOutsideOfTickUpper1X128.feeGrowthOutside1X128;
-        // setFeeGrowth1Hi(feeOutsideOfTickUpper1X128);
-
-        // ///여기까지 줄이기 가가능
-
         var feeGrowthGlobal0 = await v3PoolContract.feeGrowthGlobal0X128();
         setFeeGrowthGlobal0(feeGrowthGlobal0);
 
@@ -666,9 +624,13 @@ const LpPoolCardUniswapV3 = ({
     getDollarValue();
   }, [token1Amount, uncollectedFees1, price1]);
 
+  useEffect(() => {
+    if (!lpDollarValue || addedTotal) return;
+    addTotal();
+  }, [lpDollarValue]);
+
   return (
     <>
-      {/* {userLpValue ? ( */}
       {lpDollarValue > 0 ? (
         <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-2 my-10 flex flex-col gap-2">
           {/* 헤더 */}
@@ -757,11 +719,6 @@ const LpPoolCardUniswapV3 = ({
       ) : (
         ""
       )}
-      {/* UNISWAP V3 POOL 예시 */}
-
-      {/* ) : (
-        ""
-      )} */}
     </>
   );
 };

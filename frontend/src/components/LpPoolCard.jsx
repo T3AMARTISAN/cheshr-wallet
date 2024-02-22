@@ -42,7 +42,6 @@ const LPPoolCard = ({
         // console.log("43", typeof userLpValue);
         var total = Number(totalValue) + Number(userLpValue);
         setTotalValue(total);
-        console.log("45", total);
         setAddedTotal(true);
       } else {
         return;
@@ -291,7 +290,6 @@ const LPPoolCard = ({
   const getLpValue = async () => {
     try {
       if (!tvl || !LPTokenAmount || !totalLpSupply) return;
-      console.log("new 250", _pairname);
       var userLpValue = tvl * (LPTokenAmount / totalLpSupply);
       userLpValue = Number(userLpValue);
       userLpValue = userLpValue.toFixed(4); //소수점 자리수
@@ -369,7 +367,7 @@ const LPPoolCard = ({
     <>
       {/* UNISWAP V2 POOL 예시 */}
       {/* {userLpValue ? ( */}
-      {tvl ? (
+      {userLpValue ? (
         <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-6 mt-4 mb-10 flex flex-col gap-2">
           {/* 헤더 */}
           <div className="dm-sans-defi flex flex-row justify-between items-center m-4">

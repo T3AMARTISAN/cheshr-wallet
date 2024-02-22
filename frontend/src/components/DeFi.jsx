@@ -667,7 +667,6 @@ const DeFi = () => {
     );
 
     setNonFungiblePositionManagerContract(contract);
-    console.log(nonFungiblePositionManagerContract);
   };
 
   //Defi로 옮겨야  함
@@ -792,14 +791,10 @@ const DeFi = () => {
             feeGrowthInside0LastX128={v.feeGrowthInside0LastX128}
             feeGrowthInside1LastX128={v.feeGrowthInside1LastX128}
             liquidity={v.liquidity}
-            nonce={v.nonce}
-            operator={v.operator}
             tickLower={v.tickLower}
             tickUpper={v.tickUpper}
             token0={v.token0.toLowerCase()}
             token1={v.token1.toLowerCase()}
-            tokensOwed0={v.tokensOwed0}
-            tokensOwed1={v.tokensOwed1}
             totalValue={totalValue}
             setTotalValue={setTotalValue}
           />
