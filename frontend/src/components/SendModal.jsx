@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
-import MyOwnAsset from "../components/MyOwnAsset";
+import MyOwnAsset from "./MyOwnAsset";
 import axios from "axios";
-import BackButton from "../components/Buttons/BackButton";
-import { AuthContext } from "../components/Auth";
+import BackButton from "./Buttons/BackButton";
+import { AuthContext } from "./Auth";
 import { HiSelector } from "react-icons/hi";
 
 const Send = ({ setSendOpen, sendOpen }) => {

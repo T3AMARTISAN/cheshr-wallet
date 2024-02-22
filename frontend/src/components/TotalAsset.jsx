@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 import NetworkSwitch from "./NetworkSwitch";
-import Send from "../pages/send";
+import Send from "./SendModal";
 
 const TotalAsset = () => {
   const testAccount = process.env.REACT_APP_TEST_ACCOUNT;
@@ -21,13 +21,17 @@ const TotalAsset = () => {
   return (
     <div className="flex flex-row items-center justify-between mx-4 whitespace-pre">
       <div className="my-20 text-2xl">
+        {/* 오늘 날짜 */}
         <p className="dm-sans-title-feed">February 29, 2024</p>
+        {/* 네트워크별 네이티브 토큰 총 잔액 */}
         <p className="dm-sans-body-feed">
           {balance} {unit}
         </p>
+        {/* 네트워크 */}
         <NetworkSwitch />
       </div>
       <div className="flex flex-col items-start gap-2 justify-center">
+        {/* Send 기능 */}
         {sendOpen ? (
           <Send sendOpen={sendOpen} setSendOpen={setSendOpen} />
         ) : (
@@ -38,10 +42,7 @@ const TotalAsset = () => {
             Send
           </div>
         )}
-        {/* <Link to="/feed/send" className="feed-button">
-          Send
-        </Link> */}
-        {/* 메뉴탭에 추가하기 */}
+        {/* Import 기능 */}
         {/* <Link 
           className="rounded-md bg-red-200 w-20 px-4 text-center"
           to="/feed/history"
