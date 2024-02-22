@@ -11,7 +11,7 @@ const Ethereum = () => {
   } = useOutletContext();
 
   const onClickETH = () => {
-    setCurrentProvider(new ethers.InfuraProvider());
+    setCurrentProvider(new ethers.providers.EtherscanProvider());
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Ethereum");
     setUnit("ETH");

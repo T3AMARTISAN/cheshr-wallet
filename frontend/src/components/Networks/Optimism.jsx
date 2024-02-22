@@ -12,7 +12,10 @@ const Optimism = () => {
 
   const onClickOptimism = () => {
     setCurrentProvider(
-      new ethers.InfuraProvider("optimism", process.env.INFURA_API_KEY)
+      new ethers.providers.EtherscanProvider(
+        "optimism",
+        process.env.REACT_APP_OPTIMISMSCAN_API_KEY
+      )
     );
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Optimism");
