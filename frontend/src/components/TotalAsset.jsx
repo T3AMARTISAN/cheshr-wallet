@@ -55,13 +55,6 @@ const TotalAsset = () => {
             Import
           </div>
         )}
-
-        <Link
-          to="/feed/import"
-          className="feed-button click:bg-purple-300 hover:bg-purple-400"
-        >
-          Import-old
-        </Link>
       </div>
     </div>
   );

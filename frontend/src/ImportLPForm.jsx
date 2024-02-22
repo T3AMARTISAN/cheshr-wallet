@@ -1,19 +1,16 @@
 import { ethers } from "ethers";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { AuthContext } from "./components/Auth";
 
 // sUSD-ETH
 // 0xf80758ab42c3b07da84053fd88804bcb6baa4b5c
 // 이 lp 컨트랙트로 실험해보면 로컬 추가 후 테스트계정의 디파이 화면에 lp 추가되는 것 확인 가능
 
-const AddLpModal = ({
-  addLpButtonIsClicked,
-  setAddLpButtonIsClicked,
-  addedLps,
-  setAddedLps,
-  lpArray,
-}) => {
+export const ImportLPForm = () => {
   const { currentProvider } = useOutletContext(); //새로 추가된 lp 컨트랙트 정보 불러오기 위해 필
+  const { addedLps, setAddedLps, lpArray } = useContext(AuthContext);
+  const [addLpButtonIsClicked, setAddLpButtonIsClicked] = useState(1); //모달창 화면 관리 상태변수
   const [newLp, setNewLp] = useState(""); //페어 추가 컨펌 화면에 페어 이름과 주소 보여주기 위해 상태변수로 저장
   const [newLpAddress, setNewLpAddress] = useState(""); //사용자 인풋으로 받은 주소 관리하는 상태변수
 
@@ -134,66 +131,67 @@ const AddLpModal = ({
     //로컬에 입력
     const jsonLpArray = JSON.stringify(addedLps);
     localStorage.setItem("addedLps", jsonLpArray);
-
-    //모달창이 사라지도록 상태변수 0으로 설정해준다. [Defi]의 useEffect로 sedAddLpButtonIsClicked = 0 이면 디파이 화면 업데이트하도록 설정해줌
-    setAddLpButtonIsClicked(0);
   };
 
   return (
-    <div className="bg-cyan-300 absolute top-0 left-0 w-5/6 h-5/6">
-      {/* [DeFi] 화면에서 토큰 추가하기(+) 버튼을 누르면 나타나는 모달창. addLpButtonIsClicked 상태를 통해 보여줄 화면을 관리한다.  */}
+    <>
       {addLpButtonIsClicked == 1 && (
-        <div>
-          add LP Modal
-          <form className="flex flex-col" onSubmit={onSubmitAddLp}>
-            {/* 사용자가 추가할 lp 컨트랙트 주소 입력하는 곳 */}
-            <input
-              type="text"
-              placeholder="Lp Contract 주소를 입력하세요"
-              value={newLpAddress}
-              onChange={(e) => setNewLpAddress(e.target.value)}
-            ></input>
-            {/* 추가하기 버튼. 버튼 누르면 제대로 된 lp 컨트랙트 주소인지 확인해서 다음 화면(컨펌 화면 or 에러 화면) 띄워줌 */}
-            <div className="mt-4 flex flex-row-reverse justify-center">
-              <button
-                className="bg-gray-100 mx-1 px-4 py-2 rounded-lg"
-                type="submit"
-              >
-                Add Lp Pair
-              </button>
-              {/* 모달창 끄는 버튼 */}
-              <button
-                className="bg-gray-100 mx-1 px-4 py-2 rounded-lg"
-                onClick={() => setAddLpButtonIsClicked(0)}
-              >
-                Go Back
-              </button>
+        <>
+          {/* LP 컨트랙트 임포트 정보 입력란 */}
+          <form
+            onSubmit={onSubmitAddLp}
+            className="flex flex-col gap-2 justify-center items-center mt-10"
+          >
+            <div className="flex flex-row justify-center">
+              {/* 항목 */}
+              <div className="flex flex-col justify-center items-start gap-5 mx-2">
+                {/* LP 컨트랙트 주소 */}
+                <div className="dm-sans-title-dashboard bg-lime-200 w-26 px-2">
+                  CONTRACT
+                </div>
+              </div>
+
+              {/* 입력란 */}
+              <div className="flex flex-col justify-center items-end gap-3">
+                {/* 사용자가 추가할 lp 컨트랙트 주소 입력하는 곳 */}
+
+                <input
+                  type="text"
+                  value={newLpAddress}
+                  onChange={(e) => setNewLpAddress(e.target.value)}
+                  className="modal-inputbox p-2 dm-sans text-sm"
+                  placeholder="Enter LP Contract address"
+                ></input>
+              </div>
             </div>
+
+            {/* Import버튼 */}
+            <input type="submit" className="modal-button mt-8" />
           </form>
-        </div>
+        </>
       )}
-      {/* 로컬 저장 전 페어 최종 컨펌 화면*/}
+
       {addLpButtonIsClicked == 2 && (
-        <div className="flex flex-col">
-          <div>confirm page</div>
+        <div className="flex flex-col justify-center items-center">
+          <div className="dm-sans whitespace-pre-line text-center leading-6 text-lg py-8">{`Confirm the details!`}</div>
           {/* 내가 추가한 주소의 페어 이름 보여주기 */}
-          <div>{newLp.name}</div>
+          <div className="dm-sans-toggle">{newLp.name}</div>
           {/* 내가 추가한 주소의 lp 컨트랙트 주소 보여주기 */}
-          <div>{newLp.address}</div>
+          <div className="dm-sans-toggle">{newLp.address}</div>
           <div>
             {/* 로컬에 lp 추가하고 모달창 끄는 버튼 */}
             <button
-              className="bg-gray-100 mx-1 px-4 py-2 rounded-lg"
+              className="modal-button py-2"
               onClick={onClickConfirmAddition}
             >
-              confirm addition
+              Confirm
             </button>
             {/* 주소 입력 화면으로 돌아가기 버튼 */}
             <button
-              className="bg-gray-100 mx-1 px-4 py-2 rounded-lg"
+              className="modal-button py-2"
               onClick={() => setAddLpButtonIsClicked(1)}
             >
-              Go Back
+              Cancel
             </button>
           </div>
         </div>
@@ -201,19 +199,18 @@ const AddLpModal = ({
       {/* 에러 화면(잘못된 주소 입력) */}
       {addLpButtonIsClicked == 3 && (
         // 띄워줄 에러 메시지
-        <div>
-          wrong address. try again
+        <div className="flex flex-col justify-center items-center">
+          <div className="dm-sans whitespace-pre-line text-center leading-6 text-lg py-8">{`Uh-oh. Wrong address.
+          Try again?`}</div>
           {/* 주소 입력 화면으로 돌아가는 버튼 */}
           <button
-            className="bg-gray-100 mx-1 px-4 py-2 rounded-lg"
+            className="modal-button"
             onClick={() => setAddLpButtonIsClicked(1)}
           >
-            Go Back
+            Retry
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 };
-
-export default AddLpModal;

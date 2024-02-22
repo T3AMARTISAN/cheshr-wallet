@@ -6,6 +6,7 @@ import BackButton from "./Buttons/BackButton";
 import { AuthContext } from "./Auth";
 import ImportToggleButton from "./Buttons/ImportToggleButton";
 import { ImportTokenForm } from "./ImportTokenForm";
+import { ImportLPForm } from "../ImportLPForm";
 
 const Import = ({ setImportOpen, importOpen }) => {
   const [value, setValue] = useState();
@@ -141,44 +142,7 @@ const Import = ({ setImportOpen, importOpen }) => {
         {/* 토글 */}
         <ImportToggleButton isToggled={isToggled} setIsToggled={setIsToggled} />
 
-        {isToggled ? (
-          <>
-            {/* LP 컨트랙트 임포트 정보 입력란 */}
-            <form
-              onSubmit={onSubmitSend}
-              className="flex flex-col gap-2 justify-center items-center mt-10"
-            >
-              <div className="flex flex-row justify-center">
-                {/* 항목 */}
-                <div className="flex flex-col justify-center items-start gap-5 mx-2">
-                  {/* LP 컨트랙트 주소 */}
-                  <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
-                    LP
-                  </div>
-                </div>
-
-                {/* 입력란 */}
-                <div className="flex flex-col justify-center items-end gap-3">
-                  <input
-                    type="text"
-                    onChange={(e) => setToAddress(e.target.value)}
-                    className="modal-inputbox p-2 dm-sans text-sm"
-                    placeholder="Enter LP Contract address"
-                  ></input>
-                </div>
-              </div>
-
-              {/* Import버튼 */}
-              <input
-                type="submit"
-                value="Import"
-                className="modal-button mt-8"
-              />
-            </form>
-          </>
-        ) : (
-          <ImportTokenForm />
-        )}
+        {isToggled ? <ImportLPForm /> : <ImportTokenForm />}
       </div>
     </div>
   );
