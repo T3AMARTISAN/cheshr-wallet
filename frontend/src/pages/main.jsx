@@ -9,7 +9,7 @@ import Nfts from "../components/Nfts";
 import History from "../components/History";
 
 const Main = () => {
-  const { tabNumber, setTabNumber, isNetworkButtonClick } = useOutletContext();
+  const { tabNumber, setTabNumber } = useOutletContext();
 
   return (
     //전체 컨테이너 - 모바일화면 크기
