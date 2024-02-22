@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import LpPoolCard from "./LpPoolCard";
-import AddLpModal from "./AddLpModal";
 import lpContractDb from "../utils/LP.json";
 import { useOutletContext } from "react-router-dom";
 import LPPoolCardUniswapV3 from "./LpPoolCardUniswapV3";
 import { ethers } from "ethers";
-
-// @TODO
 
 //사용자가 보유한 LP 토큰을 보여주는 화면
 const DeFi = () => {
@@ -780,7 +777,7 @@ const DeFi = () => {
             totalValue={totalValue}
             setTotalValue={setTotalValue}
           />
-        ))}
+        ))} 
 
         {lpV3Array?.map((v, i) => (
           <LPPoolCardUniswapV3
@@ -799,27 +796,10 @@ const DeFi = () => {
             setTotalValue={setTotalValue}
           />
         ))}
-
-        {/* 모달창
-        {addLpButtonIsClicked > 0 && (
-          <AddLpModal
-            addLpButtonIsClicked={addLpButtonIsClicked}
-            setAddLpButtonIsClicked={setAddLpButtonIsClicked}
-            addedLps={addedLps}
-            setAddedLps={setAddedLps}
-            lpArray={lpArray}
-          />
-        )}        */}
-        {/* lp 토큰 추가하기 버튼, 누르면 AddLpModal 모달창이 나온다 */}
-        {/* <div className="absolute bottom-4 right-4">
-          <button
-            className="bg-green-300  w-16 h-16 rounded-full"
-            onClick={() => setAddLpButtonIsClicked(1)}
-          >
-            +
-          </button>
-        </div>{" "} */}
+        
+        {/* 모달창 > TotalAsset 컴포넌트로 이동함 */}
       </div>
+
       <div className="sticky bottom-2 text-right bg-green-200 m-2 px-auto dm-sans-token">
         TOTAL VALUE: ${totalValue.toFixed(2)}
       </div>

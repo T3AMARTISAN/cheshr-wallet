@@ -21,8 +21,6 @@ const App = () => {
           </Route>
           <Route path="feed" element={<Layout />}>
             <Route index element={<Main />} />
-            {/*@TODO*/}
-            {/* <Route path="import" element={<ImportTokens />} /> */}
           </Route>
         </Routes>
       </AuthProvider>
