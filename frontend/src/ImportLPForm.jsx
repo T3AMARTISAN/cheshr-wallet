@@ -166,7 +166,7 @@ export const ImportLPForm = () => {
             </div>
 
             {/* Import버튼 */}
-            <input type="submit" className="modal-button mt-8" />
+            <input type="submit" value="Import" className="modal-button mt-8" />
           </form>
         </>
       )}

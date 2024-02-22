@@ -10,6 +10,7 @@ const TotalAsset = () => {
   const { currentProvider, balance, setBalance, unit } = useOutletContext();
   const [sendOpen, setSendOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
+  const [date, setDate] = useState("");
 
   useEffect(() => {
     const showMyBalance = async () => {
@@ -20,11 +21,27 @@ const TotalAsset = () => {
     showMyBalance();
   }, [balance]);
 
+  useEffect(() => {
+    const getDate = () => {
+      const currentDate = new Date();
+
+      const formattedDate = currentDate.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+
+      setDate(formattedDate);
+    };
+
+    getDate();
+  }, [date]);
+
   return (
     <div className="flex flex-row items-center justify-between mx-4 whitespace-pre">
       <div className="my-20 text-2xl">
         {/* 오늘 날짜 */}
-        <p className="dm-sans-title-feed">February 29, 2024</p>
+        <p className="dm-sans-title-feed">{date}</p>
         {/* 네트워크별 네이티브 토큰 총 잔액 */}
         <p className="dm-sans-body-feed">
           {balance} {unit}
