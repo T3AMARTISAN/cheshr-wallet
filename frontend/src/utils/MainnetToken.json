@@ -1,5 +1,3 @@
-// Ethereum Mainnet
-
 [
   {
     "name": "ETH",
@@ -22,15 +20,15 @@
     "address": "0x0001a500a6b18995b03f44bb040a5ffc28e45cb0"
   },
   {
-    "name": "BANA",
+    "name": "TRUMP",
     "address": "0x576e2bed8f7b46d34016198911cdf9886f78bea7"
   },
   {
-    "name": "stETH",
+    "name": "BANANA",
     "address": "0x38e68a37e401f7271568cecaac63c6b1e19130b4"
   },
   {
-    "name": "BEAM",
+    "name": "stETH",
     "address": "0xae7ab96520de3a18e5e111b5eaab095312d7fe84"
   },
   {
@@ -38,35 +36,35 @@
     "address": "0x6b175474e89094c44da98b954eedeac495271d0f"
   },
   {
-    "name": "PEPE",
+    "name": "BEAM",
     "address": "0x62d0a8458ed7719fdaf978fe5929c6d342b0bfce"
   },
   {
-    "name": "MKR",
+    "name": "PEPE",
     "address": "0x6982508145454ce325ddbe47a25d4ec3d2311933"
   },
   {
-    "name": "0x0",
+    "name": "MKR",
     "address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2"
   },
   {
-    "name": "LBR",
+    "name": "0x0",
     "address": "0x5a3e6a77ba2f983ec0d371ea3b475f8bc0811ad5"
   },
   {
-    "name": "TOPIA",
+    "name": "LBR",
     "address": "0xed1167b6dc64e8a366db86f2e952a482d0981ebd"
   },
   {
-    "name": "VOW",
+    "name": "TOPIA",
     "address": "0xccccb68e1a848cbdb5b60a974e07aae143ed40c3"
   },
   {
-    "name": "ELON",
+    "name": "VOW",
     "address": "0x1bbf25e71ec48b84d773809b4ba55b6f4be946fb"
   },
   {
-    "name": "UNIB",
+    "name": "UNIBOT",
     "address": "0xf819d9cb1c2a819fd991781a822de3ca8607c3c9"
   },
   {
@@ -74,43 +72,43 @@
     "address": "0xe53ec727dbdeb9e2d5456c3be40cff031ab40a55"
   },
   {
-    "name": "WOO",
+    "name": "ELON",
     "address": "0x761d38e5ddf6ccf6cf7c55759d5210750b5d60f3"
   },
   {
-    "name": "DEXT",
+    "name": "WOO",
     "address": "0x4691937a7508860f876c9c0a2a617e7d9e945d4b"
   },
   {
-    "name": "$PAAL",
+    "name": "DEXT",
     "address": "0xfb7b4564402e5500db5bb6d63ae671302777c75a"
   },
   {
-    "name": "ATOR",
+    "name": "$PAAL",
     "address": "0x14fee680690900ba0cccfc76ad70fd1b95d10e16"
   },
   {
-    "name": "BOTTO",
+    "name": "PAXG",
     "address": "0x45804880de22913dafe09f4980848ece6ecbaf78"
   },
   {
-    "name": "AMPL",
+    "name": "ATOR",
     "address": "0x0f7b3f5a8fed821c5eb60049538a548db2d479ce"
   },
   {
-    "name": "SHIDO",
+    "name": "BOTTO",
     "address": "0x9dfad1b7102d46b1b197b90095b5c4e9f5845bba"
   },
   {
-    "name": "PAXG",
+    "name": "SHIDO",
     "address": "0x72c60bfffef18dca51db32b52b819a951b6ddbed"
   },
   {
-    "name": "GF",
+    "name": "AMPL",
     "address": "0xd46ba6d942050d489dbd938a2c909a5d5039a161"
   },
   {
-    "name": "ERN",
+    "name": "GF",
     "address": "0xaaef88cea01475125522e117bfe45cf32044e238"
   },
   {
@@ -122,7 +120,7 @@
     "address": "0xcf0c122c6b73ff809c693db761e7baebe62b6a2e"
   },
   {
-    "name": "RIO",
+    "name": "ERN",
     "address": "0xbbc2ae13b23d715c30720f079fcd9b4a74093505"
   },
   {
@@ -170,11 +168,11 @@
     "address": "0xc770eefad204b5180df6a14ee197d99d808ee52d"
   },
   {
-    "name": "WILD",
+    "name": "WOOOO",
     "address": "0x9b73ff728d7d4a423e2166a8dfaa1e79d30cdde9"
   },
   {
-    "name": "WOOO",
+    "name": "WILD",
     "address": "0x2a3bff78b79a009976eea096a51a948a3dc00e34"
   },
   {
@@ -198,7 +196,67 @@
     "address": "0x66a0f676479cee1d7373f3dc2e2952778bff5bd6"
   },
   {
-    "name": "Tribe",
+    "name": "TRIBE",
     "address": "0xc7283b66eb1eb5fb86327f08e1b5816b0720212b"
+  },
+  {
+    "name": "SORA",
+    "address": "0xb8a87405d9a4F2F866319B77004e88dfF66c0d92"
+  },
+  {
+    "name": "RYOSHI",
+    "address": "0x65E9ED59a6c03e97aE984B6C4ff912448eBD3566"
+  },
+  {
+    "name": "FENGFENG",
+    "address": "0x33216b9BB0F2d03083a721cE603ec34741B9555C"
+  },
+  {
+    "name": "USDe",
+    "address": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3"
+  },
+  {
+    "name": "DEL",
+    "address": "0x3526989bA0dbc5E4163F4E453d20f9fedcC87081"
+  },
+  {
+    "name": "AXGT",
+    "address": "0xDd66781D0E9a08D4FBb5eC7BAc80B691BE27F21D"
+  },
+  {
+    "name": "PANDORA",
+    "address": "0x9E9FbDE7C7a83c43913BddC8779158F1368F0413"
+  },
+  {
+    "name": "MAVIA",
+    "address": "0x24fcFC492C1393274B6bcd568ac9e225BEc93584"
+  },
+  {
+    "name": "PORK",
+    "address": "0xb9f599ce614Feb2e1BBe58F180F370D05b39344E"
+  },
+  {
+    "name": "EMERALD",
+    "address": "0x382EDfe4c6168858C81893fE00fCB7b68914d929"
+  },
+  {
+    "name": "RUBY",
+    "address": "0x0a3c0e2Ecb276552Ec3448DfA6F315336cDF34dE"
+  },
+  {
+    "name": "SPONGE",
+    "address": "0x25722Cd432d02895d9BE45f5dEB60fc479c8781E"
+  },
+  {
+    "name": "UNDER",
+    "address": "0xa56482985cad84A9cAbB10AD4e3dfe628d5fbD12"
+  },
+  {
+    "name": "wCOMAI",
+    "address": "0xc78B628b060258300218740B1A7a5b3c82b3bd9f"
+  },
+  {
+    "name": "FARM",
+    "address": "0xa0246c9032bC3A600820415aE600c6388619A14D"
   }
 ]

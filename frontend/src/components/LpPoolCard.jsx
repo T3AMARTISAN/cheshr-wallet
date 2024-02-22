@@ -12,18 +12,44 @@ import { useOutletContext } from "react-router-dom";
 
 //test lp CA와 지갑은 현재 useEffect 인풋값으로 들어감.
 
-const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
-  const { currentProvider, setCurrentAccount, currentAccount } =
-    useOutletContext();
+const LPPoolCard = ({
+  _lpContractAddress,
+  _lpAbi,
+  _pairname,
+  totalValue,
+  setTotalValue,
+}) => {
+  const { currentProvider, currentAccount } = useOutletContext();
 
   const [lpContract, setLpContract] = useState();
-  const [LPTokenName, setLPTokenName] = useState("");
+  const [symbol0, setSymbol0] = useState();
+  const [symbol1, setSymbol1] = useState();
   const [LPTokenAmount, setLPTokenAmount] = useState();
   const [tokens, setTokens] = useState([]);
-  const [primaryToken, setPrimaryToken] = useState([]);
+  const [primaryToken, setPrimaryToken] = useState("");
   const [tvl, setTvl] = useState();
   const [userLpValue, setUserLpValue] = useState();
   const [totalLpSupply, setTotalLpSupply] = useState();
+  const [reserve0, setReserve0] = useState();
+  const [reserve1, setReserve1] = useState();
+  const [addedTotal, setAddedTotal] = useState(false);
+
+  //디파이 총합에 더하기
+  const addTotal = async () => {
+    try {
+      if (!userLpValue) return;
+      if (addedTotal == false) {
+        // console.log("43", typeof userLpValue);
+        var total = Number(totalValue) + Number(userLpValue);
+        setTotalValue(total);
+        setAddedTotal(true);
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //하나의 LP 컨트랙트 주소를 받았을 때 lpCard의 contract 객체 설정
   const setLpCA = async () => {
@@ -35,17 +61,10 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
         currentProvider
       );
       setLpContract(contract);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  //lP 토큰의 이름 불러오기
-  const getLpName = async () => {
-    try {
-      if (!lpContract) return;
-      const contract_symbol = await lpContract.symbol();
-      setLPTokenName(contract_symbol);
+      const [name0, name1] = _pairname.split("-");
+      setSymbol0(name0);
+      setSymbol1(name1);
     } catch (error) {
       console.log(error);
     }
@@ -54,10 +73,13 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
   //사용자가 보유한 LP 토큰 수
   const getUserLpAmount = async () => {
     try {
-      if (!lpContract || !currentAccount) return;
+      if (!lpContract) return;
 
-      var userLpAmount = await lpContract.balanceOf(currentAccount);
+      var userLpAmount = await lpContract.balanceOf(
+        process.env.REACT_APP_TEST_ACCOUNT // 여기를 currentAccount로 바꿔주면 테스트계정 말고 실제 계정으로 작동
+      );
       userLpAmount = Number(userLpAmount);
+
       setLPTokenAmount(userLpAmount);
     } catch (error) {
       console.log(error);
@@ -67,6 +89,8 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
   //전체 발행 LP 토큰 수
   const getTotalLpSupply = async () => {
     try {
+      if (LPTokenAmount == 0) return;
+
       var totalLpSupply = await lpContract.totalSupply();
       var totalLpSupply = Number(totalLpSupply);
       setTotalLpSupply(totalLpSupply);
@@ -78,7 +102,7 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
   //스테이블코인이나 eth 처럼 tvl 계산에 사용할 primary token을 두 페어 중 앞에 배열해 구별해서 사용할 수 있도록 분류
   const sortLpPairType = async () => {
     try {
-      if (!lpContract) return;
+      if (!lpContract || LPTokenAmount == 0) return;
 
       //lp Contract의 token0, token1이 어떤 토큰인지 저장
       var token0 = await lpContract.token0();
@@ -149,6 +173,9 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           var usdtReserve = Number(reserve[0]);
           usdtReserve = usdtReserve / 10 ** 6; //decimal
           setTvl(usdtReserve * 2);
+
+          setReserve0(Number(reserve[0]) / 10 ** 6);
+          setReserve1(Number(reserve[1]) / 10 ** 18);
         } else {
           //token1 이 primaryToken인 경우
 
@@ -156,6 +183,9 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           var usdtReserve = Number(reserve[1]);
           usdtReserve = usdtReserve / 10 ** 6; //decimal
           setTvl(usdtReserve * 2);
+
+          setReserve0(Number(reserve[0]) / 10 ** 18);
+          setReserve1(Number(reserve[1]) / 10 ** 6);
         }
       } else if (primaryToken == USDC_CONTRACT) {
         //primary token이 USDC인 경우
@@ -173,6 +203,9 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           var usdcReserve = Number(reserve[0]);
           usdcReserve = usdcReserve / 10 ** 6; //decimal
           setTvl(usdcUsdt * usdcReserve * 2);
+
+          setReserve0(Number(reserve[0]) / 10 ** 6);
+          setReserve1(Number(reserve[1]) / 10 ** 18);
         } else {
           //token1 이 primaryToken인 경우
 
@@ -180,6 +213,9 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           var usdcReserve = Number(reserve[1]);
           usdcReserve = usdcReserve / 10 ** 6; //decimal
           setTvl(usdcUsdt * usdcReserve * 2);
+
+          setReserve0(Number(reserve[0]) / 10 ** 18);
+          setReserve1(Number(reserve[1]) / 10 ** 6);
         }
       } else if (primaryToken == DAI_CONTRACT) {
         //primary token이 DAI 경우
@@ -197,6 +233,9 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           var daiReserve = Number(reserve[0]);
           daiReserve = daiReserve / 10 ** 18; //decimal
           setTvl(daiUsdt * daiReserve * 2);
+
+          setReserve0(Number(reserve[0]) / 10 ** 18);
+          setReserve1(Number(reserve[1]) / 10 ** 18);
         } else {
           //token1 이 primaryToken인 경우
 
@@ -204,6 +243,9 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           var daiReserve = Number(reserve[1]);
           daiReserve = daiReserve / 10 ** 18;
           setTvl(daiUsdt * daiReserve * 2);
+
+          setReserve0(Number(reserve[0]) / 10 ** 18);
+          setReserve1(Number(reserve[1]) / 10 ** 18);
         }
       } else if (primaryToken == WETH_CONTRACT) {
         //primary token이 WETH인 경우
@@ -221,6 +263,9 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           var ethReserve = Number(reserve[0]);
           ethReserve = ethReserve / 10 ** 18; //decimal
           setTvl(ethUsdt * ethReserve * 2);
+
+          setReserve0(Number(reserve[0]) / 10 ** 18);
+          setReserve1(Number(reserve[1]) / 10 ** 18);
         } else {
           //token1 이 primaryToken인 경우
 
@@ -228,6 +273,9 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
           var ethReserve = Number(reserve[1]);
           ethReserve = ethReserve / 10 ** 18; //decimal
           setTvl(ethUsdt * ethReserve * 2);
+
+          setReserve0(Number(reserve[0]) / 10 ** 18);
+          setReserve1(Number(reserve[1]) / 10 ** 18);
         }
       } else {
         //혹여나 걸러지지 않은 에러의 경우
@@ -244,19 +292,27 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
       if (!tvl || !LPTokenAmount || !totalLpSupply) return;
       var userLpValue = tvl * (LPTokenAmount / totalLpSupply);
       userLpValue = Number(userLpValue);
-      userLpValue = userLpValue.toFixed(10); //소수점 자리수
+      userLpValue = userLpValue.toFixed(4); //소수점 자리수
       setUserLpValue(userLpValue);
+
+      var amount0 = reserve0 * (LPTokenAmount / totalLpSupply);
+      setReserve0(amount0);
+      var amount1 = reserve1 * (LPTokenAmount / totalLpSupply);
+      setReserve1(amount1);
     } catch (error) {
       console.log(error);
     }
   };
 
-  //테스트 지갑 주소 하드코딩 부분. 테스트 ->실제 변경 시 유즈이펙트 제거해주면 됨
-  useEffect(() => {
-    setCurrentAccount(process.env.REACT_APP_TEST_ACCOUNT);
-  }, []);
-  //pepe-eth 보유 테스트 지갑: "0x805B9Bd203ad2B69A241AE5084abEE11183f9429"
-  //공동 test 지갑: process.env.REACT_APP_TEST_ACCOUNT
+  //일 거래량으로 수익률 보여주기
+  // Volume24h * 0.003 * 365 * 100 / TVL
+  // const getAPY = async () => {
+  //   const response = await axios.get(
+  //     "https://api.geckoterminal.com/api/v2/networks/eth/dexes/uniswap_v2/pools"
+  //   );
+  //   console.log(response);
+  //   // var volume24 = response.data;
+  // };
 
   useEffect(() => {
     if (!currentProvider) {
@@ -271,183 +327,101 @@ const LPPoolCard = ({ _lpContractAddress, _lpAbi, _pairname }) => {
     if (!lpContract) {
       return;
     }
-    getLpName();
+    getUserLpAmount();
   }, [lpContract]);
 
   useEffect(() => {
-    if (!lpContract || !currentAccount) {
-      return;
-    }
-    getUserLpAmount();
-  }, [lpContract, currentAccount]);
-
-  useEffect(() => {
-    if (!lpContract) {
+    if (!lpContract || LPTokenAmount == 0) {
       return;
     }
     getTotalLpSupply();
-  }, [lpContract]);
+  }, [LPTokenAmount]);
 
   useEffect(() => {
-    if (!lpContract) {
+    if (!lpContract || LPTokenAmount == 0) {
       return;
     }
     sortLpPairType();
-  }, [lpContract]);
+  }, [LPTokenAmount]);
 
   useEffect(() => {
     if (primaryToken.length == 0 || !lpContract || LPTokenAmount == 0) {
       return;
     }
     getTvl();
-  }, [primaryToken, lpContract]);
+  }, [primaryToken]);
 
   useEffect(() => {
     if (!tvl || !LPTokenAmount || !totalLpSupply) {
       return;
     }
     getLpValue();
-  }, [tvl, LPTokenAmount, totalLpSupply]);
+  }, [tvl]);
+
+  useEffect(() => {
+    if (!userLpValue || addedTotal) return;
+    addTotal();
+  }, [userLpValue]);
 
   return (
     <>
-      {/* {userLpValue ? ( */}
       {/* UNISWAP V2 POOL 예시 */}
-      <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-6 mt-4 mb-10 flex flex-col gap-2">
-        {/* 헤더 */}
-        <div className="dm-sans-defi flex flex-row justify-between items-center m-4">
-          <div>UNISWAP V2 POOL</div>
-          <div className="flex flex-col items-start">
-            {/* 수익률 */}
-            <div className="text-rose-500">-%0.04</div>
-            {/* 수익률 기간토글 */}
-            <div className="flex flex-row gap-1 items-center text-xs ">
-              <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
-                <button className="px-1 bg-green-200 hover:bg-green-100 rounded-s-md">
-                  D
-                </button>
-                <button className="px-1 hover:bg-green-100">W</button>
-                <button className="px-1 hover:bg-green-100">M</button>
-                <button className="px-1 hover:bg-green-100 rounded-e-md">
-                  Y
-                </button>
-              </div>
-              <span className=" text-base">ⓘ</span>
-            </div>
-          </div>
-        </div>
-        {/* 바디 */}
-        <div className="pb-1">
-          {/* 구분 */}
-          <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-            <div>PAIR AMOUNT ⓘ</div>
-            <div>USD VALUE </div>
-          </div>
-          {/* 제공한 페어 */}
-          <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
-            <div className="flex flex-col justify-center">
-              <div>
-                {/* {LPTokenName}: {_pairname} */}
-                {/* {LPTokenName} */}
-                8.9377 ETH
-              </div>
-              <div className="m-sans-body-reveal">
-                {/* {LPTokenName}: {_pairname} */}
-                {/* {_pairname} */}
-                10.8323 USDT
+      {/* {userLpValue ? ( */}
+      {userLpValue ? (
+        <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-6 mt-4 mb-10 flex flex-col gap-2">
+          {/* 헤더 */}
+          <div className="dm-sans-defi flex flex-row justify-between items-center m-4">
+            <div>UNISWAP V2 POOL</div>
+            <div className="flex flex-col items-start">
+              {/* 수익률 */}
+              <div className="text-rose-500">-%0.04</div>
+              {/* 수익률 기간토글 */}
+              <div className="flex flex-row gap-1 items-center text-xs ">
+                <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
+                  <button className="px-1 bg-green-200 hover:bg-green-100 rounded-s-md">
+                    D
+                  </button>
+                  <button className="px-1 hover:bg-green-100">W</button>
+                  <button className="px-1 hover:bg-green-100">M</button>
+                  <button className="px-1 hover:bg-green-100 rounded-e-md">
+                    Y
+                  </button>
+                </div>
+                <span className=" text-base">ⓘ</span>
               </div>
             </div>
-            <div>
-              {/* <div>{userLpValue}</div> */}
-              <div className="text-xl">$17.8623</div>
-            </div>
           </div>
-        </div>
-      </div>
-      {/* UNISWAP V3 POOL 예시 */}
-      <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-2 my-10 flex flex-col gap-2">
-        {/* 헤더 */}
-        <div className="dm-sans-defi flex flex-row justify-between m-4">
-          {/* 카드이름 */}
-          <div className="flex flex-col">
-            <div>UNISWAP V3 POOL</div>
-            <div className="text-sm">PROVIDED #365520</div>
-          </div>
-          <div className="flex flex-col items-start">
-            {/* 수익률 */}
-            <div className="text-green-500">+%1.78</div>
-            {/* 수익률 기간토글 */}
-            <div className="flex flex-row gap-1 items-center text-xs ">
-              <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
-                <button className="px-1 bg-green-200 hover:bg-green-100 rounded-s-md">
-                  D
-                </button>
-                <button className="px-1 hover:bg-green-100">W</button>
-                <button className="px-1 hover:bg-green-100">M</button>
-                <button className="px-1 hover:bg-green-100 rounded-e-md">
-                  Y
-                </button>
-              </div>
-              <span className=" text-base">ⓘ</span>
-            </div>
-          </div>
-        </div>
-        {/* 바디 */}
-        <div className="pb-5">
-          {/* 구분 */}
-          <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-            <div>PAIR AMOUNT ⓘ</div>
-            <div>USD VALUE</div>
-          </div>
-          {/* 제공한 페어 */}
-          <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
-            <div className="flex flex-col justify-center">
-              <div>
-                {/* {LPTokenName}: {_pairname} */}
-                {/* {LPTokenName} */}
-                8.9377 ETH
-              </div>
-              <div className="m-sans-body-reveal">
-                {/* {LPTokenName}: {_pairname} */}
-                {/* {_pairname} */}
-                10.8323 USDT
-              </div>
-            </div>
-            <div>
-              {/* <div>{userLpValue}</div> */}
-              <div className="text-xl">$17.8623</div>
-            </div>
-          </div>
-          {/* 보상 */}
-          <div className="pt-6">
+          {/* 바디 */}
+          <div className="pb-1">
+            {/* 구분 */}
             <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-              <div>REWARD AMOUNT ⓘ</div>
-              <div>USD VALUE</div>
+              <div>PAIR AMOUNT ⓘ</div>
+              <div>USD VALUE </div>
             </div>
+            {/* 제공한 페어 */}
             <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
               <div className="flex flex-col justify-center">
                 <div>
                   {/* {LPTokenName}: {_pairname} */}
                   {/* {LPTokenName} */}
-                  1.4962 ETH
+                  {reserve0.toFixed(6)} {symbol0}
                 </div>
-                <div>
+                <div className="m-sans-body-reveal">
                   {/* {LPTokenName}: {_pairname} */}
                   {/* {_pairname} */}
-                  2.9384 USDT
+                  {reserve1.toFixed(6)} {symbol1}
                 </div>
               </div>
               <div>
                 {/* <div>{userLpValue}</div> */}
-                <div className="text-xl">$5.2698</div>
+                <div className="text-xl">${userLpValue}</div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      {/* ) : (
+      ) : (
         ""
-      )} */}
+      )}
     </>
   );
 };
