@@ -3,11 +3,13 @@ import { Link, useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 import NetworkSwitch from "./NetworkSwitch";
 import Send from "./SendModal";
+import Import from "./ImportModal";
 
 const TotalAsset = () => {
   const testAccount = process.env.REACT_APP_TEST_ACCOUNT;
   const { currentProvider, balance, setBalance, unit } = useOutletContext();
   const [sendOpen, setSendOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
 
   useEffect(() => {
     const showMyBalance = async () => {
@@ -43,17 +45,22 @@ const TotalAsset = () => {
           </div>
         )}
         {/* Import 기능 */}
-        {/* <Link 
-          className="rounded-md bg-red-200 w-20 px-4 text-center"
-          to="/feed/history"
-        >
-          Log
-        </Link> */}
+        {importOpen ? (
+          <Import importOpen={importOpen} setImportOpen={setImportOpen} />
+        ) : (
+          <div
+            className="feed-button click:bg-purple-300 hover:bg-purple-400"
+            onClick={() => setImportOpen(!importOpen)}
+          >
+            Import
+          </div>
+        )}
+
         <Link
           to="/feed/import"
           className="feed-button click:bg-purple-300 hover:bg-purple-400"
         >
-          Import
+          Import-old
         </Link>
       </div>
     </div>

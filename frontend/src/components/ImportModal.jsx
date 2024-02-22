@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
-import axios from "axios";
-import { HiSelector } from "react-icons/hi";
 import MyOwnAsset from "./MyOwnAsset";
-import { AuthContext } from "./Auth";
+import axios from "axios";
 import BackButton from "./Buttons/BackButton";
+import { AuthContext } from "./Auth";
+import { HiSelector } from "react-icons/hi";
+import ImportToggleButton from "./Buttons/ImportToggleButton";
 
-const Send = ({ setSendOpen, sendOpen }) => {
+const Import = ({ setImportOpen, importOpen }) => {
   const [value, setValue] = useState();
   const [toAddress, setToAddress] = useState();
   const [receipt, setReceipt] = useState([]);
@@ -19,6 +20,8 @@ const Send = ({ setSendOpen, sendOpen }) => {
   const [api, setApi] = useState();
   const [apiKey, setApiKey] = useState();
   const [isErc, setIsErc] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
+  const [mode, setmode] = useState(0);
 
   const { currentProvider, currentNetwork, balance, unit, currentAccount } =
     useOutletContext();
@@ -27,7 +30,6 @@ const Send = ({ setSendOpen, sendOpen }) => {
   const onClickSelectAsset = () => {
     setIsClick(!isClick);
   };
-
   const onClickSelectOriginal = () => {
     setIsClick(!isClick);
     setCurrentBalance(balance);
@@ -117,10 +119,6 @@ const Send = ({ setSendOpen, sendOpen }) => {
     }
   };
 
-  const onClickBack = () => {
-    setSendOpen(!sendOpen);
-  };
-
   useEffect(() => {
     const jsonArray = JSON.stringify(receipt);
     localStorage.setItem("history", jsonArray);
@@ -132,6 +130,10 @@ const Send = ({ setSendOpen, sendOpen }) => {
     setCurrentBalance(balance);
     setCurrentTicker(unit);
   }, [currentProvider]);
+
+  const onClickBack = () => {
+    setImportOpen(!importOpen);
+  };
 
   return (
     <div className="modal-bg radial-bg-home">
@@ -145,119 +147,95 @@ const Send = ({ setSendOpen, sendOpen }) => {
         </button>
 
         {/* 헤더 */}
-        <div className="dm-sans-title-feed py-4 text-center">SEND</div>
+        <div className="dm-sans-title-feed py-4 text-center">IMPORT</div>
+        <div className="dm-sans- whitespace-pre-line text-center leading-6 text-lg pb-8">{`Don't see your assets here?
+          Import them to cheshr!`}</div>
 
-        {/* 트랜잭션 정보 */}
-        <form
-          onSubmit={onSubmitSend}
-          className="flex flex-col gap-2 justify-center items-center mt-4"
-        >
-          <div className="flex flex-row justify-center">
-            {/* 항목 */}
-            <div className="flex flex-col justify-center items-start gap-5 mx-2">
-              {/* 보내는 주소 */}
-              <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
-                TO
-              </div>
-              <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
-                ASSET
-              </div>
-              <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
-                AMOUNT
-              </div>
-            </div>
+        {/* 토글 */}
+        <ImportToggleButton isToggled={isToggled} setIsToggled={setIsToggled} />
 
-            {/* 입력란 */}
-            <div className="flex flex-col justify-center items-end gap-3">
-              <input
-                type="text"
-                onChange={(e) => setToAddress(e.target.value)}
-                className="modal-inputbox p-2 dm-sans text-sm"
-                placeholder="Enter wallet address"
-              ></input>
-              {/* 토큰 선택 */}
-              {isClick ? (
-                <>
-                  {/* 클릭하면 보유한 토큰 보여주기 */}
-                  <div
-                    className={`relative z-20 modal-dropdown ${
-                      isClick && "rounded-b-none border-b-0"
-                    }`}
-                    onClick={onClickSelectAsset}
-                  >
-                    {currentBalance} {currentTicker}
-                    <HiSelector />
+        {isToggled ? (
+          <>
+            {/* LP 컨트랙트 임포트 정보 입력란 */}
+            <form
+              onSubmit={onSubmitSend}
+              className="flex flex-col gap-2 justify-center items-center mt-10"
+            >
+              <div className="flex flex-row justify-center">
+                {/* 항목 */}
+                <div className="flex flex-col justify-center items-start gap-5 mx-2">
+                  {/* LP 컨트랙트 주소 */}
+                  <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
+                    LP
                   </div>
-                  <div
-                    className={`absolute translate-y-8 z-20 modal-dropdown ${
-                      isClick && "rounded-t-none border-t-0"
-                    }`}
-                    onClick={onClickSelectOriginal}
-                  >
-                    <p className="hover:bg-[#9EFFAE]">
-                      {balance} {unit}
-                    </p>
-                  </div>
-                  {/* 보유한 토큰 리스트 */}
-                  {myAsset.map((v, i) => {
-                    v.value !== "0.0" && (
-                      <MyOwnAsset
-                        key={i}
-                        ticker={v.ticker}
-                        value={v.value}
-                        tokenAddress={v.address}
-                        isClick={isClick}
-                        setIsClick={setIsClick}
-                        setCurrentBalance={setCurrentBalance}
-                        setCurrentTicker={setCurrentTicker}
-                        setIsErc={setIsErc}
-                        setCurrentTokenAddress={setCurrentTokenAddress}
-                      />
-                    );
-                  })}
-                </>
-              ) : (
-                // 클릭하면 드롭다운 닫기
-                <>
-                  <span className="modal-dropdown" onClick={onClickSelectAsset}>
-                    {currentBalance} {currentTicker}
-                    <HiSelector />
-                  </span>
-                </>
-              )}
-              <input
-                type="text"
-                onChange={(e) => setValue(e.target.value)}
-                className="modal-inputbox p-2 dm-sans text-sm"
-                placeholder="Enter amount"
-              ></input>
-            </div>
-          </div>
-
-          {/* 예상가스비 */}
-          <div className="w-96 h-28 bg-teal-100 rounded-lg border border-purple-950 mt-8">
-            <div className="dm-sans-title-reveal text-lg text-center py-3 text-green-800">
-              Estimated Gas Fee
-            </div>
-            <ul className="text-center dm-sans-modal-info text-sm">
-              <div className="flex flex-row justify-between mx-4">
-                <div className="text-left font-semibold">
-                  <li>Estimated Fee</li>
-                  <li>Market -30 sec</li>
                 </div>
-                <div className="text-right">
-                  <li>0.00003411 SepholiaETH</li>
-                  <li>Max Fee: 0.0003525 SepholiaETH</li>
+
+                {/* 입력란 */}
+                <div className="flex flex-col justify-center items-end gap-3">
+                  <input
+                    type="text"
+                    onChange={(e) => setToAddress(e.target.value)}
+                    className="modal-inputbox p-2 dm-sans text-sm"
+                    placeholder="Enter LP Contract address"
+                  ></input>
                 </div>
               </div>
-            </ul>
-          </div>
 
-          {/* Send버튼 */}
-          <input type="submit" value="Send" className="modal-button mt-8" />
-        </form>
+              {/* Import버튼 */}
+              <input
+                type="submit"
+                value="Import"
+                className="modal-button mt-8"
+              />
+            </form>
+          </>
+        ) : (
+          <>
+            {/* 토큰 임포트 정보 입력란 */}
+            <form
+              onSubmit={onSubmitSend}
+              className="flex flex-col gap-2 justify-center items-center mt-10"
+            >
+              <div className="flex flex-row justify-center">
+                {/* 항목 */}
+                <div className="flex flex-col justify-center items-start gap-5 mx-2">
+                  {/* LP 컨트랙트 주소 */}
+                  <div className="dm-sans-title-dashboard bg-lime-200 w-30 px-2">
+                    CONTRACT
+                  </div>
+                  <div className="dm-sans-title-dashboard bg-lime-200 w-30 px-2">
+                    TICKER
+                  </div>
+                </div>
+
+                {/* 입력란 */}
+                <div className="flex flex-col justify-center items-end gap-3">
+                  <input
+                    type="text"
+                    onChange={(e) => setToAddress(e.target.value)}
+                    className="modal-inputbox p-2 dm-sans text-sm"
+                    placeholder="Enter token contract address"
+                  ></input>
+                  <input
+                    type="text"
+                    onChange={(e) => setValue(e.target.value)}
+                    className="modal-inputbox p-2 dm-sans text-sm"
+                    placeholder="Enter ticker"
+                  ></input>
+                </div>
+              </div>
+
+              {/* Import버튼 */}
+              <input
+                type="submit"
+                value="Import"
+                className="modal-button mt-8"
+              />
+            </form>
+          </>
+        )}
       </div>
     </div>
   );
 };
-export default Send;
+export default Import;
