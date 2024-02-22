@@ -93,12 +93,12 @@ export const ImportTokenForm = () => {
               className="modal-inputbox p-2 dm-sans text-sm"
               placeholder="Enter token contract address"
             ></input>
-            {/* <input
+            <input
               type="text"
               onChange={(e) => setValue(e.target.value)}
               className="modal-inputbox p-2 dm-sans text-sm"
               placeholder="Enter ticker"
-            ></input> */}
+            ></input>
           </div>
         </div>
 
