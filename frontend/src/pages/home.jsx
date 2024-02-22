@@ -20,6 +20,7 @@ const Home = () => {
       {hasWallet === undefined && (
         <div className="sticky bottom-0 hidden"></div>
       )}
+
       {hasWallet ? <LockScreen /> : <Landing />}
     </>
   );

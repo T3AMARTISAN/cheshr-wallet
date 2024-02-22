@@ -21,7 +21,7 @@ const App = () => {
           </Route>
           <Route path="feed" element={<Layout />}>
             <Route index element={<Main />} />
-            <Route path="send" element={<Send />} />
+            {/* <Route path="send" element={<Send />} /> */}
             {/*@TODO*/}
             <Route path="import" element={<ImportTokens />} />
           </Route>
