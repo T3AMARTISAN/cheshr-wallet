@@ -1,0 +1,327 @@
+[
+  {
+    "name": "ETH",
+    "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png"
+  },
+  {
+    "name": "USDT",
+    "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xdac17f958d2ee523a2206206994597c13d831ec7.png"
+  },
+  {
+    "name": "USDC",
+    "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png"
+  },
+  {
+    "name": "VEC",
+    "address": "0x1bb9b64927e0c5e207c9db4093b3738eef5d8447",
+    "logo": "https://etherscan.io/token/images/vector_32.png"
+  },
+  {
+    "name": "OLAS",
+    "address": "0x0001a500a6b18995b03f44bb040a5ffc28e45cb0",
+    "logo": "https://etherscan.io/token/images/olas_32.png "
+  },
+  {
+    "name": "TRUMP",
+    "address": "0x576e2bed8f7b46d34016198911cdf9886f78bea7",
+    "logo": "https://etherscan.io/token/images/magatrump_32.png"
+  },
+  {
+    "name": "BANANA",
+    "address": "0x38e68a37e401f7271568cecaac63c6b1e19130b4",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x38e68a37e401f7271568cecaac63c6b1e19130b4.png"
+  },
+  {
+    "name": "stETH",
+    "address": "0xae7ab96520de3a18e5e111b5eaab095312d7fe84",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xae7ab96520de3a18e5e111b5eaab095312d7fe84.png"
+  },
+  {
+    "name": "DAI",
+    "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x6b175474e89094c44da98b954eedeac495271d0f.png"
+  },
+  {
+    "name": "BEAM",
+    "address": "0x62d0a8458ed7719fdaf978fe5929c6d342b0bfce",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x62d0a8458ed7719fdaf978fe5929c6d342b0bfce.png"
+  },
+  {
+    "name": "PEPE",
+    "address": "0x6982508145454ce325ddbe47a25d4ec3d2311933",
+    "logo": "https://etherscan.io/token/images/pepe_32.png?=v1"
+  },
+  {
+    "name": "MKR",
+    "address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2.png"
+  },
+  {
+    "name": "0x0",
+    "address": "0x5a3e6a77ba2f983ec0d371ea3b475f8bc0811ad5",
+    "logo": "https://etherscan.io/token/images/0x0_32.png"
+  },
+  {
+    "name": "LBR",
+    "address": "0xed1167b6dc64e8a366db86f2e952a482d0981ebd",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xed1167b6dc64e8a366db86f2e952a482d0981ebd.png"
+  },
+  {
+    "name": "TOPIA",
+    "address": "0xccccb68e1a848cbdb5b60a974e07aae143ed40c3",
+    "logo": "https://etherscan.io/token/images/topiagg_32.png"
+  },
+  {
+    "name": "VOW",
+    "address": "0x1bbf25e71ec48b84d773809b4ba55b6f4be946fb",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x1bbf25e71ec48b84d773809b4ba55b6f4be946fb.png"
+  },
+  {
+    "name": "UNIBOT",
+    "address": "0xf819d9cb1c2a819fd991781a822de3ca8607c3c9",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xf819d9cb1c2a819fd991781a822de3ca8607c3c9.png"
+  },
+  {
+    "name": "SUPER",
+    "address": "0xe53ec727dbdeb9e2d5456c3be40cff031ab40a55",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xe53ec727dbdeb9e2d5456c3be40cff031ab40a55.png"
+  },
+  {
+    "name": "ELON",
+    "address": "0x761d38e5ddf6ccf6cf7c55759d5210750b5d60f3",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x761d38e5ddf6ccf6cf7c55759d5210750b5d60f3.png"
+  },
+  {
+    "name": "WOO",
+    "address": "0x4691937a7508860f876c9c0a2a617e7d9e945d4b",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x4691937a7508860f876c9c0a2a617e7d9e945d4b.png"
+  },
+  {
+    "name": "DEXT",
+    "address": "0xfb7b4564402e5500db5bb6d63ae671302777c75a",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xfb7b4564402e5500db5bb6d63ae671302777c75a.png"
+  },
+  {
+    "name": "$PAAL",
+    "address": "0x14fee680690900ba0cccfc76ad70fd1b95d10e16",
+    "logo": "https://etherscan.io/token/images/paalai2_32.png"
+  },
+  {
+    "name": "PAXG",
+    "address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x45804880de22913dafe09f4980848ece6ecbaf78.png"
+  },
+  {
+    "name": "ATOR",
+    "address": "0x0f7b3f5a8fed821c5eb60049538a548db2d479ce",
+    "logo": "https://etherscan.io/token/images/atorprotocol_32.png"
+  },
+  {
+    "name": "BOTTO",
+    "address": "0x9dfad1b7102d46b1b197b90095b5c4e9f5845bba",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x9dfad1b7102d46b1b197b90095b5c4e9f5845bba.png"
+  },
+  {
+    "name": "SHIDO",
+    "address": "0x72c60bfffef18dca51db32b52b819a951b6ddbed",
+    "logo": "https://etherscan.io/token/images/shidoio_32.png"
+  },
+  {
+    "name": "AMPL",
+    "address": "0xd46ba6d942050d489dbd938a2c909a5d5039a161",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xd46ba6d942050d489dbd938a2c909a5d5039a161.png"
+  },
+  {
+    "name": "GF",
+    "address": "0xaaef88cea01475125522e117bfe45cf32044e238",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xaaef88cea01475125522e117bfe45cf32044e238.png"
+  },
+  {
+    "name": "LINK",
+    "address": "0x514910771af9ca656af840dff83e8264ecf986ca",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x514910771af9ca656af840dff83e8264ecf986ca.png"
+  },
+  {
+    "name": "FLOKI",
+    "address": "0xcf0c122c6b73ff809c693db761e7baebe62b6a2e",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xcf0c122c6b73ff809c693db761e7baebe62b6a2e.png"
+  },
+  {
+    "name": "ERN",
+    "address": "0xbbc2ae13b23d715c30720f079fcd9b4a74093505",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xbbc2ae13b23d715c30720f079fcd9b4a74093505.png"
+  },
+  {
+    "name": "WBTC",
+    "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png"
+  },
+  {
+    "name": "STARL",
+    "address": "0x8e6cd950ad6ba651f6dd608dc70e5886b1aa6b24",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x8e6cd950ad6ba651f6dd608dc70e5886b1aa6b24.png"
+  },
+  {
+    "name": "RAD",
+    "address": "0x31c8eacbffdd875c74b94b077895bd78cf1e64a3",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x31c8eacbffdd875c74b94b077895bd78cf1e64a3.png"
+  },
+  {
+    "name": "CAW",
+    "address": "0xf3b9569f82b18aef890de263b84189bd33ebe452",
+    "logo": "https://etherscan.io/token/images/ahuntersdream_32.png"
+  },
+  {
+    "name": "SFUND",
+    "address": "0x560363bda52bc6a44ca6c8c9b4a5fadbda32fa60",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "pOHM",
+    "address": "0x88e08adb69f2618adf1a3ff6cc43c671612d1ca4",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "POLS",
+    "address": "0x83e6f1e41cdd28eaceb20cb649155049fac3d5aa",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x83e6f1e41cdd28eaceb20cb649155049fac3d5aa.png"
+  },
+  {
+    "name": "UNI",
+    "address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984.png"
+  },
+  {
+    "name": "PNK",
+    "address": "0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d.png"
+  },
+  {
+    "name": "UFO",
+    "address": "0x249e38ea4102d0cf8264d3701f1a0e39c4f2dc3b",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x249e38ea4102d0cf8264d3701f1a0e39c4f2dc3b.png"
+  },
+  {
+    "name": "FOX",
+    "address": "0xc770eefad204b5180df6a14ee197d99d808ee52d",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xc770eefad204b5180df6a14ee197d99d808ee52d.png"
+  },
+  {
+    "name": "WOOOO",
+    "address": "0x9b73ff728d7d4a423e2166a8dfaa1e79d30cdde9",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "WILD",
+    "address": "0x2a3bff78b79a009976eea096a51a948a3dc00e34",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x2a3bff78b79a009976eea096a51a948a3dc00e34.png"
+  },
+  {
+    "name": "DOGE",
+    "address": "0x4206931337dc273a630d328da6441786bfad668f",
+    "logo": "https://cryptologos.cc/logos/dogecoin-doge-logo.png?v=029"
+  },
+  {
+    "name": "HEZ",
+    "address": "0xeef9f339514298c6a857efcfc1a762af84438dee",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xeef9f339514298c6a857efcfc1a762af84438dee.png"
+  },
+  {
+    "name": "GEKKO",
+    "address": "0xf017d3690346eb8234b85f74cee5e15821fee1f4",
+    "logo": "https://etherscan.io/token/images/gekko_32.png?=v1"
+  },
+  {
+    "name": "CAGA",
+    "address": "0xbddc20ed7978b7d59ef190962f441cd18c14e19f",
+    "logo": "https://etherscan.io/token/images/cagacrypto_32.png"
+  },
+  {
+    "name": "WISE",
+    "address": "0x66a0f676479cee1d7373f3dc2e2952778bff5bd6",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0x66a0f676479cee1d7373f3dc2e2952778bff5bd6.png"
+  },
+  {
+    "name": "TRIBE",
+    "address": "0xc7283b66eb1eb5fb86327f08e1b5816b0720212b",
+    "logo": "https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xc7283b66eb1eb5fb86327f08e1b5816b0720212b.png"
+  },
+  {
+    "name": "SORA",
+    "address": "0xb8a87405d9a4F2F866319B77004e88dfF66c0d92",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "RYOSHI",
+    "address": "0x65E9ED59a6c03e97aE984B6C4ff912448eBD3566",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "FENGFENG",
+    "address": "0x33216b9BB0F2d03083a721cE603ec34741B9555C",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "USDe",
+    "address": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
+    "logo": "https://etherscan.io/token/images/ethenausde_32.png"
+  },
+  {
+    "name": "DEL",
+    "address": "0x3526989bA0dbc5E4163F4E453d20f9fedcC87081",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "AXGT",
+    "address": "0xDd66781D0E9a08D4FBb5eC7BAc80B691BE27F21D",
+    "logo": "https://etherscan.io/token/images/axondao_32.png"
+  },
+  {
+    "name": "PANDORA",
+    "address": "0x9E9FbDE7C7a83c43913BddC8779158F1368F0413",
+    "logo": "https://etherscan.io/token/images/pandora404_32.png"
+  },
+  {
+    "name": "MAVIA",
+    "address": "0x24fcFC492C1393274B6bcd568ac9e225BEc93584",
+    "logo": "https://etherscan.io/token/images/mavianft_32.png"
+  },
+  {
+    "name": "PORK",
+    "address": "0xb9f599ce614Feb2e1BBe58F180F370D05b39344E",
+    "logo": "https://etherscan.io/token/images/pork_32.png"
+  },
+  {
+    "name": "EMERALD",
+    "address": "0x382EDfe4c6168858C81893fE00fCB7b68914d929",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "RUBY",
+    "address": "0x0a3c0e2Ecb276552Ec3448DfA6F315336cDF34dE",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "SPONGE",
+    "address": "0x25722Cd432d02895d9BE45f5dEB60fc479c8781E",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "UNDER",
+    "address": "0xa56482985cad84A9cAbB10AD4e3dfe628d5fbD12",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "wCOMAI",
+    "address": "0xc78B628b060258300218740B1A7a5b3c82b3bd9f",
+    "logo": "https://etherscan.io/images/main/empty-token.png"
+  },
+  {
+    "name": "FARM",
+    "address": "0xa0246c9032bC3A600820415aE600c6388619A14D",
+    "logo": "https://etherscan.io/token/images/harvestfinance2_32.png"
+  }
+]

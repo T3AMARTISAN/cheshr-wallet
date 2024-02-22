@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 import NetworkSwitch from "./NetworkSwitch";
 import Send from "./SendModal";
