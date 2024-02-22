@@ -80,9 +80,9 @@ export const ImportTokenForm = () => {
             <div className="dm-sans-title-dashboard bg-lime-200 w-30 px-2">
               CONTRACT
             </div>
-            {/* <div className="dm-sans-title-dashboard bg-lime-200 w-30 px-2">
+            <div className="dm-sans-title-dashboard bg-lime-200 w-30 px-2">
               TICKER
-            </div> */}
+            </div>
           </div>
 
           {/* 입력란 */}
@@ -95,7 +95,7 @@ export const ImportTokenForm = () => {
             ></input>
             <input
               type="text"
-              onChange={(e) => setValue(e.target.value)}
+              value={ticker}
               className="modal-inputbox p-2 dm-sans text-sm"
               placeholder="Enter ticker"
             ></input>
