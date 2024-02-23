@@ -12,7 +12,12 @@ const Arbitrum = () => {
 
   const onClickArbitrum = () => {
     setCurrentProvider(
-      new ethers.InfuraProvider("arbitrum", process.env.INFURA_API_KEY)
+      // v6 : new ethers.InfuraProvider("arbitrum", process.env.INFURA_API_KEY)
+      // v5
+      new ethers.providers.EtherscanProvider(
+        "arbitrum",
+        process.env.REACT_APP_ARBISCAN_API_KEY
+      )
     );
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Arbitrum");

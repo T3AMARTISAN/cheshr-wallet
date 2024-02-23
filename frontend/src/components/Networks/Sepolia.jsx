@@ -11,7 +11,10 @@ const Sepolia = () => {
 
   const onclickETHSepolia = () => {
     setCurrentProvider(
-      new ethers.InfuraProvider("sepolia", process.env.INFURA_API_KEY)
+      new ethers.providers.EtherscanProvider(
+        "sepolia",
+        process.env.REACT_APP_ETHERSCAN_API_KEY
+      )
     );
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Sepolia");

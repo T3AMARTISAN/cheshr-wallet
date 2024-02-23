@@ -14,7 +14,7 @@ const TotalAsset = () => {
   useEffect(() => {
     const showMyBalance = async () => {
       const response = await currentProvider.getBalance(testAccount);
-      const value = ethers.formatEther(String(response));
+      const value = ethers.utils.formatEther(String(response));
       setBalance(Number(value));
     };
     showMyBalance();

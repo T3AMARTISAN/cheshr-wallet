@@ -11,7 +11,10 @@ const Goerli = () => {
 
   const onClickETHGoerli = () => {
     setCurrentProvider(
-      new ethers.InfuraProvider("goerli", process.env.INFURA_API_KEY)
+      new ethers.providers.EtherscanProvider(
+        "goerli",
+        process.env.REACT_APP_ETHERSCAN_API_KEY
+      )
     );
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Goerli");
