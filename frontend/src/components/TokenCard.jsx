@@ -17,7 +17,7 @@ const TokenCard = ({ ticker, value }) => {
         </div>
         <div className="flex flex-col items-end">
           {/*USD 가치*/}
-          <div className="dm-sans-token-info">$24.02</div>
+          <div className="dm-sans-token-info">{value}</div>
           {/*시세*/}
           <div className="dm-sans-body-feed text-base">@1405.3</div>
         </div>

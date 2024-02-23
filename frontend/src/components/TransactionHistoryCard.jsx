@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { ReceiveIcon, SendIcon } from "./Buttons/TransactionIcon";
 
 // @TODO
-const TransactionHistoryCard = ({ from, to, value, type, ticker, time }) => {
+const TransactionHistoryCard = ({}) => {
   const { currentAccount } = useOutletContext();
   const [type, setType] = useState("");
 
