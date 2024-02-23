@@ -2,7 +2,13 @@ const TokenCard = ({ ticker, value }) => {
   return (
     <div className="token-container">
       {/* 심볼이미지 */}
-      <div className="token-symbol"></div>
+      <div className="token-symbol relative bg-opacity-35">
+        <img
+          src="https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png"
+          alt="USDC"
+          className="absolute inset-0 m-auto rounded-full w-8 h-8 shadow drop-shadow-md"
+        />
+      </div>
       <div className="grow flex justify-between text-lg">
         <div className="flex flex-col items-start pl-2">
           {/* 틱커 */}
