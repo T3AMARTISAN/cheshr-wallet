@@ -41,11 +41,14 @@ const Send = ({ setSendOpen, sendOpen }) => {
       async function Send() {
         try {
           const encryptedJson = localStorage.getItem("dexwalletData");
-          const wallet = await ethers.decryptKeystoreJson(encryptedJson, pw);
+          const wallet = await ethers.Wallet.fromEncryptedJson(
+            encryptedJson,
+            pw
+          );
           const signer = new ethers.Wallet(wallet.privateKey, currentProvider);
           const tx = {
             to: toAddress,
-            value: ethers.parseUnits(value, "ether"),
+            value: ethers.utils.parseEther(value),
           };
           const result = await signer.sendTransaction(tx);
           setReceipt([
@@ -78,7 +81,10 @@ const Send = ({ setSendOpen, sendOpen }) => {
         }
         try {
           const encryptedJson = localStorage.getItem("dexwalletData");
-          const wallet = await ethers.decryptKeystoreJson(encryptedJson, pw);
+          const wallet = await ethers.Wallet.fromEncryptedJson(
+            encryptedJson,
+            pw
+          );
           const signer = new ethers.Wallet(wallet.privateKey, currentProvider);
 
           const response = await axios.get(
@@ -95,7 +101,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
             );
             const result = await contract.transfer(
               toAddress,
-              ethers.parseUnits(value, "ether")
+              ethers.utils.parseEther(value)
             );
 
             setReceipt([

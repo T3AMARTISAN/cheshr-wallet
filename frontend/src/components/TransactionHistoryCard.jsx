@@ -3,18 +3,9 @@ import { useOutletContext } from "react-router-dom";
 import { ReceiveIcon, SendIcon } from "./Buttons/TransactionIcon";
 
 // @TODO
-const TransactionHistoryCard = ({ from, to, value, chainId }) => {
+const TransactionHistoryCard = ({ from, to, value, type, ticker, time }) => {
   const { currentAccount } = useOutletContext();
   const [type, setType] = useState("");
-
-  useEffect(() => {
-    if (currentAccount == from) {
-      setType("Sent");
-    }
-    if (currentAccount == to) {
-      setType("Received");
-    }
-  }, [type]);
 
   return (
     <>
