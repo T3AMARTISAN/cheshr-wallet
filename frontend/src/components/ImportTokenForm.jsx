@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { AuthContext } from "./Auth";
 
-export const ImportTokenForm = () => {
+export const ImportTokenForm = ({ setImportOpen, importOpen }) => {
   const [tokenAddress, setTokenAddress] = useState();
   const [ticker, setTicker] = useState();
   // 이전코드 const [api, setApi] = useState();
@@ -16,10 +16,9 @@ export const ImportTokenForm = () => {
 
   const { pw } = useOutletContext(AuthContext);
 
-  const navigate = useNavigate();
-
   const onSubmitImportToken = async (e) => {
     e.preventDefault();
+
     var api = "";
     var apiKey = "";
     if (currentNetwork == "Polygon") {
@@ -73,6 +72,7 @@ export const ImportTokenForm = () => {
         ]);
 
         alert("Importing Success");
+        setImportOpen(!importOpen);
       } else {
         console.log("Error");
       }
