@@ -102,6 +102,15 @@ const Tokens = () => {
         v.name
       );
     });
+    var currentNetwork = "Polygon";
+    const importedTokenData = localStorage.getItem(currentNetwork);
+    const importedToken = JSON.parse(importedTokenData);
+    importedToken?.map((v, i) => {
+      setBalance((prevBalance) => [
+        ...prevBalance,
+        { ticker: v.ticker, value: v.value },
+      ]);
+    });
   }, [currentAccount]);
 
   return (
