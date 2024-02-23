@@ -153,7 +153,14 @@ const Import = ({ setImportOpen, importOpen }) => {
         {/* 토글 */}
         <ImportToggleButton isToggled={isToggled} setIsToggled={setIsToggled} />
 
-        {isToggled ? <ImportLPForm /> : <ImportTokenForm />}
+        {isToggled ? (
+          <ImportLPForm />
+        ) : (
+          <ImportTokenForm
+            importOpen={importOpen}
+            setImportOpen={setImportOpen}
+          />
+        )}
       </div>
     </div>
   );
