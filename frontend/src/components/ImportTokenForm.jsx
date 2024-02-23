@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 import axios from "axios";
 import { AuthContext } from "./Auth";
@@ -7,8 +7,8 @@ import { AuthContext } from "./Auth";
 export const ImportTokenForm = () => {
   const [tokenAddress, setTokenAddress] = useState();
   const [ticker, setTicker] = useState();
-  const [api, setApi] = useState();
-  const [apiKey, setApiKey] = useState();
+  // 이전코드 const [api, setApi] = useState();
+  // 이전코드const [apiKey, setApiKey] = useState();
   const [balance, setBalance] = useState([]);
 
   const { currentProvider, currentNetwork, currentAccount } =
@@ -16,23 +16,38 @@ export const ImportTokenForm = () => {
 
   const { pw } = useOutletContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const onSubmitImportToken = async (e) => {
     e.preventDefault();
-
+    var api = "";
+    var apiKey = "";
     if (currentNetwork == "Polygon") {
-      setApi("api.polygonscan.com");
-      setApiKey(process.env.REACT_APP_POLYGONSCAN_API_KEY);
+      api = "api.polygonscan.com";
+      apiKey = process.env.REACT_APP_POLYGONSCAN_API_KEY;
+      // 이전코드 setApi("api.polygonscan.com");
+      // 이전코드 setApiKey(process.env.REACT_APP_POLYGONSCAN_API_KEY);
     } else if (currentNetwork == "Ethereum") {
-      setApi("api.etherscan.io");
-      setApiKey(process.env.REACT_APP_ETHERSCAN_API_KEY);
+      api = "api.etherscan.io";
+      apiKey = process.env.REACT_APP_ETHERSCAN_API_KEY;
+      // 이전코드 setApi("api.etherscan.io");
+      // 이전코드 setApiKey(process.env.REACT_APP_ETHERSCAN_API_KEY);
     } else if (currentNetwork == "Arbitrum") {
-      setApi("api.arbiscan.io");
-      setApiKey(process.env.REACT_APP_ARBISCAN_API_KEY);
+      api = "api.arbiscan.io";
+      apiKey = process.env.REACT_APP_ARBISCAN_API_KEY;
+      // 이전코드 setApi("api.arbiscan.io");
+      // 이전코드 setApiKey(process.env.REACT_APP_ARBISCAN_API_KEY);
     } else if (currentNetwork == "Optimism") {
-      setApi("api-optimistic.etherscan.io");
-      setApiKey(process.env.REACT_APP_OPTIMISMSCAN_API_KEY);
+      api = "api-optimistic.etherscan.io";
+      apiKey = process.env.REACT_APP_OPTIMISMSCAN_API_KEY;
+      // 이전코드 setApi("api-optimistic.etherscan.io");
+      // 이전코드 setApiKey(process.env.REACT_APP_OPTIMISMSCAN_API_KEY);
     }
 
+    if (!api || !tokenAddress) {
+      alert("Please try to import again");
+      return;
+    }
     try {
       const encryptedJson = localStorage.getItem("dexwalletData");
       const wallet = await ethers.Wallet.fromEncryptedJson(encryptedJson, pw);
@@ -47,14 +62,17 @@ export const ImportTokenForm = () => {
       if (abi != "") {
         const contract = new ethers.Contract(tokenAddress, abi, signer);
         const result = await contract.balanceOf(currentAccount);
-        setTicker(await contract.symbol());
+        var tick = await contract.symbol();
         // v6 : ethers.formatEther(String(result))
         // v5
         const value = ethers.utils.formatEther(String(result));
+        setTicker(tick);
         setBalance([
           ...balance,
-          { ticker: ticker, value: Number(value), address: tokenAddress },
+          { ticker: tick, value: Number(value), address: tokenAddress },
         ]);
+
+        alert("Importing Success");
       } else {
         console.log("Error");
       }
