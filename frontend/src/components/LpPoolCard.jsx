@@ -1,16 +1,8 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-import {
-  USDT_CONTRACT,
-  USDC_CONTRACT,
-  DAI_CONTRACT,
-  WETH_CONTRACT,
-} from "../tokenContracts/contractAddress.js";
 import { useOutletContext } from "react-router-dom";
-
-//test lp CA와 지갑은 현재 useEffect 인풋값으로 들어감.
+import { abiMainnetToken } from "../utils/abiToken.js";
 
 const LPPoolCard = ({
   _lpContractAddress,
@@ -18,53 +10,40 @@ const LPPoolCard = ({
   _pairname,
   totalValue,
   setTotalValue,
+  provider,
+  time,
 }) => {
   const { currentProvider, currentAccount } = useOutletContext();
 
   const [lpContract, setLpContract] = useState();
+  const [LPTokenAmount, setLPTokenAmount] = useState();
+  const [totalLpSupply, setTotalLpSupply] = useState();
   const [symbol0, setSymbol0] = useState();
   const [symbol1, setSymbol1] = useState();
-  const [LPTokenAmount, setLPTokenAmount] = useState();
-  const [tokens, setTokens] = useState([]);
-  const [primaryToken, setPrimaryToken] = useState("");
-  const [tvl, setTvl] = useState();
-  const [userLpValue, setUserLpValue] = useState();
-  const [totalLpSupply, setTotalLpSupply] = useState();
   const [reserve0, setReserve0] = useState();
   const [reserve1, setReserve1] = useState();
+  const [decimal0, setDecimal0] = useState();
+  const [decimal1, setDecimal1] = useState();
+  const [price0, setPrice0] = useState();
+  const [price1, setPrice1] = useState();
+  const [tvl, setTvl] = useState();
+  const [userLpValue, setUserLpValue] = useState();
   const [addedTotal, setAddedTotal] = useState(false);
-
-  //디파이 총합에 더하기
-  const addTotal = async () => {
-    try {
-      if (!userLpValue) return;
-      if (addedTotal == false) {
-        // console.log("43", typeof userLpValue);
-        var total = Number(totalValue) + Number(userLpValue);
-        setTotalValue(total);
-        setAddedTotal(true);
-      } else {
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   //하나의 LP 컨트랙트 주소를 받았을 때 lpCard의 contract 객체 설정
   const setLpCA = async () => {
     try {
-      if (!currentProvider) return;
-      const contract = new ethers.Contract(
-        _lpContractAddress,
-        _lpAbi,
-        currentProvider
-      );
-      setLpContract(contract);
-
-      const [name0, name1] = _pairname.split("-");
-      setSymbol0(name0);
-      setSymbol1(name1);
+      setTimeout(async () => {
+        console.log("35");
+        if (!provider) return;
+        console.log("37", _pairname);
+        const contract = new ethers.Contract(
+          _lpContractAddress,
+          _lpAbi,
+          provider
+        );
+        setLpContract(contract);
+      }, time * 100);
     } catch (error) {
       console.log(error);
     }
@@ -73,8 +52,7 @@ const LPPoolCard = ({
   //사용자가 보유한 LP 토큰 수
   const getUserLpAmount = async () => {
     try {
-      if (!lpContract) return;
-
+      if (!lpContract || userLpValue) return;
       var userLpAmount = await lpContract.balanceOf(
         process.env.REACT_APP_TEST_ACCOUNT // 여기를 currentAccount로 바꿔주면 테스트계정 말고 실제 계정으로 작동
       );
@@ -99,194 +77,137 @@ const LPPoolCard = ({
     }
   };
 
-  //스테이블코인이나 eth 처럼 tvl 계산에 사용할 primary token을 두 페어 중 앞에 배열해 구별해서 사용할 수 있도록 분류
-  const sortLpPairType = async () => {
+  //두 페어의 decimal, symbol 정보 가져오기
+  const getPairInfo = async () => {
     try {
-      if (!lpContract || LPTokenAmount == 0) return;
+      if (!lpContract || LPTokenAmount == 0 || !totalLpSupply) return;
 
       //lp Contract의 token0, token1이 어떤 토큰인지 저장
       var token0 = await lpContract.token0();
       token0 = token0.toLowerCase();
       var token1 = await lpContract.token1();
       token1 = token1.toLowerCase();
-      setTokens([token0, token1]);
 
-      //시세를 계산해 tvl 계산에 사용할 primary token을 usdt, usdc, dai, weth 중에서 정함
-
-      if (token0 == USDT_CONTRACT || token1 == USDT_CONTRACT) {
-        //USDT는 바이낸스에서 시세 가져오는 게 아니라 usdt = 1 usdt 이기 때문에 우선적으로 페어에 usdt 있는 경우 usdt를 primary token[0]으로 지정
-
-        if (token0 == USDT_CONTRACT) {
-          //usdt가 첫 번째 페어인 경우
-          setPrimaryToken(token0);
-        } else {
-          //usdt가 두 번째 페어인 경우
-          setPrimaryToken(token1);
-        }
-      } else if (
-        //USDC, DAI 있는 경우 이를 primary token으로 지정
-        token0 == USDC_CONTRACT ||
-        token0 == DAI_CONTRACT ||
-        token1 == USDC_CONTRACT ||
-        token1 == DAI_CONTRACT
-      ) {
-        if (token0 == USDC_CONTRACT || token0 == DAI_CONTRACT) {
-          //usdc, dai가 첫 번째 페어인 경우
-          setPrimaryToken(token0);
-        } else {
-          //usdc, dai가 두 번째 페어인 경우
-          setPrimaryToken(token1);
-        }
+      if (abiMainnetToken[token0] == "") {
+        //abi DB에 없는 경우 이더스캔으로 abi 가져와서 컨트랙트 구성
+        const contract_url = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+        const contract_response = await fetch(contract_url);
+        var { result } = await contract_response.json();
+        const contract_abi = result[0].ABI;
+        const contract_0 = new ethers.Contract(token0, contract_abi, provider);
       } else {
-        //나머지 경우는 다 WETH가 primary token
+        //js 파일에 저장된 abi로 컨트랙트 구성(provider 사용 줄이기 위해)
+        const contract_0 = new ethers.Contract(
+          token0,
+          abiMainnetToken[token0],
+          provider
+        );
+        //decimal0, symbol0 호출
+        const decimal_0 = await contract_0.decimals(); //bigint
+        var symbol_0 = await contract_0.symbol();
+        setSymbol0(symbol_0);
+        setDecimal0(Number(decimal_0));
+      }
 
-        if (token0 == WETH_CONTRACT) {
-          //weth가 첫 번째 페어인 경우
-          setPrimaryToken(token0);
-        } else if (token1 == WETH_CONTRACT) {
-          //weth가 두 번째 페어인 경우
-          setPrimaryToken(token1);
-        } else {
-          //혹시나 weth이 없는 lp 페어의 경우 지금은 에러 처리
-          console.log("error");
-        }
+      if (abiMainnetToken[token1] == "") {
+        //abi DB에 없는 경우 이더스캔으로 abi 가져와서 컨트랙트 구성
+        const contract_url = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${token1}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+        const contract_response = await fetch(contract_url);
+        var { result } = await contract_response.json();
+        const contract_abi = result[0].ABI;
+        const contract_1 = new ethers.Contract(token1, contract_abi, provider);
+      } else {
+        const contract_1 = await new ethers.Contract(
+          token1,
+          abiMainnetToken[token1],
+          provider
+        );
+        const decimal_1 = await contract_1.decimals();
+        var symbol_1 = await contract_1.symbol();
+        setSymbol1(symbol_1);
+        setDecimal1(Number(decimal_1));
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  //LP 풀의 TVL 구하기: primary token에 따라 구분하여 바이낸스 api 시세 활용해 TVL 구함
+  //각 페어의 수량, lp의 토큰별 reserve 구하기
+  const getAmount = async () => {
+    try {
+      const reserve = await lpContract.getReserves();
+      var reserve0 = Number(reserve[0]) / 10 ** decimal0;
+      var reserve1 = Number(reserve[1]) / 10 ** decimal1;
+      setReserve0(reserve0);
+      setReserve1(reserve1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //두 페어의 바이낸스 시세 가져오기
+  const getPrice = async () => {
+    try {
+      if (!LPTokenAmount || LPTokenAmount == 0 || !symbol1) return;
+
+      var symbol_0 = symbol0.toUpperCase();
+      if (symbol_0 == "WETH") {
+        //WETH-USDT인 경우 ETH-USDT로 변환해주어야 함
+        var pair_0 = "ETHUSDT";
+      } else {
+        var pair_0 = symbol_0 + "USDT";
+      }
+
+      var symbol_1 = symbol1.toUpperCase();
+
+      if (symbol_1 == "WETH") {
+        //WETH-USDT인 경우 ETH-USDT로 변환해주어야 함
+        var pair_1 = "ETHUSDT";
+      } else {
+        var pair_1 = symbol_1 + "USDT";
+      }
+
+      //binance 시세 불러오기
+      if (pair_0 != "USDTUSDT") {
+        //USDT-USDT인 경우 USDT 가격 = 1이므로 api 막아야 함
+        const response0 = await axios.get(
+          `https://api.binance.com/api/v1/ticker/price?symbol=${pair_0}`
+        );
+        var price0 = response0.data.price;
+        setPrice0(price0);
+      } else {
+        //USDT-USDT인 경우 USDT 가격 = 1이므로 api 막아야 함
+        setPrice0(1);
+      }
+
+      if (pair_1 != "USDTUSDT") {
+        const response1 = await axios.get(
+          `https://api.binance.com/api/v1/ticker/price?symbol=${pair_1}`
+        );
+        var price1 = response1.data.price;
+        setPrice1(price1);
+      } else {
+        setPrice1(1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //tvl 계산
   const getTvl = async () => {
     try {
-      if (primaryToken.length == 0) return;
-      if (LPTokenAmount == 0) return;
+      if (!price0 || !price1) return;
+      if ((reserve0 == 0 && reserve1 == 0) || !reserve0 || !reserve1) return;
 
-      if (primaryToken == USDT_CONTRACT) {
-        //primary token이 USDT인 경우
-
-        //token0과 token1 중 어떤 게 스테이블코인인지 파악해서 tvl 계산
-        if (tokens[0] == primaryToken) {
-          //token0 이 primaryToken인 경우
-
-          const reserve = await lpContract.getReserves();
-          var usdtReserve = Number(reserve[0]);
-          usdtReserve = usdtReserve / 10 ** 6; //decimal
-          setTvl(usdtReserve * 2);
-
-          setReserve0(Number(reserve[0]) / 10 ** 6);
-          setReserve1(Number(reserve[1]) / 10 ** 18);
-        } else {
-          //token1 이 primaryToken인 경우
-
-          const reserve = await lpContract.getReserves();
-          var usdtReserve = Number(reserve[1]);
-          usdtReserve = usdtReserve / 10 ** 6; //decimal
-          setTvl(usdtReserve * 2);
-
-          setReserve0(Number(reserve[0]) / 10 ** 18);
-          setReserve1(Number(reserve[1]) / 10 ** 6);
-        }
-      } else if (primaryToken == USDC_CONTRACT) {
-        //primary token이 USDC인 경우
-
-        //USDC-USDT 페어 시세 바이낸스에서 가져오기
-        var response = await axios.get(
-          "https://api.binance.com/api/v3/ticker/price"
-        );
-        var usdcUsdt = response.data[422].price;
-
-        if (tokens[0] == primaryToken) {
-          //token0 이 primaryToken인 경우
-
-          const reserve = await lpContract.getReserves();
-          var usdcReserve = Number(reserve[0]);
-          usdcReserve = usdcReserve / 10 ** 6; //decimal
-          setTvl(usdcUsdt * usdcReserve * 2);
-
-          setReserve0(Number(reserve[0]) / 10 ** 6);
-          setReserve1(Number(reserve[1]) / 10 ** 18);
-        } else {
-          //token1 이 primaryToken인 경우
-
-          const reserve = await lpContract.getReserves();
-          var usdcReserve = Number(reserve[1]);
-          usdcReserve = usdcReserve / 10 ** 6; //decimal
-          setTvl(usdcUsdt * usdcReserve * 2);
-
-          setReserve0(Number(reserve[0]) / 10 ** 18);
-          setReserve1(Number(reserve[1]) / 10 ** 6);
-        }
-      } else if (primaryToken == DAI_CONTRACT) {
-        //primary token이 DAI 경우
-
-        //DAI-USDT 페어 시세 바이낸스에서 가져오기
-        var response = await axios.get(
-          "https://api.binance.com/api/v3/ticker/price"
-        );
-        var daiUsdt = response.data[873].price;
-
-        if (tokens[0] == primaryToken) {
-          //token0 이 primaryToken인 경우
-
-          const reserve = await lpContract.getReserves();
-          var daiReserve = Number(reserve[0]);
-          daiReserve = daiReserve / 10 ** 18; //decimal
-          setTvl(daiUsdt * daiReserve * 2);
-
-          setReserve0(Number(reserve[0]) / 10 ** 18);
-          setReserve1(Number(reserve[1]) / 10 ** 18);
-        } else {
-          //token1 이 primaryToken인 경우
-
-          const reserve = await lpContract.getReserves();
-          var daiReserve = Number(reserve[1]);
-          daiReserve = daiReserve / 10 ** 18;
-          setTvl(daiUsdt * daiReserve * 2);
-
-          setReserve0(Number(reserve[0]) / 10 ** 18);
-          setReserve1(Number(reserve[1]) / 10 ** 18);
-        }
-      } else if (primaryToken == WETH_CONTRACT) {
-        //primary token이 WETH인 경우
-
-        //ETH-USDT 페어 시세 바이낸스에서 가져오기
-        var response = await axios.get(
-          "https://api.binance.com/api/v3/ticker/price"
-        );
-        var ethUsdt = response.data[12].price;
-
-        if (tokens[0] == primaryToken) {
-          //token0 이 primaryToken인 경우
-
-          const reserve = await lpContract.getReserves();
-          var ethReserve = Number(reserve[0]);
-          ethReserve = ethReserve / 10 ** 18; //decimal
-          setTvl(ethUsdt * ethReserve * 2);
-
-          setReserve0(Number(reserve[0]) / 10 ** 18);
-          setReserve1(Number(reserve[1]) / 10 ** 18);
-        } else {
-          //token1 이 primaryToken인 경우
-
-          const reserve = await lpContract.getReserves();
-          var ethReserve = Number(reserve[1]);
-          ethReserve = ethReserve / 10 ** 18; //decimal
-          setTvl(ethUsdt * ethReserve * 2);
-
-          setReserve0(Number(reserve[0]) / 10 ** 18);
-          setReserve1(Number(reserve[1]) / 10 ** 18);
-        }
-      } else {
-        //혹여나 걸러지지 않은 에러의 경우
-        console.log("getTvl error");
-      }
+      var tvl = reserve0 * price0 + reserve1 * price1;
+      setTvl(tvl);
     } catch (error) {
       console.log(error);
     }
   };
 
-  //최종적으로 사용자가 보유한 LP 토큰의 달러 가치 구하기
+  //최종적으로 사용자가 보유한 LP풀 지분의 달러 가치 구하기
   const getLpValue = async () => {
     try {
       if (!tvl || !LPTokenAmount || !totalLpSupply) return;
@@ -294,79 +215,114 @@ const LPPoolCard = ({
       userLpValue = Number(userLpValue);
       userLpValue = userLpValue.toFixed(4); //소수점 자리수
       setUserLpValue(userLpValue);
-
-      var amount0 = reserve0 * (LPTokenAmount / totalLpSupply);
-      setReserve0(amount0);
-      var amount1 = reserve1 * (LPTokenAmount / totalLpSupply);
-      setReserve1(amount1);
     } catch (error) {
       console.log(error);
     }
   };
 
-  //일 거래량으로 수익률 보여주기
-  // Volume24h * 0.003 * 365 * 100 / TVL
-  // const getAPY = async () => {
-  //   const response = await axios.get(
-  //     "https://api.geckoterminal.com/api/v2/networks/eth/dexes/uniswap_v2/pools"
-  //   );
-  //   console.log(response);
-  //   // var volume24 = response.data;
-  // };
+  //예치금 디파이 총합에 더하기
+  const addTotal = async () => {
+    try {
+      if (!userLpValue) return;
+      console.log("224 add total");
+      if (addedTotal == false) {
+        var total = Number(totalValue) + Number(userLpValue);
+        console.log("227", total);
+        setTotalValue(total);
+        setAddedTotal(true);
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    if (!currentProvider) {
+    if (!provider) {
       return;
     }
     setLpCA();
     // pepe-eth : 0xa43fe16908251ee70ef74718545e4fe6c5ccec9f
     // weth-usdt: "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852"
-  }, [currentProvider]);
+  }, [provider]);
 
   useEffect(() => {
-    if (!lpContract) {
+    if (!lpContract || userLpValue) {
       return;
     }
     getUserLpAmount();
   }, [lpContract]);
 
   useEffect(() => {
-    if (!lpContract || LPTokenAmount == 0) {
+    if (!lpContract || LPTokenAmount == 0 || userLpValue) {
       return;
     }
     getTotalLpSupply();
   }, [LPTokenAmount]);
 
   useEffect(() => {
-    if (!lpContract || LPTokenAmount == 0) {
+    if (
+      !lpContract ||
+      !LPTokenAmount ||
+      !totalLpSupply ||
+      LPTokenAmount == 0 ||
+      userLpValue
+    )
       return;
-    }
-    sortLpPairType();
-  }, [LPTokenAmount]);
+    getPairInfo();
+  }, [LPTokenAmount, totalLpSupply]);
 
   useEffect(() => {
-    if (primaryToken.length == 0 || !lpContract || LPTokenAmount == 0) {
+    if (!symbol1 || LPTokenAmount == 0 || !LPTokenAmount || userLpValue) return;
+    getPrice();
+  }, [symbol1, LPTokenAmount]);
+
+  useEffect(() => {
+    if (
+      LPTokenAmount == 0 ||
+      !LPTokenAmount ||
+      !totalLpSupply ||
+      !decimal1 ||
+      userLpValue
+    )
       return;
-    }
+    getAmount();
+  }, [LPTokenAmount, totalLpSupply, decimal1]);
+
+  useEffect(() => {
+    if (
+      !price0 ||
+      !price1 ||
+      LPTokenAmount == 0 ||
+      !LPTokenAmount ||
+      userLpValue
+    )
+      return;
+    if ((reserve0 == 0 && reserve1 == 0) || !reserve0 || !reserve1) return;
     getTvl();
-  }, [primaryToken]);
+  }, [price1, reserve1]);
 
   useEffect(() => {
-    if (!tvl || !LPTokenAmount || !totalLpSupply) {
+    if (
+      !tvl ||
+      LPTokenAmount == 0 ||
+      !totalLpSupply ||
+      !LPTokenAmount ||
+      userLpValue
+    ) {
       return;
     }
     getLpValue();
   }, [tvl]);
 
   useEffect(() => {
-    if (!userLpValue || addedTotal) return;
+    if (!userLpValue) return;
     addTotal();
   }, [userLpValue]);
 
   return (
     <>
-      {/* UNISWAP V2 POOL 예시 */}
-      {/* {userLpValue ? ( */}
       {userLpValue ? (
         <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-6 mt-4 mb-10 flex flex-col gap-2">
           {/* 헤더 */}
@@ -402,18 +358,15 @@ const LPPoolCard = ({
             <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
               <div className="flex flex-col justify-center">
                 <div>
-                  {/* {LPTokenName}: {_pairname} */}
-                  {/* {LPTokenName} */}
-                  {reserve0.toFixed(6)} {symbol0}
+                  {(reserve0 * (LPTokenAmount / totalLpSupply)).toFixed(6)}{" "}
+                  {symbol0}
                 </div>
                 <div className="m-sans-body-reveal">
-                  {/* {LPTokenName}: {_pairname} */}
-                  {/* {_pairname} */}
-                  {reserve1.toFixed(6)} {symbol1}
+                  {(reserve1 * (LPTokenAmount / totalLpSupply)).toFixed(6)}{" "}
+                  {symbol1}
                 </div>
               </div>
               <div>
-                {/* <div>{userLpValue}</div> */}
                 <div className="text-xl">${userLpValue}</div>
               </div>
             </div>
