@@ -5,7 +5,7 @@ import Optimism from "./Networks/Optimism";
 import Arbitrum from "./Networks/Arbitrum";
 import Sepolia from "./Networks/Sepolia";
 import Goerli from "./Networks/Goerli";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SlClose } from "react-icons/sl";
 
 const NetworkSwitch = () => {
@@ -14,13 +14,19 @@ const NetworkSwitch = () => {
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  const onClickLinea = () => {
-    setCurrentProvider();
-  };
+  // const onClickLinea = () => {
+  //   setCurrentProvider();
+  //   setIsOpen(!isOpen);
+  // };
 
-  const onClickAvalanche = () => {
-    setCurrentProvider();
-  };
+  // const onClickAvalanche = () => {
+  //   setCurrentProvider();
+  //   setIsOpen(!isOpen);
+  // };
+
+  useEffect(() => {
+    console.log(currentNetwork);
+  }, [currentNetwork]);
 
   return (
     <div className="relative mt-2">
@@ -39,8 +45,8 @@ const NetworkSwitch = () => {
             <div className="dm-sans-token-info text-lg text-center">
               MAIN NETWORK
             </div>
-            <Ethereum />
-            <Polygon />
+            <Ethereum isOpen={isOpen} setIsOpen={setIsOpen} />
+            <Polygon isOpen={isOpen} setIsOpen={setIsOpen} />
             {/*
         <button
           className="border rounded-lg border-black py-1 pl-1 mr-1"
@@ -49,8 +55,8 @@ const NetworkSwitch = () => {
           Linea Mainnet
         </button>
         */}
-            <Optimism />
-            <Arbitrum />
+            <Optimism isOpen={isOpen} setIsOpen={setIsOpen} />
+            <Arbitrum isOpen={isOpen} setIsOpen={setIsOpen} />
             {/*
         <button
           className="border rounded-lg border-black py-1 pl-1 mr-1"
@@ -62,8 +68,8 @@ const NetworkSwitch = () => {
             <div className="dm-sans-token-info text-lg pt-2 text-center">
               TEST NETWORK
             </div>
-            <Sepolia />
-            <Goerli />
+            <Sepolia isOpen={isOpen} setIsOpen={setIsOpen} />
+            <Goerli isOpen={isOpen} setIsOpen={setIsOpen} />
             <button className="my-4 text-center" onClick={toggleDropdown}>
               <SlClose className="text-base" />
             </button>

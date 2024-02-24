@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
-const Ethereum = () => {
+const Ethereum = ({ isOpen, setIsOpen }) => {
   const {
     setIsNetworkButtonClick,
     setCurrentProvider,
@@ -21,6 +21,7 @@ const Ethereum = () => {
     setCurrentNetwork("Ethereum");
     setUnit("ETH");
     setChainName("ethereum");
+    setIsOpen(!isOpen);
   };
 
   return (

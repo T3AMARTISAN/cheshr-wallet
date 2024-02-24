@@ -14,6 +14,7 @@ const TotalAsset = () => {
 
   useEffect(() => {
     const showMyBalance = async () => {
+      // 테스트 계정 잔액 표시 (필요 시 로그인 계정으로 수정)
       const response = await currentProvider.getBalance(testAccount);
       const value = ethers.utils.formatEther(String(response));
       setBalance(Number(value));
