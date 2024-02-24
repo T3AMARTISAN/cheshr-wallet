@@ -15,12 +15,7 @@ const TransactionHistory = () => {
   const [cryptoTxHistory, setCryptoTxHistory] = useState([]);
   const [txHistory, setTxHistory] = useState([]);
 
-  const {
-    currentProvider,
-    setCurrentProvider,
-    currentNetwork,
-    currentAccount,
-  } = useOutletContext;
+  const { currentProvider, currentNetwork, currentAccount } = useOutletContext;
 
   const findTokensHistory = async (currentAccount, tokenAddress, ticker) => {
     const erc20Transfers = [];
@@ -174,16 +169,6 @@ const TransactionHistory = () => {
       ]);
     });
   }, [tokenTxHistory, cryptoTxHistory]);
-
-  // 거래내역 화면에서 프로바이더 키 변경하기
-  useEffect(() => {
-    setCurrentProvider(
-      new ethers.providers.InfuraProvider(
-        currentNetwork,
-        process.env.INFURA_API_KEY_HISTORY
-      )
-    );
-  }, []);
 
   useEffect(() => {
     if (currentNetwork == "Polygon") {
