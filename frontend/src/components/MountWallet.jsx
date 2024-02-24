@@ -44,7 +44,7 @@ const MountWallet = () => {
   const createWallet = async () => {
     try {
       if (phrase) {
-        const newEOA = ethers.Wallet.fromPhrase(phrase);
+        const newEOA = ethers.Wallet.fromMnemonic(phrase);
         if (!newEOA) throw new Error();
       } else if (pvk) {
         const newEOA = new ethers.Wallet(pvk);
@@ -61,7 +61,7 @@ const MountWallet = () => {
     try {
       let newEOA;
       if (phrase) {
-        newEOA = ethers.Wallet.fromPhrase(phrase);
+        newEOA = ethers.Wallet.fromMnemonic(phrase);
         if (!newEOA) throw new Error();
       } else if (pvk) {
         newEOA = new ethers.Wallet(pvk);
