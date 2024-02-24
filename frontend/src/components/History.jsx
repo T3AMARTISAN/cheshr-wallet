@@ -14,8 +14,8 @@ const TransactionHistory = () => {
   const [tokenTxHistory, setTokenTxHistory] = useState([]);
   const [cryptoTxHistory, setCryptoTxHistory] = useState([]);
   const [txHistory, setTxHistory] = useState([]);
-
-  const { currentProvider, currentNetwork, currentAccount } = useOutletContext;
+  const [currentProvider, setCurrentProvider] = useState();
+  const { currentNetwork, currentAccount } = useOutletContext;
 
   const findTokensHistory = async (currentAccount, tokenAddress, ticker) => {
     const erc20Transfers = [];
@@ -186,6 +186,14 @@ const TransactionHistory = () => {
     });
   }, []);
 
+  useEffect(() => {
+    setCurrentProvider(
+      new ethers.providers.InfuraProvider(
+        currentNetwork,
+        process.env.INFURA_API_KEY_HISTORY
+      )
+    );
+  }, []);
   return (
     <div className="container-dashboard dashboard-bg pt-2 flex flex-col overflow-auto">
       <div className="bg-red-100 min-h-full m-5">
