@@ -6,8 +6,8 @@ import HistoryButton from "./Buttons/HistoryButton";
 const Menu = ({ tabNumber, setTabNumber }) => {
   return (
     <div className="dashboard-navibar">
-      <TokenButton tabNumber={tabNumber} setTabNumber={setTabNumber} />
       <DeFiButton tabNumber={tabNumber} setTabNumber={setTabNumber} />
+      <TokenButton tabNumber={tabNumber} setTabNumber={setTabNumber} />
       <NFTsButton tabNumber={tabNumber} setTabNumber={setTabNumber} />
       <HistoryButton tabNumber={tabNumber} setTabNumber={setTabNumber} />
     </div>
