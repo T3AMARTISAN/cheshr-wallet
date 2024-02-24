@@ -6,23 +6,29 @@ import { HiSelector } from "react-icons/hi";
 import MyOwnAsset from "./MyOwnAsset";
 import { AuthContext } from "./Auth";
 import BackButton from "./Buttons/BackButton";
+import {
+  ETH_TOKEN_ADDRESS,
+  POLYGON_TOKEN_ADDRESS,
+  ARBITRUM_TOKEN_ADDRESS,
+  OPTIMISM_TOKEN_ADDRESS,
+} from "../tokenContracts/tokenAddress";
 
 const Send = ({ setSendOpen, sendOpen }) => {
+  const [tokenAddress, setTokenAddress] = useState([]);
   const [value, setValue] = useState();
   const [toAddress, setToAddress] = useState();
   const [receipt, setReceipt] = useState([]);
-  const [myAsset, setMyAsset] = useState([]);
+  const [myAssets, setMyAssets] = useState([]);
   const [isClick, setIsClick] = useState(false);
   const [currentBalance, setCurrentBalance] = useState();
   const [currentTicker, setCurrentTicker] = useState();
   const [currentTokenAddress, setCurrentTokenAddress] = useState();
-  const [api, setApi] = useState();
-  const [apiKey, setApiKey] = useState();
   const [isErc, setIsErc] = useState(false);
 
-  const { currentProvider, currentNetwork, balance, unit, currentAccount } =
+  const { currentProvider, /*currentNetwork,*/ balance, unit, currentAccount } =
     useOutletContext();
   const { pw } = useContext(AuthContext);
+  var currentNetwork = "Polygon";
 
   const onClickSelectAsset = () => {
     setIsClick(!isClick);
@@ -51,14 +57,14 @@ const Send = ({ setSendOpen, sendOpen }) => {
             value: ethers.utils.parseEther(value),
           };
           const result = await signer.sendTransaction(tx);
-          setReceipt([
+          /*setReceipt([
             ...receipt,
             {
               from: result.from,
               to: result.to,
               value: Number(result.value),
             },
-          ]);
+          ]);*/
         } catch (error) {
           console.error(error);
         }
@@ -66,18 +72,20 @@ const Send = ({ setSendOpen, sendOpen }) => {
       Send();
     } else {
       async function SendToken() {
+        var api = "";
+        var apiKey = "";
         if (currentNetwork == "Polygon") {
-          setApi("api.polygonscan.com");
-          setApiKey(process.env.REACT_APP_POLYGONSCAN_API_KEY);
+          api = "api.polygonscan.com";
+          apiKey = process.env.REACT_APP_POLYGONSCAN_API_KEY;
         } else if (currentNetwork == "Ethereum") {
-          setApi("api.etherscan.io");
-          setApiKey(process.env.REACT_APP_ETHERSCAN_API_KEY);
+          api = "api.etherscan.io";
+          apiKey = process.env.REACT_APP_ETHERSCAN_API_KEY;
         } else if (currentNetwork == "Arbitrum") {
-          setApi("api.arbiscan.io");
-          setApiKey(process.env.REACT_APP_ARBISCAN_API_KEY);
+          api = "api.arbiscan.io";
+          apiKey = process.env.REACT_APP_ARBISCAN_API_KEY;
         } else if (currentNetwork == "Optimism") {
-          setApi("api-optimistic.etherscan.io");
-          setApiKey(process.env.REACT_APP_OPTIMISMSCAN_API_KEY);
+          api = "api-optimistic.etherscan.io";
+          apiKey = process.env.REACT_APP_OPTIMISMSCAN_API_KEY;
         }
         try {
           const encryptedJson = localStorage.getItem("dexwalletData");
@@ -126,6 +134,90 @@ const Send = ({ setSendOpen, sendOpen }) => {
   const onClickBack = () => {
     setSendOpen(!sendOpen);
   };
+
+  const setMyAsset = async (currentAccount, tokenAddress, ticker) => {
+    if (!currentAccount || !tokenAddress || !ticker) return;
+
+    var currentProvider = new ethers.providers.InfuraProvider(
+      "matic",
+      process.env.REACT_APP_POLYGONSCAN_API_KEY
+    );
+    const erc20Transfers = [];
+    const filter = {
+      address: tokenAddress,
+      // v6 : topics: [ethers.id("Transfer(address,address,uint256)")],
+      // v5
+      topics: [ethers.utils.id("Transfer(address,address,uint256)")],
+      fromBlock: (await currentProvider.getBlockNumber()) - 100,
+      toBlock: await currentProvider.getBlockNumber(),
+    };
+
+    const logs = await currentProvider.getLogs(filter);
+    for (const log of logs) {
+      // v6 : const abiCoder = ethers.AbiCoder.defaultAbiCoder();
+      //      const parsedLog = abiCoder.decode(["uint256"], log.data);
+      // v5
+      const parsedLog = ethers.utils.defaultAbiCoder.decode(
+        ["uint256"],
+        log.data
+      );
+
+      const tokenAddress = log.address;
+      const from = "0x" + log.topics[1].substring(26);
+      const to = "0x" + log.topics[2].substring(26);
+      // v6 : const value = Number(ethers.formatEther(String(parsedLog[0])));
+      // v5
+      const value = Number(ethers.utils.formatEther(String(parsedLog[0])));
+      erc20Transfers.push([{ tokenAddress, from, to, value }]);
+    }
+
+    var tokenBalances = 0;
+    const addr = currentAccount.toLowerCase();
+    for (const transfer of erc20Transfers) {
+      if (transfer[0].from === addr) {
+        if (tokenBalances === 0) {
+          tokenBalances = -transfer[0].value;
+        } else {
+          tokenBalances -= transfer[0].value;
+        }
+      }
+      if (transfer[0].to === addr) {
+        if (tokenBalances === 0) {
+          tokenBalances = transfer[0].value;
+        } else {
+          tokenBalances += transfer[0].value;
+        }
+      }
+    }
+    setMyAssets((prevMyAssets) => [
+      ...prevMyAssets,
+      { ticker: ticker, value: tokenBalances, address: tokenAddress },
+    ]);
+  };
+  useEffect(() => {
+    if (!currentAccount) return;
+    tokenAddress?.map(async (v, i) => {
+      await setMyAsset(
+        "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382",
+        v.address,
+        v.name
+      );
+    });
+  }, []);
+  useEffect(() => {
+    console.log(208, myAssets);
+  }, [myAssets]);
+  useEffect(() => {
+    if (currentNetwork == "Polygon") {
+      setTokenAddress(POLYGON_TOKEN_ADDRESS);
+    } else if (currentNetwork == "Ethereum") {
+      setTokenAddress(ETH_TOKEN_ADDRESS);
+    } else if (currentNetwork == "Arbitrum") {
+      setTokenAddress(ARBITRUM_TOKEN_ADDRESS);
+    } else if (currentNetwork == "Optimism") {
+      setTokenAddress(OPTIMISM_TOKEN_ADDRESS);
+    }
+  }, []);
 
   useEffect(() => {
     const jsonArray = JSON.stringify(receipt);
@@ -205,22 +297,23 @@ const Send = ({ setSendOpen, sendOpen }) => {
                     </p>
                   </div>
                   {/* 보유한 토큰 리스트 */}
-                  {myAsset.map((v, i) => {
-                    v.value !== "0.0" && (
-                      <MyOwnAsset
-                        key={i}
-                        ticker={v.ticker}
-                        value={v.value}
-                        tokenAddress={v.address}
-                        isClick={isClick}
-                        setIsClick={setIsClick}
-                        setCurrentBalance={setCurrentBalance}
-                        setCurrentTicker={setCurrentTicker}
-                        setIsErc={setIsErc}
-                        setCurrentTokenAddress={setCurrentTokenAddress}
-                      />
-                    );
-                  })}
+                  {/*myAsset.map(
+                    (v, i) =>
+                      v.value !== "0.0" && (
+                        <MyOwnAsset
+                          key={i}
+                          ticker={v.ticker}
+                          value={v.value}
+                          tokenAddress={v.address}
+                          isClick={isClick}
+                          setIsClick={setIsClick}
+                          setCurrentBalance={setCurrentBalance}
+                          setCurrentTicker={setCurrentTicker}
+                          setIsErc={setIsErc}
+                          setCurrentTokenAddress={setCurrentTokenAddress}
+                        />
+                      )
+                      )*/}
                 </>
               ) : (
                 // 클릭하면 드롭다운 닫기
