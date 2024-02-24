@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { ethers } from "ethers";
+import WalletDropdown from "./WalletDropdown";
 
 const Layout = () => {
   const [isNetworkButtonClick, setIsNetworkButtonClick] = useState(false);
