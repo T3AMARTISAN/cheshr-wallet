@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
-const Sepolia = () => {
+const Sepolia = ({ isOpen, setIsOpen }) => {
   const {
     setIsNetworkButtonClick,
     setCurrentProvider,
@@ -19,6 +19,7 @@ const Sepolia = () => {
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Sepolia");
     setUnit("SepoliaETH");
+    setIsOpen(!isOpen);
   };
 
   return (

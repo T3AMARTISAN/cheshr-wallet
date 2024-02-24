@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
-const Optimism = () => {
+const Optimism = ({ isOpen, setIsOpen }) => {
   const {
     setIsNetworkButtonClick,
     setCurrentProvider,
@@ -21,6 +21,7 @@ const Optimism = () => {
     setCurrentNetwork("Optimism");
     setUnit("ETH");
     setChainName("optimism");
+    setIsOpen(!isOpen);
   };
   return (
     <button className="toggle-menu text-sm" onClick={onClickOptimism}>

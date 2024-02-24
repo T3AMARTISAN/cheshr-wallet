@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
-const Goerli = () => {
+const Goerli = ({ isOpen, setIsOpen }) => {
   const {
     setIsNetworkButtonClick,
     setCurrentProvider,
@@ -19,6 +19,7 @@ const Goerli = () => {
     setIsNetworkButtonClick(false);
     setCurrentNetwork("Goerli");
     setUnit("GoerliETH");
+    setIsOpen(!isOpen);
   };
 
   return (
