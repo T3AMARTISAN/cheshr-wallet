@@ -50,6 +50,81 @@ const LpPoolCardUniswapV3 = ({
   const [symbol0, setSymbol0] = useState();
   const [symbol1, setSymbol1] = useState();
   const [addedTotal, setAddedTotal] = useState(false);
+  const [apy, setApy] = useState();
+  const [v3PoolAddress, setV3PoolAddress] = useState();
+
+  const getApy = async () => {
+    //tvl 구해야 함. sync event로 가장 최근 블록에서 reserve 구해서 tvl 구해야 함. 이 tvl로 apy 계산해야 함
+    var tvl;
+    if (!Decimal0) return;
+    var total;
+    // console.log("34");
+
+    const erc20Abi = [
+      "event Swap(address indexed sender, uint amount0In, uint amount1In, uint amount0Out, uint amount1Out, address indexed to)",
+    ];
+
+    const contract = new ethers.Contract(v3PoolAddress, erc20Abi, provider);
+
+    // const addresses = ["0x524b7c9b4ca33ba72445dfd2d6404c81d8d1f2e3"];
+
+    const startBlock = 19304286 - 7100; // Start block number
+    const endBlock = 19304286;
+
+    // Function to fetch and log transfer events for a given address
+    async function getTotalFromSwapTx() {
+      if (!Decimal0 || !tvl) return;
+      // console.log("55");
+      const filter = {
+        fromBlock: startBlock,
+        toBlock: endBlock,
+        address: v3PoolAddress,
+        topics: [
+          ethers.utils.id(
+            "Swap(address,uint256,uint256,uint256,uint256,address)"
+          ),
+          null,
+          null, // Pad the address to 32 bytes
+        ],
+      };
+      const logs = await provider.getLogs(filter); // 여기서 blockNumber 추출 가능
+      var parsedLog;
+      var totalToken0Swaped = [];
+      logs.forEach((log) => {
+        parsedLog = contract.interface.parseLog(log);
+        // console.log(
+        //   Number(parsedLog.args.amount0In._hex) +
+        //     Number(parsedLog.args.amount0Out._hex)
+        // );
+        totalToken0Swaped.push(
+          Number(parsedLog.args.amount0In._hex) +
+            Number(parsedLog.args.amount0Out._hex)
+        );
+      });
+      // console.log(totalToken0Swaped);
+      var sum = 0;
+      for (let i = 0; i < totalToken0Swaped.length; i++) {
+        sum += totalToken0Swaped[i];
+      }
+      var dayVolume = (sum * price0) / 10 ** Decimal0;
+      var apyTemp = ((dayVolume * 0.003 * 365) / tvl) * 100;
+      console.log("apy", symbol0, symbol1, apyTemp);
+      setApy(apyTemp);
+    }
+
+    try {
+      getTotalFromSwapTx();
+      // console.log(total);
+    } catch (err) {
+      console.error(`Error fetching logs for address: haha`, err);
+    }
+  };
+
+  useEffect(() => {
+    if (!currentProvider || !Decimal0 || !v3PoolAddress) return;
+
+    getApy();
+  }, [currentProvider, Decimal0, v3PoolAddress]);
 
   //lp 지분, 미청구 수수료 빅넘버 계산 시 필요한 값들
   // https://blog.uniswap.org/uniswap-v3-math-primer-2 코드 참고해서 작성
@@ -80,6 +155,7 @@ const LpPoolCardUniswapV3 = ({
       );
 
       pairContractAddress = pairContractAddress.toLowerCase();
+      setV3PoolAddress(pairContractAddress);
 
       if (!abiLPUniV3Mainnet[pairContractAddress]) {
         // setSqrtPriceX96("1");
