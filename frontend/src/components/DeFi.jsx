@@ -13,11 +13,17 @@ import LpPoolCardUniswapV3Optimism from "./LpPoolCardUniswapV3Optimism";
 
 //사용자가 보유한 LP 토큰을 보여주는 화면
 const DeFi = () => {
-  const { currentAccount, setCurrentAccount, currentProvider, currentNetwork } =
-    useOutletContext(); //테스트->실제로 변경  시  setCurrentAccount useEffect 제거하면 됨
-  const [lpV2Array, setLpV2Array] = useState(); //사용자의 lp 잔고 조회할 모든 컨트랙트 주소 담은 배열 (여기에 LP.json과 로컬 json 담아준다)
-  const [addLpButtonIsClicked, setAddLpButtonIsClicked] = useState(0); //모달창 화면 관리 상태변수
-  const [addedLps, setAddedLps] = useState([]); //로컬에 저장된 LP의 목록을 리액트로 불러와 관리(추가)하기 위한 상태변수
+  const {
+    lpV2Array,
+    setLpV2Array,
+    currentAccount,
+    setCurrentAccount,
+    currentProvider,
+    currentNetwork,
+    addedLps,
+    importOpen,
+  } = useOutletContext(); //테스트->실제로 변경  시  setCurrentAccount useEffect 제거하면 됨
+
   const [lpV3Array, setLpV3Array] = useState();
   const [lpV3ArrayPolygon, setLpV3ArrayPolygon] = useState();
   const [lpV3ArrayOptimism, setLpV3ArrayOptimism] = useState();
@@ -145,7 +151,8 @@ const DeFi = () => {
   const getMyV2Lps = () => {
     // if (!currentAccount) return;
     if (currentNetwork != "Ethereum") return;
-
+    // if (addLpButtonIsClicked != 0) return;
+    console.log("156 getv2lps entered function");
     //모든 lp 담아줄 임시 배열
     var temp = [];
 
@@ -157,16 +164,19 @@ const DeFi = () => {
 
     //로컬에 따로 저장된 게 없을 때에는 json 파일에 있는 주소만으로 lpArray 구성
     if (!localLps) {
+      console.log("166 no local");
       setLpV2Array(temp);
       return;
     }
 
     //로컬에 저장된 게 있는 경우 불러와서 Lp.json과 합쳐서 lpArray 구성
     const parsedLps = JSON.parse(localLps);
-    setAddedLps(parsedLps);
+    console.log("165 get local lp", parsedLps);
+    // setAddedLps(parsedLps);
     temp = [...temp, ...parsedLps];
 
     setLpV2Array(temp);
+    console.log("179", lpV2Array);
   };
 
   // //테스트 시 테스트 지갑 주소 하드코딩 부분. 테스트 ->실제 변경 시 유즈이펙트 제거해주면 됨
@@ -176,11 +186,13 @@ const DeFi = () => {
 
   //로컬에 lp가 추가되거나(AddLpModal.jsx에서) 계정에 로그인되었을 때 useEffect로 전체 lpArray 배열을 업데이트해준다.
   useEffect(() => {
-    // if (addLpButtonIsClicked != 0) return;
+    console.log("187 getv2lps useeffect entered");
+    if (importOpen == true) return;
     if (currentNetwork != "Ethereum") return;
     if (!provider) return;
     getMyV2Lps();
-  }, [provider]);
+    console.log("191 getv2lps useeffect done");
+  }, [provider, importOpen]);
   return (
     <div className="container-dashboard dashboard-bg border-t-0 relative flex flex-col">
       <div className="flex-grow overflow-auto">

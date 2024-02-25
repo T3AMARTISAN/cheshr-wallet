@@ -8,7 +8,7 @@ import ImportToggleButton from "./Buttons/ImportToggleButton";
 import { ImportTokenForm } from "./ImportTokenForm";
 import { ImportLPForm } from "../ImportLPForm";
 
-const Import = ({ setImportOpen, importOpen }) => {
+const Import = () => {
   const [value, setValue] = useState();
   const [toAddress, setToAddress] = useState();
   const [receipt, setReceipt] = useState([]);
@@ -21,8 +21,15 @@ const Import = ({ setImportOpen, importOpen }) => {
   const [isErc, setIsErc] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
 
-  const { currentProvider, currentNetwork, balance, unit, currentAccount } =
-    useOutletContext();
+  const {
+    currentProvider,
+    currentNetwork,
+    balance,
+    unit,
+    currentAccount,
+    importOpen,
+    setImportOpen,
+  } = useOutletContext();
   const { pw } = useContext(AuthContext);
 
   const onSubmitSend = (e) => {
@@ -153,14 +160,7 @@ const Import = ({ setImportOpen, importOpen }) => {
         {/* 토글 */}
         <ImportToggleButton isToggled={isToggled} setIsToggled={setIsToggled} />
 
-        {isToggled ? (
-          <ImportLPForm />
-        ) : (
-          <ImportTokenForm
-            importOpen={importOpen}
-            setImportOpen={setImportOpen}
-          />
-        )}
+        {isToggled ? <ImportLPForm /> : <ImportTokenForm />}
       </div>
     </div>
   );
