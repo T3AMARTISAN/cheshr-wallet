@@ -29,72 +29,6 @@ const LPPoolCard = ({
   const [tvl, setTvl] = useState();
   const [userLpValue, setUserLpValue] = useState();
   const [addedTotal, setAddedTotal] = useState(false);
-  const [apy, setApy] = useState();
-
-  const getApy = async () => {
-    if (!decimal0 || !tvl) return;
-
-    const contractAddress = _lpContractAddress;
-    const erc20Abi = [
-      "event Swap(address indexed sender, uint amount0In, uint amount1In, uint amount0Out, uint amount1Out, address indexed to)",
-    ];
-
-    const contract = new ethers.Contract(
-      _lpContractAddress,
-      erc20Abi,
-      provider
-    );
-
-    const startBlock = 19304286 - 7140; // Start block number
-    const endBlock = 19304286;
-
-    // Function to fetch and log transfer events for a given address
-    async function getTotalFromSwapTx() {
-      if (!decimal0 || !tvl) return;
-      const filter = {
-        fromBlock: startBlock,
-        toBlock: endBlock,
-        address: _lpContractAddress,
-        topics: [
-          ethers.utils.id(
-            "Swap(address,uint256,uint256,uint256,uint256,address)"
-          ),
-          null,
-          null, // Pad the address to 32 bytes
-        ],
-      };
-      const logs = await provider.getLogs(filter); // 여기서 blockNumber 추출 가능
-      var parsedLog;
-      var totalToken0Swaped = [];
-      logs.forEach((log) => {
-        parsedLog = contract.interface.parseLog(log);
-        totalToken0Swaped.push(
-          Number(parsedLog.args.amount0In._hex) +
-            Number(parsedLog.args.amount0Out._hex)
-        );
-      });
-      var sum = 0;
-      for (let i = 0; i < totalToken0Swaped.length; i++) {
-        sum += totalToken0Swaped[i];
-      }
-      var dayVolume = (sum * price0) / 10 ** decimal0;
-      var apyTemp = ((dayVolume * 0.003 * 365) / tvl) * 100;
-      console.log("apy", _pairname, apyTemp);
-      setApy(apyTemp);
-    }
-
-    try {
-      getTotalFromSwapTx();
-    } catch (err) {
-      console.error(`Error fetching logs for address: haha`, err);
-    }
-  };
-
-  useEffect(() => {
-    if (!currentProvider || !decimal0 || !tvl) return;
-
-    getApy();
-  }, [currentProvider, decimal0, tvl]);
 
   //하나의 LP 컨트랙트 주소를 받았을 때 lpCard의 contract 객체 설정
   const setLpCA = async () => {
@@ -389,14 +323,14 @@ const LPPoolCard = ({
 
   return (
     <>
-      {userLpValue && apy ? (
+      {userLpValue ? (
         <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-6 mt-4 mb-10 flex flex-col gap-2">
           {/* 헤더 */}
           <div className="dm-sans-defi flex flex-row justify-between items-center m-4">
             <div>UNISWAP V2 POOL</div>
             <div className="flex flex-col items-start">
               {/* 수익률 */}
-              <div className="text-rose-500">{`%${apy.toFixed(2)}`}</div>
+              <div className="text-rose-500">-%0.04</div>
               {/* 수익률 기간토글 */}
               <div className="flex flex-row gap-1 items-center text-xs ">
                 <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
