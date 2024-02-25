@@ -7,9 +7,15 @@ import Import from "./ImportModal";
 
 const TotalAsset = () => {
   const testAccount = process.env.REACT_APP_TEST_ACCOUNT;
-  const { currentProvider, balance, setBalance, unit } = useOutletContext();
+  const {
+    currentProvider,
+    balance,
+    setBalance,
+    unit,
+    importOpen,
+    setImportOpen,
+  } = useOutletContext();
   const [sendOpen, setSendOpen] = useState(false);
-  const [importOpen, setImportOpen] = useState(false);
   const [date, setDate] = useState("");
 
   useEffect(() => {
@@ -64,7 +70,7 @@ const TotalAsset = () => {
         )}
         {/* Import 기능 */}
         {importOpen ? (
-          <Import importOpen={importOpen} setImportOpen={setImportOpen} />
+          <Import />
         ) : (
           <div
             className="feed-button click:bg-purple-300 hover:bg-purple-400"

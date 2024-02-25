@@ -4,15 +4,20 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { AuthContext } from "./Auth";
 
-export const ImportTokenForm = ({ setImportOpen, importOpen }) => {
+export const ImportTokenForm = () => {
   const [tokenAddress, setTokenAddress] = useState();
   const [ticker, setTicker] = useState();
   // 이전코드 const [api, setApi] = useState();
   // 이전코드const [apiKey, setApiKey] = useState();
   const [balance, setBalance] = useState([]);
 
-  const { currentProvider, currentNetwork, currentAccount } =
-    useOutletContext();
+  const {
+    currentProvider,
+    currentNetwork,
+    currentAccount,
+    setImportOpen,
+    importOpen,
+  } = useOutletContext();
 
   const { pw } = useOutletContext(AuthContext);
 

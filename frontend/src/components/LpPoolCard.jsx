@@ -13,7 +13,7 @@ const LPPoolCard = ({
   provider,
   time,
 }) => {
-  const { currentProvider, currentAccount } = useOutletContext();
+  const { currentProvider, currentAccount, addedLps } = useOutletContext();
 
   const [lpContract, setLpContract] = useState();
   const [LPTokenAmount, setLPTokenAmount] = useState();
@@ -245,7 +245,7 @@ const LPPoolCard = ({
     setLpCA();
     // pepe-eth : 0xa43fe16908251ee70ef74718545e4fe6c5ccec9f
     // weth-usdt: "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852"
-  }, [provider]);
+  }, [provider, addedLps]);
 
   useEffect(() => {
     if (!lpContract || userLpValue) {

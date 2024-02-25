@@ -8,8 +8,16 @@ import { AuthContext } from "./components/Auth";
 // 이 lp 컨트랙트로 실험해보면 로컬 추가 후 테스트계정의 디파이 화면에 lp 추가되는 것 확인 가능
 
 export const ImportLPForm = () => {
-  const { currentProvider } = useOutletContext(); //새로 추가된 lp 컨트랙트 정보 불러오기 위해 필
-  const { addedLps, setAddedLps, lpArray } = useContext(AuthContext);
+  const {
+    currentProvider,
+    lpV2Array,
+    setLpV2Array,
+    currentNetwork,
+    addedLps,
+    setAddedLps,
+    importOpen,
+    setImportOpen,
+  } = useOutletContext(); //새로 추가된 lp 컨트랙트 정보 불러오기 위해 필요
   const [addLpButtonIsClicked, setAddLpButtonIsClicked] = useState(1); //모달창 화면 관리 상태변수
   const [newLp, setNewLp] = useState(""); //페어 추가 컨펌 화면에 페어 이름과 주소 보여주기 위해 상태변수로 저장
   const [newLpAddress, setNewLpAddress] = useState(""); //사용자 인풋으로 받은 주소 관리하는 상태변수
@@ -30,7 +38,7 @@ export const ImportLPForm = () => {
       //이미 있는 lp 컨트랙트인지 확인
       //count로 동일 주소가 있는지 세주고 판단 기준(>0)으로 사용
       var count = 0;
-      lpArray.map((v, i) => {
+      lpV2Array.map((v, i) => {
         if (v.address == lowercaseLpAddress) {
           count++;
           return;
@@ -59,12 +67,24 @@ export const ImportLPForm = () => {
     try {
       //etherscan api로 ABI 가져와 ethers 컨트랙트 구성((1)이게 안 되면 제대로 된 lp 주소 아니고, (2) 페어 이름 불러오기 위해 컨트랙트 객체 필요)
       var contractAddress = _contractAddress.toString();
-      const contract_url = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${contractAddress}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+      var contract_url;
+      if (currentNetwork == "Ethereum") {
+        contract_url = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${contractAddress}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+      } else if (currentNetwork == "Polygon") {
+        contract_url = `https://api.polygonscan.com/api?module=contract&action=getsourcecode&address=${contractAddress}&apikey=${process.env.REACT_APP_POLYGONSCAN_API_KEY}`;
+      } else if (currentNetwork == "Optimism") {
+        contract_url = `https://api-optimistic.etherscan.io/api?module=contract&action=getsourcecode&address=${contractAddress}&apikey=${process.env.REACT_APP_OPTIMISMSCAN_API_KEY}`;
+      } else {
+        console.log("network unavailable");
+        setAddLpButtonIsClicked(3);
+        setNewLpAddress("");
+      }
+
       const contract_response = await fetch(contract_url);
       var { result } = await contract_response.json();
       const contract_abi = result[0].ABI;
       const contract = new ethers.Contract(
-        _contractAddress,
+        contractAddress,
         contract_abi,
         currentProvider
       );
@@ -72,7 +92,19 @@ export const ImportLPForm = () => {
       // token0 이름 불러오고
       var token0 = await contract.token0();
       token0 = token0.toString();
-      const contract_url_0 = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+      var contract_url_0;
+      if (currentNetwork == "Ethereum") {
+        contract_url_0 = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+      } else if (currentNetwork == "Polygon") {
+        contract_url_0 = `https://api.polygonscan.com/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_POLYGONSCAN_API_KEY}`;
+      } else if (currentNetwork == "Optimism") {
+        contract_url_0 = `https://api-optimistic.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_OPTIMISMSCAN_API_KEY}`;
+      } else {
+        console.log("network unavailable");
+        setAddLpButtonIsClicked(3);
+        setNewLpAddress("");
+      }
+
       const contract_response_0 = await fetch(contract_url_0);
       var { result } = await contract_response_0.json();
       const contract_abi_0 = result[0].ABI;
@@ -86,7 +118,19 @@ export const ImportLPForm = () => {
       // token1 이름 불러와서
       var token1 = await contract.token1();
       token1 = token1.toString();
-      const contract_url_1 = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${token1}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+      var contract_url_1;
+      if (currentNetwork == "Ethereum") {
+        contract_url_1 = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${token1}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+      } else if (currentNetwork == "Polygon") {
+        contract_url_1 = `https://api.polygonscan.com/api?module=contract&action=getsourcecode&address=${token1}&apikey=${process.env.REACT_APP_POLYGONSCAN_API_KEY}`;
+      } else if (currentNetwork == "Optimism") {
+        contract_url_1 = `https://api-optimistic.etherscan.io/api?module=contract&action=getsourcecode&address=${token1}&apikey=${process.env.REACT_APP_OPTIMISMSCAN_API_KEY}`;
+      } else {
+        console.log("network unavailable");
+        setAddLpButtonIsClicked(3);
+        setNewLpAddress("");
+      }
+
       const contract_response_1 = await fetch(contract_url_1);
       var { result } = await contract_response_1.json();
       const contract_abi_1 = result[0].ABI;
@@ -112,10 +156,11 @@ export const ImportLPForm = () => {
         ...addedLps,
         {
           name: pairName,
-          address: _contractAddress,
+          address: contractAddress,
           abi: contract_abi,
         },
       ]);
+      console.log("162 addedlps changed");
       //정확한 페어인지 최종적으로 확인하는 컨펌 화면으로 넘겨준다.
       setAddLpButtonIsClicked(2);
     } catch (error) {
@@ -131,6 +176,8 @@ export const ImportLPForm = () => {
     //로컬에 입력
     const jsonLpArray = JSON.stringify(addedLps);
     localStorage.setItem("addedLps", jsonLpArray);
+    setNewLpAddress("");
+    setImportOpen(!importOpen);
   };
 
   return (
