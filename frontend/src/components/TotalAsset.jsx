@@ -7,13 +7,20 @@ import Import from "./ImportModal";
 
 const TotalAsset = () => {
   const testAccount = process.env.REACT_APP_TEST_ACCOUNT;
-  const { currentProvider, balance, setBalance, unit } = useOutletContext();
+  const {
+    currentProvider,
+    balance,
+    setBalance,
+    unit,
+    importOpen,
+    setImportOpen,
+  } = useOutletContext();
   const [sendOpen, setSendOpen] = useState(false);
-  const [importOpen, setImportOpen] = useState(false);
   const [date, setDate] = useState("");
 
   useEffect(() => {
     const showMyBalance = async () => {
+      // 테스트 계정 잔액 표시 (필요 시 로그인 계정으로 수정)
       const response = await currentProvider.getBalance(testAccount);
       const value = ethers.utils.formatEther(String(response));
       setBalance(Number(value));
@@ -63,7 +70,7 @@ const TotalAsset = () => {
         )}
         {/* Import 기능 */}
         {importOpen ? (
-          <Import importOpen={importOpen} setImportOpen={setImportOpen} />
+          <Import />
         ) : (
           <div
             className="feed-button click:bg-purple-300 hover:bg-purple-400"

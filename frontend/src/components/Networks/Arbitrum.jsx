@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
-const Arbitrum = () => {
+const Arbitrum = ({ isOpen, setIsOpen }) => {
   const {
     setIsNetworkButtonClick,
     setCurrentProvider,
@@ -23,6 +23,7 @@ const Arbitrum = () => {
     setCurrentNetwork("Arbitrum");
     setUnit("ETH");
     setChainName("arbitrum");
+    setIsOpen(!isOpen);
   };
   return (
     <button className="toggle-menu text-sm" onClick={onClickArbitrum}>

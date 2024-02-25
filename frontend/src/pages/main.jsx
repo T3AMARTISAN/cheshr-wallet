@@ -23,8 +23,8 @@ const Main = () => {
       </div>
       <div className="my-3">
         <Menu tabNumber={tabNumber} setTabNumber={setTabNumber} />
-        {tabNumber == 0 ? <Tokens /> : ""}
-        {tabNumber == 1 ? <DeFi /> : ""}
+        {tabNumber == 0 ? <DeFi /> : ""}
+        {tabNumber == 1 ? <Tokens /> : ""}
         {tabNumber == 2 ? <Nfts /> : ""}
         {tabNumber == 3 ? <History /> : ""}
       </div>

@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
 
-const Polygon = () => {
+const Polygon = ({ isOpen, setIsOpen }) => {
   const {
     setIsNetworkButtonClick,
     setCurrentProvider,
@@ -21,6 +21,7 @@ const Polygon = () => {
     setCurrentNetwork("Polygon");
     setUnit("MATIC");
     setChainName("matic");
+    setIsOpen(!isOpen);
   };
 
   return (

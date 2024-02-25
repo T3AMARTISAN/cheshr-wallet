@@ -7,11 +7,11 @@ import * as JSBI from "jsbi/dist/jsbi-umd.js";
 //npm i jsbi
 //npm install jsbi@3.2.5
 
-import { abiLPUniV3Mainnet } from "../utils/abiLPUniV3.js";
-import { abiMainnetToken } from "../utils/abiToken.js";
+import { abiOptimismToken } from "../utils/abiToken";
 import { UniswapV3 } from "../utils/uniswapV3FactoryContract.js";
+import { abiLPUniV3Optimism } from "../utils/abiLPUniV3";
 
-const LpPoolCardUniswapV3 = ({
+const LpPoolCardUniswapV3Optimism = ({
   tokenId,
   fee,
   feeGrowthInside0LastX128,
@@ -24,9 +24,11 @@ const LpPoolCardUniswapV3 = ({
   time,
   totalValue,
   setTotalValue,
+  lpV3Array,
   provider,
 }) => {
-  const { currentProvider, currentAccount } = useOutletContext();
+  const { currentProvider, currentAccount, currentNetwork } =
+    useOutletContext();
 
   const [sqrtPriceX96, setSqrtPriceX96] = useState();
   const [Decimal0, setDecimal0] = useState();
@@ -50,81 +52,6 @@ const LpPoolCardUniswapV3 = ({
   const [symbol0, setSymbol0] = useState();
   const [symbol1, setSymbol1] = useState();
   const [addedTotal, setAddedTotal] = useState(false);
-  const [apy, setApy] = useState();
-  const [v3PoolAddress, setV3PoolAddress] = useState();
-
-  const getApy = async () => {
-    //tvl 구해야 함. sync event로 가장 최근 블록에서 reserve 구해서 tvl 구해야 함. 이 tvl로 apy 계산해야 함
-    var tvl;
-    if (!Decimal0) return;
-    var total;
-    // console.log("34");
-
-    const erc20Abi = [
-      "event Swap(address indexed sender, uint amount0In, uint amount1In, uint amount0Out, uint amount1Out, address indexed to)",
-    ];
-
-    const contract = new ethers.Contract(v3PoolAddress, erc20Abi, provider);
-
-    // const addresses = ["0x524b7c9b4ca33ba72445dfd2d6404c81d8d1f2e3"];
-
-    const startBlock = 19304286 - 7100; // Start block number
-    const endBlock = 19304286;
-
-    // Function to fetch and log transfer events for a given address
-    async function getTotalFromSwapTx() {
-      if (!Decimal0 || !tvl) return;
-      // console.log("55");
-      const filter = {
-        fromBlock: startBlock,
-        toBlock: endBlock,
-        address: v3PoolAddress,
-        topics: [
-          ethers.utils.id(
-            "Swap(address,uint256,uint256,uint256,uint256,address)"
-          ),
-          null,
-          null, // Pad the address to 32 bytes
-        ],
-      };
-      const logs = await provider.getLogs(filter); // 여기서 blockNumber 추출 가능
-      var parsedLog;
-      var totalToken0Swaped = [];
-      logs.forEach((log) => {
-        parsedLog = contract.interface.parseLog(log);
-        // console.log(
-        //   Number(parsedLog.args.amount0In._hex) +
-        //     Number(parsedLog.args.amount0Out._hex)
-        // );
-        totalToken0Swaped.push(
-          Number(parsedLog.args.amount0In._hex) +
-            Number(parsedLog.args.amount0Out._hex)
-        );
-      });
-      // console.log(totalToken0Swaped);
-      var sum = 0;
-      for (let i = 0; i < totalToken0Swaped.length; i++) {
-        sum += totalToken0Swaped[i];
-      }
-      var dayVolume = (sum * price0) / 10 ** Decimal0;
-      var apyTemp = ((dayVolume * 0.003 * 365) / tvl) * 100;
-      console.log("apy", symbol0, symbol1, apyTemp);
-      setApy(apyTemp);
-    }
-
-    try {
-      getTotalFromSwapTx();
-      // console.log(total);
-    } catch (err) {
-      console.error(`Error fetching logs for address: haha`, err);
-    }
-  };
-
-  useEffect(() => {
-    if (!currentProvider || !Decimal0 || !v3PoolAddress) return;
-
-    getApy();
-  }, [currentProvider, Decimal0, v3PoolAddress]);
 
   //lp 지분, 미청구 수수료 빅넘버 계산 시 필요한 값들
   // https://blog.uniswap.org/uniswap-v3-math-primer-2 코드 참고해서 작성
@@ -148,19 +75,21 @@ const LpPoolCardUniswapV3 = ({
         provider
       );
 
+      // console.log("87", factoryContract);
+
+      // console.log("89", token0, token1, fee);
+
       var pairContractAddress = await factoryContract.getPool(
         token0,
         token1,
         fee
       );
-
       pairContractAddress = pairContractAddress.toLowerCase();
-      setV3PoolAddress(pairContractAddress);
 
-      if (!abiLPUniV3Mainnet[pairContractAddress]) {
+      if (!abiLPUniV3Optimism[pairContractAddress]) {
         // setSqrtPriceX96("1");
         //abi DB에 없는 경우 이더스캔으로 abi 가져와서 컨트랙트 구성
-        const contract_url = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+        const contract_url = `https://api-optimistic.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_OPTIMISMSCAN_API_KEY}`;
         const contract_response = await fetch(contract_url);
         var { result } = await contract_response.json();
         const contract_abi = result[0].ABI;
@@ -172,16 +101,20 @@ const LpPoolCardUniswapV3 = ({
       } else {
         pairContract = new ethers.Contract(
           pairContractAddress,
-          abiLPUniV3Mainnet[pairContractAddress],
+          abiLPUniV3Optimism[pairContractAddress],
           provider
         );
       }
+
       setV3PoolContract(pairContract);
+      // console.log("118", pairContract);
+      // var fee2 = await pairContract.fee();
+      // console.log("132", fee2);
       var sqrt = await pairContract.slot0();
       sqrt = sqrt[0].toString();
       setSqrtPriceX96(sqrt);
     } catch (error) {
-      console.log("getsqrtprice error", error);
+      console.log("getsqrtprice error", error, pairContractAddress);
     }
   };
 
@@ -189,47 +122,52 @@ const LpPoolCardUniswapV3 = ({
   const getPairTokensInfo = async () => {
     try {
       setTimeout(async () => {
-        if (liquidity == 0 || lpDollarValue) return;
+        if (liquidity == 0) return;
 
         var pair_0;
         var pair_1;
         var contract_0;
         var contract_1;
 
-        if (!abiMainnetToken[token0]) {
+        if (!abiOptimismToken[token0]) {
           //abi DB에 없는 경우. 현재 테스트 계정에 맞추어 세팅되어 이 곳에 들어오는 토큰 없음. 추후 에러 처리 필요
           //abi DB에 없는 경우 이더스캔으로 abi 가져와서 컨트랙트 구성
-          const contract_url = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+          const contract_url = `https://api-optimistic.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_OPTIMISMSCAN_API_KEY}`;
           const contract_response = await fetch(contract_url);
           var { result } = await contract_response.json();
+          // console.log(result);
           const contract_abi = result[0].ABI;
+          // console.log(token0, "136", contract_abi);
           contract_0 = new ethers.Contract(token0, contract_abi, provider);
         } else {
           contract_0 = new ethers.Contract(
             token0,
-            abiMainnetToken[token0],
+            abiOptimismToken[token0],
             provider
           );
-          const decimal_0 = await contract_0.decimals(); //bigint
-          var symbol_0 = await contract_0.symbol();
-          setSymbol0(symbol_0);
-
-          if (symbol_0 == "WETH") {
-            //WETH-USDT인 경우 ETH-USDT로 변환해주어야 함
-            pair_0 = "ETHUSDT";
-          } else if (symbol_0 == "WMATIC") {
-            // console.log("157", symbol_0);
-            //WMATIC-USDT인 경우 ETH-USDT로 변환해주어야 함
-            pair_0 = "MATICUSDT";
-          } else {
-            pair_0 = symbol_0 + "USDT";
-          }
-          setDecimal0(Number(decimal_0));
         }
+        const decimal_0 = await contract_0.decimals(); //bigint
+        var symbol_0 = await contract_0.symbol();
+        setSymbol0(symbol_0);
 
-        if (!abiMainnetToken[token1]) {
+        if (symbol_0 == "WETH") {
+          // console.log("153", symbol_0);
+          //WETH-USDT인 경우 ETH-USDT로 변환해주어야 함
+          pair_0 = "ETHUSDT";
+        } else if (symbol_0 == "WMATIC") {
+          // console.log("157", symbol_0);
+          //WMATIC-USDT인 경우 ETH-USDT로 변환해주어야 함
+          pair_0 = "MATICUSDT";
+        } else {
+          // console.log("161", symbol_0);
+          pair_0 = symbol_0 + "USDT";
+        }
+        setDecimal0(Number(decimal_0));
+
+        if (!abiOptimismToken[token1]) {
+          // console.log("168 add in abi file", token1);
           //abi DB에 없는 경우 이더스캔으로 abi 가져와서 컨트랙트 구성
-          const contract_url = `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${token1}&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`;
+          const contract_url = `https://api-optimistic.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_OPTIMISMSCAN_API_KEY}`;
           const contract_response = await fetch(contract_url);
           var { result } = await contract_response.json();
           const contract_abi = result[0].ABI;
@@ -237,26 +175,28 @@ const LpPoolCardUniswapV3 = ({
         } else {
           contract_1 = new ethers.Contract(
             token1,
-            abiMainnetToken[token1],
+            abiOptimismToken[token1],
             provider
           );
-          const decimal_1 = await contract_1.decimals();
-          var symbol_1 = await contract_1.symbol();
-          setSymbol1(symbol_1);
-
-          if (symbol_1 == "WETH") {
-            //WETH-USDT인 경우 ETH-USDT로 변환해주어야 함
-            pair_1 = "ETHUSDT";
-          } else if (symbol_1 == "WMATIC") {
-            // console.log("190", symbol_1);
-            //WMATIC-USDT인 경우 ETH-USDT로 변환해주어야 함
-            pair_1 = "MATICUSDT";
-          } else {
-            pair_1 = symbol_1 + "USDT";
-          }
-
-          setDecimal1(Number(decimal_1));
         }
+        const decimal_1 = await contract_1.decimals();
+        var symbol_1 = await contract_1.symbol();
+        setSymbol1(symbol_1);
+
+        if (symbol_1 == "WETH") {
+          // console.log("186", symbol_1);
+          //WETH-USDT인 경우 ETH-USDT로 변환해주어야 함
+          pair_1 = "ETHUSDT";
+        } else if (symbol_1 == "WMATIC") {
+          // console.log("190", symbol_1);
+          //WMATIC-USDT인 경우 ETH-USDT로 변환해주어야 함
+          pair_1 = "MATICUSDT";
+        } else {
+          // console.log("194", symbol_1);
+          pair_1 = symbol_1 + "USDT";
+        }
+
+        setDecimal1(Number(decimal_1));
 
         //바이낸스로 시세 불러오기
 
@@ -282,9 +222,9 @@ const LpPoolCardUniswapV3 = ({
         } else {
           setPrice1(1);
         }
-      }, time * 500); //  setTimeout(async () => { }, time * 100);
+      }, time * 100); //  setTimeout(async () => { }, time * 100);
     } catch (error) {
-      console.log(error);
+      console.log(token0, token1, "add abi", error);
     }
   };
 
@@ -350,7 +290,7 @@ const LpPoolCardUniswapV3 = ({
   const getfeeAboveBelow = async () => {
     try {
       setTimeout(async () => {
-        if (!v3PoolContract || lpDollarValue) return;
+        if (!v3PoolContract) return;
 
         ////여기부부터 줄이기 가능
         var feeOutsideOfTickLower = await v3PoolContract.ticks(tickLower);
@@ -557,12 +497,12 @@ const LpPoolCardUniswapV3 = ({
   }, [provider]);
 
   useEffect(() => {
-    if (!sqrtPriceX96 || !provider) return;
+    if (!sqrtPriceX96) return;
     getTickAtSqrtPrice();
   }, [sqrtPriceX96]);
 
   useEffect(() => {
-    if (!currentTick || !provider) return;
+    if (!currentTick) return;
     getTokenAmounts(
       liquidity,
       sqrtPriceX96,
@@ -574,7 +514,7 @@ const LpPoolCardUniswapV3 = ({
   }, [Decimal0, Decimal1, currentTick]);
 
   useEffect(() => {
-    if (!v3PoolContract || !sqrtPriceX96 || !provider || lpDollarValue) return;
+    if (!v3PoolContract || !sqrtPriceX96) return;
     getfeeAboveBelow();
   }, [v3PoolContract, sqrtPriceX96]);
 
@@ -591,12 +531,12 @@ const LpPoolCardUniswapV3 = ({
   ]);
 
   useEffect(() => {
-    if (!price0 || !price1 || !provider) return;
+    if (!price0 || !price1) return;
     getDollarValue();
   }, [token1Amount, uncollectedFees1, price1]);
 
   useEffect(() => {
-    if (!lpDollarValue || addedTotal || !provider) return;
+    if (!lpDollarValue || addedTotal) return;
     addTotal();
   }, [lpDollarValue]);
 
@@ -694,4 +634,4 @@ const LpPoolCardUniswapV3 = ({
   );
 };
 
-export default LpPoolCardUniswapV3;
+export default LpPoolCardUniswapV3Optimism;

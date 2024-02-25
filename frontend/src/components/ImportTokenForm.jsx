@@ -11,8 +11,13 @@ export const ImportTokenForm = ({ setImportOpen, importOpen }) => {
   // 이전코드const [apiKey, setApiKey] = useState();
   const [balance, setBalance] = useState([]);
 
-  const { currentProvider, currentNetwork, currentAccount } =
-    useOutletContext();
+  const {
+    currentProvider,
+    currentNetwork,
+    currentAccount,
+    setImportOpen,
+    importOpen,
+  } = useOutletContext();
 
   const { pw } = useOutletContext(AuthContext);
 
