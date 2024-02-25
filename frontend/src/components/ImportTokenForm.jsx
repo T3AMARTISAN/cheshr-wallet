@@ -4,8 +4,8 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { AuthContext } from "./Auth";
 
-export const ImportTokenForm = () => {
-  const [tokenAddress, setTokenAddress] = useState();
+export const ImportTokenForm = ({ setImportOpen, importOpen }) => {
+  const [tokenAddress, setTokenAddress] = useState("");
   const [ticker, setTicker] = useState();
   // 이전코드 const [api, setApi] = useState();
   // 이전코드const [apiKey, setApiKey] = useState();
@@ -26,6 +26,7 @@ export const ImportTokenForm = () => {
 
     var api = "";
     var apiKey = "";
+    var currentNetwork = "Polygon";
     if (currentNetwork == "Polygon") {
       api = "api.polygonscan.com";
       apiKey = process.env.REACT_APP_POLYGONSCAN_API_KEY;

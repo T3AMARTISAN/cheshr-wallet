@@ -1,34 +1,32 @@
-import { useContext, useEffect, useState } from "react";
+import BackButton from "./Buttons/BackButton";
+import MyOwnAsset from "./MyOwnAsset";
+import { HiSelector } from "react-icons/hi";
+import { useState, useEffect, useContext } from "react";
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
+import { POLYGON_TOKEN_ADDRESS } from "../tokenContracts/tokenAddress";
 import axios from "axios";
-import { HiSelector } from "react-icons/hi";
-import MyOwnAsset from "./MyOwnAsset";
 import { AuthContext } from "./Auth";
-import BackButton from "./Buttons/BackButton";
-import {
-  ETH_TOKEN_ADDRESS,
-  POLYGON_TOKEN_ADDRESS,
-  ARBITRUM_TOKEN_ADDRESS,
-  OPTIMISM_TOKEN_ADDRESS,
-} from "../tokenContracts/tokenAddress";
 
 const Send = ({ setSendOpen, sendOpen }) => {
-  const [tokenAddress, setTokenAddress] = useState([]);
-  const [value, setValue] = useState();
   const [toAddress, setToAddress] = useState();
-  const [receipt, setReceipt] = useState([]);
-  const [myAssets, setMyAssets] = useState([]);
   const [isClick, setIsClick] = useState(false);
   const [currentBalance, setCurrentBalance] = useState();
   const [currentTicker, setCurrentTicker] = useState();
-  const [currentTokenAddress, setCurrentTokenAddress] = useState();
   const [isErc, setIsErc] = useState(false);
+  const [value, setValue] = useState();
+  const [currentTokenAddress, setCurrentTokenAddress] = useState();
+  const [tokenAddress, setTokenAddress] = useState([]);
+  const [myAssets, setMyAssets] = useState([]);
 
-  const { currentProvider, /*currentNetwork,*/ balance, unit, currentAccount } =
+  const { currentProvider, currentNetwork, balance, unit, currentAccount } =
     useOutletContext();
+
   const { pw } = useContext(AuthContext);
-  var currentNetwork = "Polygon";
+
+  const onClickBack = () => {
+    setSendOpen(!sendOpen);
+  };
 
   const onClickSelectAsset = () => {
     setIsClick(!isClick);
@@ -43,6 +41,8 @@ const Send = ({ setSendOpen, sendOpen }) => {
 
   const onSubmitSend = (e) => {
     e.preventDefault();
+
+    // ERC 토큰이 아닐때 전송기능
     if (!isErc) {
       async function Send() {
         try {
@@ -57,6 +57,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
             value: ethers.utils.parseEther(value),
           };
           const result = await signer.sendTransaction(tx);
+          // 여기서 필요없는 기능이지만 나중에 혹시 필요할 경우를 사용하기 위해서 주석처리 했습니다.
           /*setReceipt([
             ...receipt,
             {
@@ -70,10 +71,11 @@ const Send = ({ setSendOpen, sendOpen }) => {
         }
       }
       Send();
+      // ERC 토큰일때 전송기능
     } else {
       async function SendToken() {
         var api = "";
-        var apiKey = "";
+        var apiKey;
         if (currentNetwork == "Polygon") {
           api = "api.polygonscan.com";
           apiKey = process.env.REACT_APP_POLYGONSCAN_API_KEY;
@@ -100,59 +102,44 @@ const Send = ({ setSendOpen, sendOpen }) => {
           );
 
           var abi = JSON.parse(response.data.result);
-
           if (abi != "") {
             const contract = new ethers.Contract(
               currentTokenAddress,
               abi,
               signer
             );
-            const result = await contract.transfer(
-              toAddress,
-              ethers.utils.parseEther(value)
-            );
 
-            setReceipt([
-              ...receipt,
-              {
-                from: currentAccount,
-                to: toAddress,
-                value: value,
-              },
-            ]);
-          } else {
-            console.log("Error");
-          }
+            await contract.transfer(toAddress, ethers.utils.parseEther(value));
+          } else console.log("Error");
         } catch (error) {
-          console.error(error);
+          console.log(error);
         }
       }
       SendToken();
     }
   };
 
-  const onClickBack = () => {
-    setSendOpen(!sendOpen);
-  };
+  // 내가 소유하고 있는 토큰들의 잔액을 찾는 함수
+  const myTokenAsset = async (
+    /*사용자계정*/ ca,
+    /*토큰주소*/ va,
+    /*토큰티커*/ vn
+  ) => {
+    if (!currentAccount) return;
 
-  const setMyAsset = async (currentAccount, tokenAddress, ticker) => {
-    if (!currentAccount || !tokenAddress || !ticker) return;
-
-    var currentProvider = new ethers.providers.InfuraProvider(
-      "matic",
-      process.env.REACT_APP_POLYGONSCAN_API_KEY
-    );
     const erc20Transfers = [];
     const filter = {
-      address: tokenAddress,
+      address: ca,
       // v6 : topics: [ethers.id("Transfer(address,address,uint256)")],
       // v5
       topics: [ethers.utils.id("Transfer(address,address,uint256)")],
-      fromBlock: (await currentProvider.getBlockNumber()) - 100,
-      toBlock: await currentProvider.getBlockNumber(),
+      fromBlock: 53936820, //(await currentProvider.getBlockNumber()) - 10,
+      toBlock: 53936790, //await currentProvider.getBlockNumber(),
     };
 
     const logs = await currentProvider.getLogs(filter);
+    console.log(99, logs);
+
     for (const log of logs) {
       // v6 : const abiCoder = ethers.AbiCoder.defaultAbiCoder();
       //      const parsedLog = abiCoder.decode(["uint256"], log.data);
@@ -161,19 +148,19 @@ const Send = ({ setSendOpen, sendOpen }) => {
         ["uint256"],
         log.data
       );
-
-      const tokenAddress = log.address;
       const from = "0x" + log.topics[1].substring(26);
       const to = "0x" + log.topics[2].substring(26);
       // v6 : const value = Number(ethers.formatEther(String(parsedLog[0])));
       // v5
       const value = Number(ethers.utils.formatEther(String(parsedLog[0])));
-      erc20Transfers.push([{ tokenAddress, from, to, value }]);
+      erc20Transfers.push([{ from, to, value }]);
     }
 
     var tokenBalances = 0;
     const addr = currentAccount.toLowerCase();
+
     for (const transfer of erc20Transfers) {
+      console.log(123, transfer);
       if (transfer[0].from === addr) {
         if (tokenBalances === 0) {
           tokenBalances = -transfer[0].value;
@@ -189,55 +176,54 @@ const Send = ({ setSendOpen, sendOpen }) => {
         }
       }
     }
+
     setMyAssets((prevMyAssets) => [
       ...prevMyAssets,
-      { ticker: ticker, value: tokenBalances, address: tokenAddress },
+      { ticker: vn, value: tokenBalances, address: va },
     ]);
   };
-  useEffect(() => {
-    if (!currentAccount) return;
-    tokenAddress?.map(async (v, i) => {
-      await setMyAsset(
-        "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382",
-        v.address,
-        v.name
-      );
-    });
-  }, []);
-  useEffect(() => {
-    console.log(208, myAssets);
-  }, [myAssets]);
+
   useEffect(() => {
     if (currentNetwork == "Polygon") {
       setTokenAddress(POLYGON_TOKEN_ADDRESS);
     } else if (currentNetwork == "Ethereum") {
-      setTokenAddress(ETH_TOKEN_ADDRESS);
     } else if (currentNetwork == "Arbitrum") {
-      setTokenAddress(ARBITRUM_TOKEN_ADDRESS);
     } else if (currentNetwork == "Optimism") {
-      setTokenAddress(OPTIMISM_TOKEN_ADDRESS);
     }
   }, []);
 
-  useEffect(() => {
-    const jsonArray = JSON.stringify(receipt);
-    localStorage.setItem("history", jsonArray);
-  }, [receipt]);
+  // cryptoCurrency 잔액 불러오기
+  const getBalance = async () => {
+    const response = await currentProvider.getBalance(currentAccount);
+    const value = ethers.utils.formatEther(String(response));
+  };
 
   useEffect(() => {
-    const encryptedJson = localStorage.getItem(currentNetwork);
-    setMyAsset(JSON.parse(encryptedJson));
-    setCurrentBalance(balance);
-    setCurrentTicker(unit);
-  }, [currentProvider]);
+    getBalance();
 
+    if (!currentAccount) return;
+    tokenAddress?.map(async (v, i) => {
+      await myTokenAsset(currentAccount, v.address, v.name);
+    });
+
+    const importedTokenData = localStorage.getItem(currentNetwork);
+    const importedToken = JSON.parse(importedTokenData);
+    importedToken?.map((v, i) => {
+      console.log(171, v);
+      setMyAssets((prevMyAssets) => [
+        ...prevMyAssets,
+        { ticker: v.ticker, value: v.value, address: v.address },
+      ]);
+    });
+  }, [currentAccount]);
+  useEffect(() => {});
   return (
     <div className="modal-bg radial-bg-home">
       <div className="dm-sans container-modal">
         {/* 뒤로가기 버튼 */}
         <button
-          onClick={onClickBack}
           className="-translate-x-12 translate-y-8 "
+          onClick={onClickBack}
         >
           <BackButton />
         </button>
@@ -287,7 +273,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
                     <HiSelector />
                   </div>
                   <div
-                    className={`absolute translate-y-8 z-20 modal-dropdown ${
+                    className={`absolute translate-y-8 z-20 modal-dropdown  ${
                       isClick && "rounded-t-none border-t-0"
                     }`}
                     onClick={onClickSelectOriginal}
@@ -297,7 +283,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
                     </p>
                   </div>
                   {/* 보유한 토큰 리스트 */}
-                  {/*myAsset.map(
+                  {myAssets.map(
                     (v, i) =>
                       v.value !== "0.0" && (
                         <MyOwnAsset
@@ -313,7 +299,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
                           setCurrentTokenAddress={setCurrentTokenAddress}
                         />
                       )
-                      )*/}
+                  )}
                 </>
               ) : (
                 // 클릭하면 드롭다운 닫기
@@ -332,7 +318,6 @@ const Send = ({ setSendOpen, sendOpen }) => {
               ></input>
             </div>
           </div>
-
           {/* 예상가스비 */}
           <div className="w-96 h-28 bg-teal-100 rounded-lg border border-purple-950 mt-8">
             <div className="dm-sans-title-reveal text-lg text-center py-3 text-green-800">
@@ -351,7 +336,6 @@ const Send = ({ setSendOpen, sendOpen }) => {
               </div>
             </ul>
           </div>
-
           {/* Send버튼 */}
           <input type="submit" value="Send" className="modal-button mt-8" />
         </form>

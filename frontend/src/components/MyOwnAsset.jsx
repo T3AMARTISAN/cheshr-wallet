@@ -9,7 +9,7 @@ const MyOwnAsset = ({
   setCurrentTokenAddress,
   tokenAddress,
 }) => {
-  const onClickSelectAsset = () => {
+  const onClickSelectAsset = ({}) => {
     setIsClick(!isClick);
     setCurrentBalance(value);
     setCurrentTicker(ticker);
@@ -19,10 +19,12 @@ const MyOwnAsset = ({
 
   return (
     <div
-      className="bg-green-100 border border-black"
+      className="translate-y-8 z-20 modal-dropdown"
       onClick={onClickSelectAsset}
     >
-      {value} {ticker}
+      <p className="hover:bg-[#9EFFAE]">
+        {value} {ticker}
+      </p>
     </div>
   );
 };
