@@ -8,14 +8,20 @@ import {
   OPTIMISM_TOKEN_ADDRESS,
 } from "../tokenContracts/tokenAddress";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Tokens = () => {
   const [tokenAddress, setTokenAddress] = useState([]);
   const [balance, setBalance] = useState([]);
+  const [cryptocurrencyBalance, setCryptocurrencyBalance] = useState(0);
+  const [cryptocurrencyPrice, setCryptocurrencyPrice] = useState();
 
   const {
     currentAccount,
     setCurrentAccount,
+    unit,
+    totalValue,
+    setTotalValue,
     /*currentProvider currentNetwork,*/
   } = useOutletContext();
 
@@ -32,8 +38,8 @@ const Tokens = () => {
       // v6 : topics: [ethers.id("Transfer(address,address,uint256)")],
       // v5
       topics: [ethers.utils.id("Transfer(address,address,uint256)")],
-      fromBlock: (await currentProvider.getBlockNumber()) - 100,
-      toBlock: await currentProvider.getBlockNumber(),
+      fromBlock: 53962100, //(await currentProvider.getBlockNumber()) - 100,
+      toBlock: 53962200, //await currentProvider.getBlockNumber(),
     };
 
     const logs = await currentProvider.getLogs(filter);
@@ -113,6 +119,34 @@ const Tokens = () => {
     });
   }, [currentAccount]);
 
+  // cryptocurrency 잔액 불러오기
+  useEffect(() => {
+    const getBalance = async () => {
+      var currentProvider = new ethers.providers.InfuraProvider(
+        "matic",
+        process.env.REACT_APP_POLYGONSCAN_API_KEY
+      );
+      var response = await currentProvider.getBalance(
+        "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382" /*currentAccount*/
+      );
+      var value = ethers.utils.formatEther(String(response));
+      setCryptocurrencyBalance(Number(value));
+    };
+    getBalance();
+
+    const getPrice = async () => {
+      var response = await axios.get(
+        `https://api.binance.com/api/v3/ticker/price?symbol=${unit}USDT`
+      );
+      setCryptocurrencyPrice(response.data.price);
+    };
+    getPrice();
+  }, []);
+
+  useEffect(() => {
+    setTotalValue(Number(cryptocurrencyBalance * cryptocurrencyPrice));
+  }, [cryptocurrencyBalance, cryptocurrencyPrice]);
+
   return (
     <div className="container-dashboard dashboard-bg pt-2 relative flex flex-col">
       <div className="flex-grow overflow-auto">
@@ -120,8 +154,45 @@ const Tokens = () => {
           <div>AMOUNT</div>
           <div>USD VALUE</div>
         </div>
+        {/*cryptocurrency 잔액 나타내기*/}
+        <div className="token-container">
+          {/* 심볼이미지 */}
+          <div className="token-symbol relative bg-opacity-35">
+            <img
+              src="https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png"
+              alt="USDC"
+              className="absolute inset-0 m-auto rounded-full w-8 h-8 shadow drop-shadow-md"
+            />
+          </div>
+          <div className="grow flex justify-between text-lg">
+            <div className="flex flex-col items-start pl-2">
+              {/* 틱커 */}
+              <div className="dm-sans-token-info">
+                {cryptocurrencyBalance.toFixed(4)}
+              </div>
+              <div className="dm-sans-body-feed text-base">{unit}</div>
+            </div>
+            <div className="flex flex-col items-end">
+              {/*USD 가치*/}
+              <div className="dm-sans-token-info">
+                {Number(cryptocurrencyBalance * cryptocurrencyPrice).toFixed(4)}
+              </div>
+              {/*시세*/}
+              <div className="dm-sans-body-feed text-base">
+                {Number(cryptocurrencyPrice).toFixed(4)}
+              </div>
+            </div>
+          </div>
+        </div>
+        {/*ERC 토큰 잔액 나타내기 */}
         {balance?.map((v, i) => (
-          <TokenCard key={i} ticker={v.ticker} value={v.value} />
+          <TokenCard
+            key={i}
+            ticker={v.ticker}
+            value={v.value}
+            totalValue={totalValue}
+            setTotalValue={setTotalValue}
+          />
         ))}
       </div>
       <div className="sticky bottom-2 text-right bg-green-200 m-2 px-auto dm-sans-token">

@@ -14,6 +14,7 @@ const TotalAsset = () => {
     unit,
     importOpen,
     setImportOpen,
+    totalValue,
   } = useOutletContext();
   const [sendOpen, setSendOpen] = useState(false);
   const [date, setDate] = useState("");
@@ -51,7 +52,7 @@ const TotalAsset = () => {
         <p className="dm-sans-title-feed">{date}</p>
         {/* 네트워크별 네이티브 토큰 총 잔액 */}
         <p className="dm-sans-body-feed">
-          {balance} {unit}
+          {totalValue} {unit}
         </p>
         {/* 네트워크 */}
         <NetworkSwitch />
