@@ -30,6 +30,7 @@ const LPPoolCard = ({
   const [userLpValue, setUserLpValue] = useState();
   const [addedTotal, setAddedTotal] = useState(false);
   const [apy, setApy] = useState();
+  const [apyConstant, setApyConstant] = useState(365);
 
   const getApy = async () => {
     if (!decimal0 || !tvl) return;
@@ -45,8 +46,8 @@ const LPPoolCard = ({
       provider
     );
 
-    const startBlock = 19304286 - 7140; // Start block number
-    const endBlock = 19304286;
+    const startBlock = (await currentProvider.getBlockNumber()) - 7140; // Start block number
+    const endBlock = await currentProvider.getBlockNumber();
 
     // Function to fetch and log transfer events for a given address
     async function getTotalFromSwapTx() {
@@ -120,7 +121,7 @@ const LPPoolCard = ({
     try {
       if (!lpContract || userLpValue) return;
       var userLpAmount = await lpContract.balanceOf(
-        process.env.REACT_APP_TEST_ACCOUNT // 여기를 currentAccount로 바꿔주면 테스트계정 말고 실제 계정으로 작동
+        "0x524b7c9b4ca33ba72445dfd2d6404c81d8d1f2e3" // 여기를 currentAccount로 바꿔주면 테스트계정 말고 실제 계정으로 작동
       );
       userLpAmount = Number(userLpAmount);
 
@@ -396,16 +397,51 @@ const LPPoolCard = ({
             <div>UNISWAP V2 POOL</div>
             <div className="flex flex-col items-start">
               {/* 수익률 */}
-              <div className="text-rose-500">{`%${apy.toFixed(2)}`}</div>
+              <div className="text-green-500">{`+%${(
+                (apy * apyConstant) /
+                365
+              ).toFixed(2)}`}</div>
               {/* 수익률 기간토글 */}
               <div className="flex flex-row gap-1 items-center text-xs ">
                 <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
-                  <button className="px-1 bg-green-200 hover:bg-green-100 rounded-s-md">
+                  <button
+                    onClick={() => setApyConstant(1)}
+                    className={
+                      apyConstant == 1
+                        ? `px-1 bg-green-200 hover:bg-green-100 rounded-s-md`
+                        : `px-1 hover:bg-green-100 rounded-s-md`
+                    }
+                  >
                     D
                   </button>
-                  <button className="px-1 hover:bg-green-100">W</button>
-                  <button className="px-1 hover:bg-green-100">M</button>
-                  <button className="px-1 hover:bg-green-100 rounded-e-md">
+                  <button
+                    onClick={() => setApyConstant(7)}
+                    className={
+                      apyConstant == 7
+                        ? `px-1 bg-green-200 hover:bg-green-100 `
+                        : `px-1 hover:bg-green-100 `
+                    }
+                  >
+                    W
+                  </button>
+                  <button
+                    onClick={() => setApyConstant(30)}
+                    className={
+                      apyConstant == 30
+                        ? `px-1 bg-green-200 hover:bg-green-100 `
+                        : `px-1 hover:bg-green-100 `
+                    }
+                  >
+                    M
+                  </button>
+                  <button
+                    onClick={() => setApyConstant(365)}
+                    className={
+                      apyConstant == 365
+                        ? `px-1 bg-green-200 hover:bg-green-100 rounded-e-md`
+                        : `px-1 hover:bg-green-100 rounded-e-md`
+                    }
+                  >
                     Y
                   </button>
                 </div>
