@@ -14,10 +14,14 @@ const TransactionHistory = () => {
   const [tokenTxHistory, setTokenTxHistory] = useState([]);
   const [cryptoTxHistory, setCryptoTxHistory] = useState([]);
   const [txHistory, setTxHistory] = useState([]);
-  const [currentProvider, setCurrentProvider] = useState();
+  //const [currentProvider, setCurrentProvider] = useState();
   const { currentNetwork, currentAccount } = useOutletContext;
 
   const findTokensHistory = async (currentAccount, tokenAddress, ticker) => {
+    var currentProvider = new ethers.providers.InfuraProvider(
+      "matic",
+      process.env.REACT_APP_POLYGONSCAN_API_KEY
+    );
     const erc20Transfers = [];
     try {
       const filter = {
@@ -25,7 +29,7 @@ const TransactionHistory = () => {
         // v6 : topics: [ethers.id("Transfer(address,address,uint256)")],
         // v5
         topics: [ethers.utils.id("Transfer(address,address,uint256)")],
-        fromBlock: 53936790, //(await currentProvider.getBlockNumber()) - 10,
+        fromBlock: 53936800, //(await currentProvider.getBlockNumber()) - 10,
         toBlock: 53936820, //await currentProvider.getBlockNumber(),
       };
 
@@ -50,9 +54,8 @@ const TransactionHistory = () => {
       const tokensHistory = [];
       const addr = currentAccount.toLowerCase();
       for (var transfer of erc20Transfers) {
-        if (transfer[0].from == addr) {
-          setTokenTxHistory((prevTokenTxHistory) => [
-            ...prevTokenTxHistory,
+        if (transfer[0].from === addr) {
+          tokensHistory.push([
             {
               blockNumber: transfer[0].blockNumber,
               from: transfer[0].from,
@@ -64,8 +67,7 @@ const TransactionHistory = () => {
           ]);
         }
         if (transfer[0].to === addr) {
-          setTokenTxHistory((prevTokenTxHistory) => [
-            ...prevTokenTxHistory,
+          tokensHistory.push([
             {
               blockNumber: transfer[0].blockNumber,
               from: transfer[0].from,
@@ -77,6 +79,8 @@ const TransactionHistory = () => {
           ]);
         }
       }
+
+      setTokenTxHistory(...tokenTxHistory, tokensHistory);
     } catch (error) {
       console.error(error);
     }
@@ -157,10 +161,10 @@ const TransactionHistory = () => {
 
   useEffect(() => {
     var mergedArray = [];
-    cryptoTxHistory.map((v, i) => {
+    cryptoTxHistory?.map((v, i) => {
       mergedArray.push(v);
     });
-    tokenTxHistory.map((v, i) => {
+    tokenTxHistory?.map((v, i) => {
       mergedArray.push(v);
     });
 
@@ -192,8 +196,8 @@ const TransactionHistory = () => {
     } else if (currentNetwork == "Optimism") {
       setTokenAddress(OPTIMISM_TOKEN_ADDRESS);
     }
-    console.log(12);
-    findCryptocurrencyHistory();
+
+    //findCryptocurrencyHistory();
     tokenAddress.map(async (v, i) => {
       await findTokensHistory(
         "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382" /*currentAccount*/,
@@ -202,15 +206,16 @@ const TransactionHistory = () => {
       );
       delay();
     });
+
     // import한 토큰에대한 정보는 로컬스토리지에 있음
-    const importedTokenData = localStorage.getItem(currentNetwork);
+    /*const importedTokenData = localStorage.getItem(currentNetwork);
     const importedToken = JSON.parse(importedTokenData);
     importedToken?.map(async (v, i) => {
-      await findTokensHistory(currentAccount, v.address, v.ticker);
-    });
+      //await findTokensHistory(currentAccount, v.address, v.ticker);
+    });*/
   }, []);
   useEffect(() => {
-    console.log(txHistory);
+    console.log(123, txHistory);
   }, [txHistory]);
 
   // Delay시키는 함수

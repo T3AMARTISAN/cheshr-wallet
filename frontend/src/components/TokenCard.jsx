@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 const TokenCard = ({ ticker, value, totalValue, setTotalValue }) => {
   const [price, setPrice] = useState();
-  const [sum, setSum] = useState();
 
   const getPrice = async () => {
     try {
