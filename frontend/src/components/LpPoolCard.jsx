@@ -400,7 +400,7 @@ const LPPoolCard = ({
               <div className="text-green-500">{`+%${(
                 (apy * apyConstant) /
                 365
-              ).toFixed(2)}`}</div>
+              ).toFixed(4)}`}</div>
               {/* 수익률 기간토글 */}
               <div className="flex flex-row gap-1 items-center text-xs ">
                 <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
@@ -460,11 +460,11 @@ const LPPoolCard = ({
             <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
               <div className="flex flex-col justify-center">
                 <div>
-                  {(reserve0 * (LPTokenAmount / totalLpSupply)).toFixed(6)}{" "}
+                  {(reserve0 * (LPTokenAmount / totalLpSupply)).toFixed(4)}{" "}
                   {symbol0}
                 </div>
                 <div className="m-sans-body-reveal">
-                  {(reserve1 * (LPTokenAmount / totalLpSupply)).toFixed(6)}{" "}
+                  {(reserve1 * (LPTokenAmount / totalLpSupply)).toFixed(4)}{" "}
                   {symbol1}
                 </div>
               </div>
