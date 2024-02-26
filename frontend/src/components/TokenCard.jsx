@@ -1,4 +1,30 @@
-const TokenCard = ({ ticker, value }) => {
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+const TokenCard = ({ ticker, value, totalValue, setTotalValue }) => {
+  const [price, setPrice] = useState();
+  const [sum, setSum] = useState();
+
+  const getPrice = async () => {
+    try {
+      var symbol = "";
+      if (ticker == "WETH") {
+        symbol = "ETH";
+      } else {
+        symbol = ticker;
+      }
+      var response = await axios.get(
+        `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
+      );
+      setPrice(response.data.price);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getPrice();
+  }, [ticker]);
+
   return (
     <div className="token-container">
       {/* 심볼이미지 */}
@@ -12,14 +38,16 @@ const TokenCard = ({ ticker, value }) => {
       <div className="grow flex justify-between text-lg">
         <div className="flex flex-col items-start pl-2">
           {/* 틱커 */}
-          <div className="dm-sans-token-info">{value}</div>
+          <div className="dm-sans-token-info">{value.toFixed(4)}</div>
           <div className="dm-sans-body-feed text-base">{ticker}</div>
         </div>
         <div className="flex flex-col items-end">
           {/*USD 가치*/}
-          <div className="dm-sans-token-info">{value}</div>
+          <div className="dm-sans-token-info">{(value * price).toFixed(4)}</div>
           {/*시세*/}
-          <div className="dm-sans-body-feed text-base">@1405.3</div>
+          <div className="dm-sans-body-feed text-base">
+            {Number(price).toFixed(4)}
+          </div>
         </div>
       </div>
     </div>
