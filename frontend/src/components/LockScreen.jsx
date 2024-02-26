@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { useContext, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { AuthContext } from "./Auth";
+import LoadingSpinner from "./LoadingSpinner";
 
 const LockScreen = () => {
   const {
@@ -13,6 +14,7 @@ const LockScreen = () => {
   const { setLocked, setPw } = useContext(AuthContext);
   const [unlockPassword, setUnlockPassword] = useState("");
   const [wrongPassword, setWrongPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
@@ -41,6 +43,7 @@ const LockScreen = () => {
   };
 
   const onClickConfirm = async () => {
+    setLoading(true);
     const account = await decodeJson(unlockPassword);
     if (account) {
       setPw(unlockPassword);
@@ -52,6 +55,7 @@ const LockScreen = () => {
       setWrongPassword(true);
     }
     reset();
+    setLoading(false);
   };
 
   const resetWallet = () => {
@@ -67,6 +71,10 @@ const LockScreen = () => {
       window.location.reload();
     }
   };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="pt-28 mt-12 flex flex-col px-6 h-fit">
