@@ -53,7 +53,7 @@ const Create = () => {
         <>
           <div className="pt-28 mt-4 flex flex-col px-6 h-fit">
             <div className="flex flex-col justify-center dm-sans-body">
-              <div className="whitespace-pre-line text-center leading-6 text-lg pb-10">{`Hello there,
+              <div className="whitespace-pre-line text-center text-purple-100 leading-6 text-lg pb-10">{`Hello there,
           what password will you use?`}</div>
               <EOAPassword />
             </div>

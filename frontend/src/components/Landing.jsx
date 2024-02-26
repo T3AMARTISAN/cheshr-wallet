@@ -15,21 +15,21 @@ const Landing = () => {
     <>
       <div className="pt-28 mt-12 flex flex-col px-6 h-fit">
         <div className="flex flex-col gap-4 items-center justify-center dm-sans-body">
-          <div className="text-center leading-6 text-lg pb-10">
-            <p className="bg-lime-200 font-medium">cheshr wallet</p>
+          <div className="text-center text-purple-100 leading-6 text-lg pb-10">
+            <p>cheshr wallet</p>
             <p>for your defi journey</p>
           </div>
           <button
-            className="homepageButton-rounded"
+            className="homepageButton-rounded linear-bg-button network-button"
             onClick={onClickCreateWallet}
           >
-            I need a wallet
+            Make Address
           </button>
           <button
-            className="homepageButton-rounded"
+            className="homepageButton-rounded linear-bg-button"
             onClick={onClickMountWallet}
           >
-            I have a wallet
+            Mount Address
           </button>
         </div>
       </div>

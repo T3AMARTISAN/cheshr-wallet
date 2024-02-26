@@ -4,7 +4,7 @@
 
 @layer components {
   .container-home {
-    @apply w-[480px] h-screen mx-auto bg-[#CBE5F8];
+    @apply w-[480px] h-screen mx-auto bg-[#000000];
   }
   .container-feed {
     @apply w-[480px] h-screen mx-auto bg-green-50;
@@ -31,10 +31,10 @@
     @apply w-[360px] mx-auto rounded-md p-1 bg-[#88F7F0] border border-indigo-800 text-indigo-950 text-wrap;
   }
   .homepageButton-rounded {
-    @apply rounded-2xl p-2 w-60 bg-indigo-500 border border-indigo-800 text-white text-nowrap active:bg-indigo-50 active:text-indigo-950;
+    @apply rounded-xl p-2 w-52 text-purple-50 text-nowrap shadow drop-shadow-lg;
   }
   .homepageButton-inactive {
-    @apply rounded-md p-2 w-28 bg-[#4E4D58] border border-indigo-800 text-[#9E9EAB] text-nowrap cursor-not-allowed;
+    @apply rounded-md p-2 w-28 bg-[#4E4D58] text-[#9E9EAB] text-nowrap cursor-not-allowed shadow drop-shadow-lg;
   }
   .inputbox {
     @apply w-2/3 rounded-2xl border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700 p-2;
@@ -85,6 +85,10 @@
     @apply rounded-md p-2 w-28 bg-indigo-500 border border-indigo-800 text-white text-nowrap active:bg-green-100;
   }
 
+  .footer {
+    @apply fixed bottom-0 inset-x-0 mx-auto text-center dm-sans text-xs text-purple-50;
+  }
+
   .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
     width: 36px;
@@ -124,8 +128,8 @@
     font-optical-sizing: auto;
     font-weight: 800;
     font-style: normal;
-    font-size: 2.6rem;
-    color: #0c074b;
+    font-size: 2rem;
+    color: #fafafa;
   }
   .dm-sans-title-feed {
     font-family: "DM Sans", sans-serif;
@@ -133,7 +137,7 @@
     font-weight: 800;
     font-style: normal;
     font-size: 2rem;
-    color: #060327;
+    color: #fafafa;
   }
   .dm-sans-title-dashboard {
     font-family: "DM Sans", sans-serif;
@@ -223,10 +227,11 @@
     color: #060327;
   }
   .radial-bg-home {
-    background-image: radial-gradient(
-      circle at right 80%,
-      #f7d7ff 10%,
-      transparent 90%
+    background: radial-gradient(
+      circle at right 85%,
+      #6c3c83 8%,
+      #5a326f 20%,
+      #000000 75%
     );
   }
   .radial-bg-feed {
@@ -235,5 +240,9 @@
       #cbfbd3 50%,
       transparent 80%
     );
+  }
+
+  .linear-bg-button {
+    background: linear-gradient(180deg, #be92e6 0%, #5b1f79 90%);
   }
 }

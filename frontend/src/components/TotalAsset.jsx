@@ -58,17 +58,6 @@ const TotalAsset = () => {
         <NetworkSwitch />
       </div>
       <div className="flex flex-col items-start gap-2 justify-center">
-        {/* Send 기능 */}
-        {sendOpen ? (
-          <Send sendOpen={sendOpen} setSendOpen={setSendOpen} />
-        ) : (
-          <div
-            className="feed-button click:bg-purple-300 hover:bg-purple-400"
-            onClick={() => setSendOpen(!sendOpen)}
-          >
-            Send
-          </div>
-        )}
         {/* Import 기능 */}
         {importOpen ? (
           <Import />
@@ -78,6 +67,17 @@ const TotalAsset = () => {
             onClick={() => setImportOpen(!importOpen)}
           >
             Import
+          </div>
+        )}
+        {/* Send 기능 */}
+        {sendOpen ? (
+          <Send sendOpen={sendOpen} setSendOpen={setSendOpen} />
+        ) : (
+          <div
+            className="feed-button click:bg-purple-300 hover:bg-purple-400"
+            onClick={() => setSendOpen(!sendOpen)}
+          >
+            Send
           </div>
         )}
       </div>
