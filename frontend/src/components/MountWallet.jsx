@@ -6,6 +6,7 @@ import Seed from "./Seed";
 import PVKey from "./Key";
 import EOAPassword from "./EOAPassword";
 import { AuthContext } from "./Auth";
+import LoadingSpinner from "./LoadingSpinner";
 
 const MountWallet = () => {
   const {
@@ -20,6 +21,8 @@ const MountWallet = () => {
   const [phrase, setPhrase] = useState("");
   const [pvk, setPvk] = useState("");
   const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const reset = () => {
@@ -31,9 +34,11 @@ const MountWallet = () => {
   };
 
   const onClickOK = async () => {
+    setLoading(true);
     await encryptWallet();
     await setPw(confirmPassword);
     reset();
+    setLoading(false);
     navigate("/feed");
   };
 
@@ -73,6 +78,10 @@ const MountWallet = () => {
       console.error(error);
     }
   };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>

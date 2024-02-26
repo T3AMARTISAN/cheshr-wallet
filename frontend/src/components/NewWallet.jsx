@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { AuthContext } from "./Auth";
 import CopyButton from "../components/Buttons/CopyButton";
+import LoadingSpinner from "./LoadingSpinner";
 
 const NewWallet = () => {
   const {
@@ -21,6 +22,9 @@ const NewWallet = () => {
   // State to manage the checkboxes
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [creating, setCreating] = useState(false);
+
   const navigate = useNavigate();
 
   const copyAddress = () => {
@@ -43,19 +47,23 @@ const NewWallet = () => {
   };
 
   const onClickOK = () => {
+    setLoading(true);
     setPw(confirmPassword);
     passwordReset();
+    setLoading(false);
     navigate("/feed");
   };
 
   const createWallet = async () => {
     // Store wallet data
+    setCreating(true);
     const newEOA = ethers.Wallet.createRandom();
     const encryptedJSON = await newEOA.encrypt(confirmPassword);
     localStorage.setItem("dexwalletData", encryptedJSON);
     setCurrentAccount(newEOA.address);
     setPhrase(newEOA.mnemonic.phrase);
     setPvk(newEOA.privateKey);
+    setCreating(false);
   };
 
   // Handler to toggle the first checkbox
@@ -68,6 +76,10 @@ const NewWallet = () => {
     setIsChecked2(e.target.checked);
   };
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <>
       <div className="pt-28 mt-4 flex flex-col px-6 h-fit">
@@ -78,15 +90,19 @@ const NewWallet = () => {
             Make sure nobody is watching!`}
             </div>
             {/* 입력한 비밀번호로 지갑주소 생성 */}
-            <button
-              className={
-                !currentAccount ? "revealButton mx-auto mt-6" : "hidden"
-              }
-              disabled={currentAccount}
-              onClick={createWallet}
-            >
-              Reveal Wallet Address
-            </button>
+            {!creating ? (
+              <button
+                className={
+                  !currentAccount ? "revealButton mx-auto mt-6" : "hidden"
+                }
+                disabled={currentAccount}
+                onClick={createWallet}
+              >
+                Reveal Wallet Address
+              </button>
+            ) : (
+              <LoadingSpinner />
+            )}
           </>
         ) : (
           <>
