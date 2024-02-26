@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import { ethers } from "ethers";
-import TransactionHistoryCard from "../components/TransactionHistoryCard";
+import TransactionHistoryCard from "./TransactionHistoryCard";
 import {
   ETH_TOKEN_ADDRESS,
   POLYGON_TOKEN_ADDRESS,
@@ -25,8 +25,8 @@ const TransactionHistory = () => {
         // v6 : topics: [ethers.id("Transfer(address,address,uint256)")],
         // v5
         topics: [ethers.utils.id("Transfer(address,address,uint256)")],
-        fromBlock: (await currentProvider.getBlockNumber()) - 10,
-        toBlock: await currentProvider.getBlockNumber(),
+        fromBlock: 53936790, //(await currentProvider.getBlockNumber()) - 10,
+        toBlock: 53936820, //await currentProvider.getBlockNumber(),
       };
 
       const logs = await currentProvider.getLogs(filter);
@@ -51,7 +51,8 @@ const TransactionHistory = () => {
       const addr = currentAccount.toLowerCase();
       for (var transfer of erc20Transfers) {
         if (transfer[0].from == addr) {
-          tokensHistory.push([
+          setTokenTxHistory((prevTokenTxHistory) => [
+            ...prevTokenTxHistory,
             {
               blockNumber: transfer[0].blockNumber,
               from: transfer[0].from,
@@ -63,7 +64,8 @@ const TransactionHistory = () => {
           ]);
         }
         if (transfer[0].to === addr) {
-          tokensHistory.push([
+          setTokenTxHistory((prevTokenTxHistory) => [
+            ...prevTokenTxHistory,
             {
               blockNumber: transfer[0].blockNumber,
               from: transfer[0].from,
@@ -75,16 +77,20 @@ const TransactionHistory = () => {
           ]);
         }
       }
-
-      setTokenTxHistory(tokensHistory);
     } catch (error) {
       console.error(error);
     }
   };
 
   const findCryptocurrencyHistory = async () => {
+    const currentProvider = new ethers.providers.EtherscanProvider(
+      "matic",
+      process.env.REACT_APP_POLYGONSCAN_API_KEY
+    );
     try {
-      const history = await currentProvider.getHistory(currentAccount);
+      const history = await currentProvider.getHistory(
+        "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382" /*currentAccount*/
+      );
 
       var cryptoArray = [];
       var ticker = "";
@@ -94,7 +100,8 @@ const TransactionHistory = () => {
       } else {
         ticker = "ETH";
       }
-      const addr = currentAccount.toLowerCase();
+      const addr =
+        /*currentAccount*/ "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382".toLowerCase();
       for (const crypto of history) {
         if (crypto.data == "0x") {
           if (crypto.from == addr) {
@@ -130,6 +137,10 @@ const TransactionHistory = () => {
   };
 
   const convertTimestampToLocalDate = async (blockNumber) => {
+    const currentProvider = new ethers.providers.EtherscanProvider(
+      "matic",
+      process.env.REACT_APP_POLYGONSCAN_API_KEY
+    );
     var block = await currentProvider.getBlock(blockNumber);
     var timestamp = block.timestamp;
 
@@ -171,6 +182,7 @@ const TransactionHistory = () => {
   }, [tokenTxHistory, cryptoTxHistory]);
 
   useEffect(() => {
+    var currentNetwork = "Polygon";
     if (currentNetwork == "Polygon") {
       setTokenAddress(POLYGON_TOKEN_ADDRESS);
     } else if (currentNetwork == "Ethereum") {
@@ -180,28 +192,51 @@ const TransactionHistory = () => {
     } else if (currentNetwork == "Optimism") {
       setTokenAddress(OPTIMISM_TOKEN_ADDRESS);
     }
+    console.log(12);
     findCryptocurrencyHistory();
-    tokenAddress.map((v, i) => {
-      findTokensHistory(currentAccount, v.address, v.name);
+    tokenAddress.map(async (v, i) => {
+      await findTokensHistory(
+        "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382" /*currentAccount*/,
+        v.address,
+        v.name
+      );
+      delay();
+    });
+    // import한 토큰에대한 정보는 로컬스토리지에 있음
+    const importedTokenData = localStorage.getItem(currentNetwork);
+    const importedToken = JSON.parse(importedTokenData);
+    importedToken?.map(async (v, i) => {
+      await findTokensHistory(currentAccount, v.address, v.ticker);
     });
   }, []);
-
   useEffect(() => {
+    console.log(txHistory);
+  }, [txHistory]);
+
+  // Delay시키는 함수
+  const delay = async () => {
+    return new Promise((resolve) => setTimeout(resolve, 500));
+  };
+
+  /*useEffect(() => {
     setCurrentProvider(
-      new ethers.providers.InfuraProvider(
+      new ethers.providers.EtherscanProvider(
+        "matic",
+        process.env.REACT_APP_POLYGONSCAN_API_KEY
+      )
+      /*new ethers.providers.InfuraProvider(
         currentNetwork,
         process.env.INFURA_API_KEY_HISTORY
       )
     );
-  }, []);
+  }, []);*/
+
   return (
     <div className="container-dashboard dashboard-bg pt-2 flex flex-col overflow-auto">
-      <div className="bg-red-100 min-h-full m-5">
-        <h3>Transactions</h3>
+      <div className="min-h-full m-5">
         {txHistory?.map((v, i) => (
           <TransactionHistoryCard
             key={i}
-            from={v.from}
             to={v.to}
             ticker={v.ticker}
             value={v.value}
