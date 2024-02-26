@@ -45,13 +45,16 @@ const DeFi = () => {
       setProvider(new ethers.providers.InfuraProvider());
     } else if (currentNetwork == "Polygon") {
       setProvider(
-        new ethers.providers.InfuraProvider("matic", process.env.INFURA_API_KEY)
+        new ethers.providers.InfuraProvider(
+          "matic",
+          process.env.INFURA_API_KEY_DEFI
+        )
       );
     } else if (currentNetwork == "Optimism") {
       setProvider(
         new ethers.providers.InfuraProvider(
           "optimism",
-          process.env.INFURA_API_KEY
+          process.env.INFURA_API_KEY_DEFI
         )
       );
     }
@@ -83,13 +86,13 @@ const DeFi = () => {
     try {
       setTimeout(async () => {
         const tokenCount = await nonFungiblePositionManagerContract.balanceOf(
-          process.env.REACT_APP_TEST_ACCOUNT
+          "0x524b7c9b4ca33ba72445dfd2d6404c81d8d1f2e3"
         );
         var tempId = [];
         for (let i = 0; i < tokenCount; i++) {
           const id =
             await nonFungiblePositionManagerContract.tokenOfOwnerByIndex(
-              process.env.REACT_APP_TEST_ACCOUNT, // 여기를 currentAccount로 바꿔주면 테스트계정 말고 실제 계정으로 작동
+              "0x524b7c9b4ca33ba72445dfd2d6404c81d8d1f2e3", // 여기를 currentAccount로 바꿔주면 테스트계정 말고 실제 계정으로 작동
               i
             );
 

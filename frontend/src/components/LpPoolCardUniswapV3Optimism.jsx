@@ -24,11 +24,9 @@ const LpPoolCardUniswapV3Optimism = ({
   time,
   totalValue,
   setTotalValue,
-  lpV3Array,
   provider,
 }) => {
-  const { currentProvider, currentAccount, currentNetwork } =
-    useOutletContext();
+  const { currentProvider, currentAccount } = useOutletContext();
 
   const [sqrtPriceX96, setSqrtPriceX96] = useState();
   const [Decimal0, setDecimal0] = useState();
@@ -47,11 +45,141 @@ const LpPoolCardUniswapV3Optimism = ({
   const [uncollectedFees1, setUncollectedFees1] = useState(0); // 미청구 수수료 중 token1으로 받은 분량
   const [price0, setPrice0] = useState(); // token0의 시세 저장하는 상태변수
   const [price1, setPrice1] = useState(); // token1의 시세 저장하는 상태변수
+  const [reserve0, setReserve0] = useState();
+  const [reserve1, setReserve1] = useState();
   const [lpDollarValue, setLpDollarValue] = useState(); // LP 지분의 총 달러가치
   const [feeDollarValue, setFeeDollarValue] = useState(); // 미청구 수수료의 총 달러가치
   const [symbol0, setSymbol0] = useState();
   const [symbol1, setSymbol1] = useState();
   const [addedTotal, setAddedTotal] = useState(false);
+  const [apy, setApy] = useState();
+  const [v3PoolAddress, setV3PoolAddress] = useState();
+  const [isInRange, setIsInRange] = useState();
+  // const [toggleState, setToggleState] = useState();
+  const [apyConstant, setApyConstant] = useState(365);
+
+  const getApy = async () => {
+    console.log("62 optimism");
+    //tvl 구해야 함. sync event로 가장 최근 블록에서 reserve 구해서 tvl 구해야 함. 이 tvl로 apy 계산해야 함
+    var tvl;
+    if (!Decimal0 || !v3PoolAddress || !symbol0 || !symbol1 || !price0) return;
+    var total;
+    // console.log("34");
+
+    tvl = reserve0 * price0 + reserve1 * price1;
+    // console.log(
+    //   "tvll",
+    //   v3PoolAddress,
+    //   symbol0,
+    //   reserve0,
+    //   price0,
+    //   symbol1,
+    //   reserve1,
+    //   price1,
+    //   tvl,
+    //   fee
+    // );
+
+    // Function to fetch and log transfer events for a given address
+    async function getTotalFromSwapTx() {
+      console.log("84 optimism");
+      //swap event도 다름
+      // event Swap(address indexed sender, address indexed recipient, int256 amount0, int256 amount1, uint160 sqrtPriceX96, uint128 liquidity, int24 tick);
+
+      if (!Decimal0 || !tvl) return;
+
+      const erc20Abi = [
+        "event Swap(address indexed sender, address indexed recipient, int256 amount0, int256 amount1, uint160 sqrtPriceX96, uint128 liquidity, int24 tick)",
+      ];
+
+      const contract = new ethers.Contract(v3PoolAddress, erc20Abi, provider);
+
+      // const addresses = ["0x524b7c9b4ca33ba72445dfd2d6404c81d8d1f2e3"];
+
+      const startBlock = (await currentProvider.getBlockNumber()) - 7000; // Start block number
+      const endBlock = await currentProvider.getBlockNumber();
+
+      // console.log("55");
+      const filter = {
+        fromBlock: startBlock,
+        toBlock: endBlock,
+        address: v3PoolAddress,
+        topics: [
+          ethers.utils.id(
+            "Swap(address,address,int256,int256,uint160,uint128,int24)"
+          ),
+          null,
+          null, // Pad the address to 32 bytes
+        ],
+      };
+      const logs = await provider.getLogs(filter); // 여기서 blockNumber 추출 가능
+      // console.log("logs", v3PoolAddress, symbol0, symbol1, logs);
+      var parsedLog;
+      var totalToken0Swaped = [];
+      logs.forEach((log) => {
+        parsedLog = contract.interface.parseLog(log);
+        totalToken0Swaped.push(Math.abs(Number(parsedLog.args.amount0)));
+      });
+      // console.log(totalToken0Swaped);
+      var sum = 0;
+      for (let i = 0; i < totalToken0Swaped.length; i++) {
+        sum += totalToken0Swaped[i];
+      }
+      var dayVolume = (sum * price0) / 10 ** Decimal0;
+      // console.log("dayvolume", symbol0, symbol1, dayVolume);
+      console.log("dayfee", fee, dayVolume * (fee / 100000));
+      var apyTemp = ((dayVolume * (fee / 100000) * 365) / tvl) * 100;
+      setApy(apyTemp);
+      console.log(
+        "apy",
+        dayVolume,
+        symbol0,
+        symbol1,
+        Decimal0,
+        Decimal1,
+        reserve0,
+        reserve1,
+        price0,
+        price1,
+        tvl,
+        apyTemp
+      );
+      //   setApy(apyTemp);
+      // }
+    }
+    try {
+      // await getTvl();
+      await getTotalFromSwapTx();
+      // console.log(total);
+    } catch (err) {
+      console.error(`Error fetching logs for address: haha`, err);
+    }
+  };
+
+  useEffect(() => {
+    console.log("160 op");
+    console.log(
+      "161 op",
+      Decimal0,
+      v3PoolAddress,
+      reserve0,
+      price0,
+      reserve1,
+      price1
+    );
+    if (
+      !provider ||
+      !Decimal0 ||
+      !v3PoolAddress ||
+      !reserve0 ||
+      !price0 ||
+      !reserve1 ||
+      !price1
+    )
+      return;
+    console.log("171 op");
+    getApy();
+  }, [provider, Decimal0, v3PoolAddress, reserve0, price0, reserve1, price1]);
 
   //lp 지분, 미청구 수수료 빅넘버 계산 시 필요한 값들
   // https://blog.uniswap.org/uniswap-v3-math-primer-2 코드 참고해서 작성
@@ -75,16 +203,14 @@ const LpPoolCardUniswapV3Optimism = ({
         provider
       );
 
-      // console.log("87", factoryContract);
-
-      // console.log("89", token0, token1, fee);
-
       var pairContractAddress = await factoryContract.getPool(
         token0,
         token1,
         fee
       );
+
       pairContractAddress = pairContractAddress.toLowerCase();
+      setV3PoolAddress(pairContractAddress);
 
       if (!abiLPUniV3Optimism[pairContractAddress]) {
         // setSqrtPriceX96("1");
@@ -105,11 +231,7 @@ const LpPoolCardUniswapV3Optimism = ({
           provider
         );
       }
-
       setV3PoolContract(pairContract);
-      // console.log("118", pairContract);
-      // var fee2 = await pairContract.fee();
-      // console.log("132", fee2);
       var sqrt = await pairContract.slot0();
       sqrt = sqrt[0].toString();
       setSqrtPriceX96(sqrt);
@@ -135,9 +257,7 @@ const LpPoolCardUniswapV3Optimism = ({
           const contract_url = `https://api-optimistic.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_OPTIMISMSCAN_API_KEY}`;
           const contract_response = await fetch(contract_url);
           var { result } = await contract_response.json();
-          // console.log(result);
           const contract_abi = result[0].ABI;
-          // console.log(token0, "136", contract_abi);
           contract_0 = new ethers.Contract(token0, contract_abi, provider);
         } else {
           contract_0 = new ethers.Contract(
@@ -146,12 +266,16 @@ const LpPoolCardUniswapV3Optimism = ({
             provider
           );
         }
+        console.log("269 op");
         const decimal_0 = await contract_0.decimals(); //bigint
+        console.log("270 op");
         var symbol_0 = await contract_0.symbol();
         setSymbol0(symbol_0);
+        var reserve_0 = await contract_0.balanceOf(v3PoolAddress);
+        reserve_0 = Number(reserve_0 / 10 ** decimal_0);
+        setReserve0(reserve_0);
 
         if (symbol_0 == "WETH") {
-          // console.log("153", symbol_0);
           //WETH-USDT인 경우 ETH-USDT로 변환해주어야 함
           pair_0 = "ETHUSDT";
         } else if (symbol_0 == "WMATIC") {
@@ -159,13 +283,11 @@ const LpPoolCardUniswapV3Optimism = ({
           //WMATIC-USDT인 경우 ETH-USDT로 변환해주어야 함
           pair_0 = "MATICUSDT";
         } else {
-          // console.log("161", symbol_0);
           pair_0 = symbol_0 + "USDT";
         }
         setDecimal0(Number(decimal_0));
 
         if (!abiOptimismToken[token1]) {
-          // console.log("168 add in abi file", token1);
           //abi DB에 없는 경우 이더스캔으로 abi 가져와서 컨트랙트 구성
           const contract_url = `https://api-optimistic.etherscan.io/api?module=contract&action=getsourcecode&address=${token0}&apikey=${process.env.REACT_APP_OPTIMISMSCAN_API_KEY}`;
           const contract_response = await fetch(contract_url);
@@ -182,9 +304,11 @@ const LpPoolCardUniswapV3Optimism = ({
         const decimal_1 = await contract_1.decimals();
         var symbol_1 = await contract_1.symbol();
         setSymbol1(symbol_1);
+        var reserve_1 = await contract_1.balanceOf(v3PoolAddress);
+        reserve_1 = Number(reserve_1 / 10 ** decimal_1);
+        setReserve1(reserve_1);
 
         if (symbol_1 == "WETH") {
-          // console.log("186", symbol_1);
           //WETH-USDT인 경우 ETH-USDT로 변환해주어야 함
           pair_1 = "ETHUSDT";
         } else if (symbol_1 == "WMATIC") {
@@ -192,7 +316,6 @@ const LpPoolCardUniswapV3Optimism = ({
           //WMATIC-USDT인 경우 ETH-USDT로 변환해주어야 함
           pair_1 = "MATICUSDT";
         } else {
-          // console.log("194", symbol_1);
           pair_1 = symbol_1 + "USDT";
         }
 
@@ -405,6 +528,12 @@ const LpPoolCardUniswapV3Optimism = ({
         );
       }
 
+      if (currentTick >= tickLower && currentTick <= tickUpper) {
+        setIsInRange(true);
+      } else {
+        setIsInRange(false);
+      }
+
       //   fr(t1) For both token0 and token1
       let fr_t1_0 = subIn256(
         subIn256(feeGrowthGlobal_0, tickLowerFeeGrowthBelow_0),
@@ -492,9 +621,9 @@ const LpPoolCardUniswapV3Optimism = ({
   }, [provider]);
 
   useEffect(() => {
-    if (!provider || liquidity == 0) return;
+    if (!provider || liquidity == 0 || !v3PoolAddress) return;
     getPairTokensInfo();
-  }, [provider]);
+  }, [provider, v3PoolAddress]);
 
   useEffect(() => {
     if (!sqrtPriceX96) return;
@@ -542,7 +671,7 @@ const LpPoolCardUniswapV3Optimism = ({
 
   return (
     <>
-      {lpDollarValue > 0 ? (
+      {lpDollarValue > 0 && isNaN(apy) == false ? (
         <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-2 my-10 flex flex-col gap-2">
           {/* 헤더 */}
           <div className="dm-sans-defi flex flex-row justify-between m-4">
@@ -550,19 +679,69 @@ const LpPoolCardUniswapV3Optimism = ({
             <div className="flex flex-col">
               <div>UNISWAP V3 POOL</div>
               <div className="text-sm">TOKENID #{tokenId}</div>
+              <div className="text-sm">FEE {fee / 10000}%</div>
             </div>
             <div className="flex flex-col items-start">
               {/* 수익률 */}
-              <div className="text-green-500">+%1.78</div>
+              {isInRange ? (
+                <>
+                  <div className="text-sm text-green-500">IN RANGE</div>
+                  <div className="text-green-500">{`+%${(
+                    (apy * apyConstant) /
+                    365
+                  ).toFixed(2)}`}</div>
+                </>
+              ) : (
+                <>
+                  <div className="text-sm text-red-500">OUT OF RANGE</div>
+                  <div className="text-red-500">{`+%${(
+                    (apy * apyConstant) /
+                    365
+                  ).toFixed(2)}`}</div>
+                </>
+              )}
+
               {/* 수익률 기간토글 */}
               <div className="flex flex-row gap-1 items-center text-xs ">
                 <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
-                  <button className="px-1 bg-green-200 hover:bg-green-100 rounded-s-md">
+                  <button
+                    onClick={() => setApyConstant(1)}
+                    className={
+                      apyConstant == 1
+                        ? `px-1 bg-green-200 hover:bg-green-100 rounded-s-md`
+                        : `px-1 hover:bg-green-100 rounded-s-md`
+                    }
+                  >
                     D
                   </button>
-                  <button className="px-1 hover:bg-green-100">W</button>
-                  <button className="px-1 hover:bg-green-100">M</button>
-                  <button className="px-1 hover:bg-green-100 rounded-e-md">
+                  <button
+                    onClick={() => setApyConstant(7)}
+                    className={
+                      apyConstant == 7
+                        ? `px-1 bg-green-200 hover:bg-green-100 `
+                        : `px-1 hover:bg-green-100 `
+                    }
+                  >
+                    W
+                  </button>
+                  <button
+                    onClick={() => setApyConstant(30)}
+                    className={
+                      apyConstant == 30
+                        ? `px-1 bg-green-200 hover:bg-green-100 `
+                        : `px-1 hover:bg-green-100 `
+                    }
+                  >
+                    M
+                  </button>
+                  <button
+                    onClick={() => setApyConstant(365)}
+                    className={
+                      apyConstant == 365
+                        ? `px-1 bg-green-200 hover:bg-green-100 rounded-e-md`
+                        : `px-1 hover:bg-green-100 rounded-e-md`
+                    }
+                  >
                     Y
                   </button>
                 </div>
