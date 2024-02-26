@@ -663,8 +663,14 @@ const LpPoolCardUniswapV3 = ({
             {/* 카드이름 */}
             <div className="flex flex-col">
               <div>UNISWAP V3 POOL</div>
-              <div className="text-sm">TOKENID #{tokenId}</div>
-              <div className="text-sm">FEE {fee / 10000}%</div>
+              <div className="text-sm">
+                <a
+                  href={`https://app.uniswap.org/pools/${tokenId}`}
+                  target="_blank"
+                >
+                  TOKENID #{tokenId}
+                </a>
+              </div>
             </div>
             <div className="flex flex-col items-start">
               {/* 수익률 */}
@@ -674,7 +680,7 @@ const LpPoolCardUniswapV3 = ({
                   <div className="text-green-500">{`+%${(
                     (apy * apyConstant) /
                     365
-                  ).toFixed(2)}`}</div>
+                  ).toFixed(4)}`}</div>
                 </>
               ) : (
                 <>
@@ -682,7 +688,7 @@ const LpPoolCardUniswapV3 = ({
                   <div className="text-red-500">{`+%${(
                     (apy * apyConstant) /
                     365
-                  ).toFixed(2)}`}</div>
+                  ).toFixed(4)}`}</div>
                 </>
               )}
 
@@ -747,12 +753,12 @@ const LpPoolCardUniswapV3 = ({
                 <div>
                   {/* {LPTokenName}: {_pairname} */}
                   {/* {LPTokenName} */}
-                  {`${Number(token0Amount).toFixed(6)} ${symbol0}`}
+                  {`${Number(token0Amount).toFixed(4)} ${symbol0}`}
                 </div>
                 <div className="m-sans-body-reveal">
                   {/* {LPTokenName}: {_pairname} */}
                   {/* {_pairname} */}
-                  {`${Number(token1Amount).toFixed(6)} ${symbol1}`}
+                  {`${Number(token1Amount).toFixed(4)} ${symbol1}`}
                 </div>
               </div>
               <div>
@@ -773,12 +779,12 @@ const LpPoolCardUniswapV3 = ({
                   <div>
                     {/* {LPTokenName}: {_pairname} */}
                     {/* {LPTokenName} */}
-                    {`${Number(uncollectedFees0).toFixed(6)} ${symbol0}`}
+                    {`${Number(uncollectedFees0).toFixed(4)} ${symbol0}`}
                   </div>
                   <div>
                     {/* {LPTokenName}: {_pairname} */}
                     {/* {_pairname} */}
-                    {`${Number(uncollectedFees1).toFixed(6)} ${symbol1}`}
+                    {`${Number(uncollectedFees1).toFixed(4)} ${symbol1}`}
                   </div>
                 </div>
                 <div>
