@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { FaPercentage } from "react-icons/fa";
 
 const DeFiButton = ({ setTabNumber, tabNumber }) => {
   const onClickDeFi = () => {
@@ -8,9 +8,12 @@ const DeFiButton = ({ setTabNumber, tabNumber }) => {
   return (
     <button
       onClick={onClickDeFi}
-      className={`dashboard-menu ${tabNumber === 0 && "bg-[#9EFFAE]"}`}
+      className={`dashboard-menu dashboard-menu-flex text-bold ${
+        tabNumber === 0 && "dashboard-menu-active"
+      }`}
     >
-      DeFI
+      <FaPercentage className="scale-150" />
+      <div className="dm-sans text-lg pt-1">DeFI</div>
     </button>
   );
 };

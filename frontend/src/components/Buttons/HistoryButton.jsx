@@ -1,3 +1,5 @@
+import { FaStream } from "react-icons/fa";
+
 const HistoryButton = ({ setTabNumber, tabNumber }) => {
   const onClickHistory = () => {
     setTabNumber(3);
@@ -6,9 +8,12 @@ const HistoryButton = ({ setTabNumber, tabNumber }) => {
   return (
     <button
       onClick={onClickHistory}
-      className={`dashboard-menu ${tabNumber === 3 && "bg-[#9EFFAE]"}`}
+      className={`dashboard-menu dashboard-menu-flex text-bold  ${
+        tabNumber === 3 && "dashboard-menu-active"
+      }`}
     >
-      HISTORY
+      <FaStream className="scale-125" />
+      <div className="dm-sans text-lg pt-1">Log</div>
     </button>
   );
 };

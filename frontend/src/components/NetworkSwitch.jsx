@@ -29,21 +29,21 @@ const NetworkSwitch = () => {
   }, [currentNetwork]);
 
   return (
-    <div className="relative mt-2">
+    <div className="relative -translate-y-2 z-10">
       <button
-        className={`toggle-dropdown mx-0 w-44 focus:outline-none text-sm text-center ${
+        className={`toggle-dropdown linear-bg-network mx-0 w-44 focus:outline-none text-sm text-center ${
           isOpen && "rounded-b-none"
         }`}
         onClick={toggleDropdown}
       >
         <span className="h-3 w-3 rounded-full bg-green-400 text-center"></span>
-        <span>Network: {currentNetwork}</span>
+        <span className="p-1">Network: {currentNetwork}</span>
       </button>
       {isOpen && (
-        <div className="z-20 absolute w-44 border border-purple-800 bg-white rounded-b-lg shadow-xl">
+        <div className="z-20 absolute w-44 linear-bg-network-dropdown rounded-b-lg shadow-xl">
           <div className="flex flex-col justify-center items-center gap-2">
-            <div className="dm-sans-token-info text-lg text-center">
-              MAIN NETWORK
+            <div className="text-md text-center text-white font-bold pt-4">
+              Main Network
             </div>
             <Ethereum isOpen={isOpen} setIsOpen={setIsOpen} />
             <Polygon isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -65,12 +65,15 @@ const NetworkSwitch = () => {
           Avalanche C-Chain
         </button>
         */}
-            <div className="dm-sans-token-info text-lg pt-2 text-center">
-              TEST NETWORK
+            <div className="text-md pt-2 text-center text-white font-bold">
+              Test Network
             </div>
             <Sepolia isOpen={isOpen} setIsOpen={setIsOpen} />
             <Goerli isOpen={isOpen} setIsOpen={setIsOpen} />
-            <button className="my-4 text-center" onClick={toggleDropdown}>
+            <button
+              className="my-4 text-center text-white"
+              onClick={toggleDropdown}
+            >
               <SlClose className="text-base" />
             </button>
           </div>

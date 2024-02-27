@@ -85,7 +85,7 @@ const NewWallet = () => {
       <div className="pt-28 mt-4 flex flex-col px-6 h-fit">
         {!currentAccount ? (
           <>
-            <div className="text-lg text-center mb-4 whitespace-pre-line">
+            <div className="text-lg text-center mb-4 whitespace-pre-line text-purple-50 shadow-yellow-200">
               {`Let the magic begin 🎩
             Make sure nobody is watching!`}
             </div>
@@ -107,7 +107,7 @@ const NewWallet = () => {
         ) : (
           <>
             {/* 버튼 클릭 후 계정 생성 성공 시 정보 표시 */}
-            <div className="text-lg text-center mb-12 whitespace-pre-line">
+            <div className="text-lg text-center mb-12 whitespace-pre-line text-purple-50">
               {`✨Your address is ready!✨`}
             </div>
             {currentAccount && (
@@ -178,7 +178,7 @@ const NewWallet = () => {
                   <button
                     className={`${
                       isChecked1 && isChecked2
-                        ? "homepageButton"
+                        ? "homepageButton-rounded w-28 bg-[#381D45]"
                         : "homepageButton-inactive"
                     }`}
                     onClick={onClickOK}

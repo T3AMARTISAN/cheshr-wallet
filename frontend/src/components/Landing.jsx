@@ -20,13 +20,13 @@ const Landing = () => {
             <p>for your defi journey</p>
           </div>
           <button
-            className="homepageButton-rounded linear-bg-button network-button"
+            className="homepageButton-rounded bg-[#69467A]"
             onClick={onClickCreateWallet}
           >
             Make Address
           </button>
           <button
-            className="homepageButton-rounded linear-bg-button"
+            className="homepageButton-rounded bg-[#69467A]"
             onClick={onClickMountWallet}
           >
             Mount Address

@@ -29,31 +29,31 @@ const TotalAsset = () => {
     showMyBalance();
   }, [balance]);
 
-  useEffect(() => {
-    const getDate = () => {
-      const currentDate = new Date();
+  // useEffect(() => {
+  //   const getDate = () => {
+  //     const currentDate = new Date();
 
-      const formattedDate = currentDate.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
+  //     const formattedDate = currentDate.toLocaleDateString("en-US", {
+  //       year: "numeric",
+  //       month: "long",
+  //       day: "numeric",
+  //     });
 
-      setDate(formattedDate);
-    };
+  //     setDate(formattedDate);
+  //   };
 
-    getDate();
-  }, [date]);
+  //   getDate();
+  // }, [date]);
 
   return (
     <div className="flex flex-row items-center justify-between mx-4 whitespace-pre">
-      <div className="my-20 text-2xl">
-        {/* 오늘 날짜 */}
-        <p className="dm-sans-title-feed">{date}</p>
+      <div className="my-14 pb-4">
+        {/* 총 자산 (USD) = DeFi + Token */}
+        <div className="dm-sans-title-feed linear-bg-text">$250.35</div>
         {/* 네트워크별 네이티브 토큰 총 잔액 */}
-        <p className="dm-sans-body-feed">
+        {/* <p className="dm-sans-body-feed">
           {totalValue} {unit}
-        </p>
+        </p> */}
         {/* 네트워크 */}
         <NetworkSwitch />
       </div>
@@ -63,7 +63,7 @@ const TotalAsset = () => {
           <Import />
         ) : (
           <div
-            className="feed-button click:bg-purple-300 hover:bg-purple-400"
+            className="feed-button linear-bg-btn click:bg-purple-300"
             onClick={() => setImportOpen(!importOpen)}
           >
             Import
@@ -74,7 +74,7 @@ const TotalAsset = () => {
           <Send sendOpen={sendOpen} setSendOpen={setSendOpen} />
         ) : (
           <div
-            className="feed-button click:bg-purple-300 hover:bg-purple-400"
+            className="feed-button linear-bg-btn"
             onClick={() => setSendOpen(!sendOpen)}
           >
             Send

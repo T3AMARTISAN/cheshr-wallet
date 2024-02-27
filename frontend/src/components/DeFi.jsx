@@ -197,7 +197,14 @@ const DeFi = () => {
     console.log("191 getv2lps useeffect done");
   }, [provider, importOpen]);
   return (
-    <div className="container-dashboard dashboard-bg border-t-0 relative flex flex-col">
+    <div className="container-dashboard dashboard-feed-bg relative flex flex-col">
+      <div className="flex flex-row justify-between items-center py-4 mx-8">
+        <div className="dm-sans font-medium text-xl text-white">DeFi</div>
+        <div className="dm-sans font-base text-purple-50 flex flex-col justify-center items-center">
+          <div className="text-xs text-purple-100">Total Value:</div>
+          <div className="text-2xl"> ${totalValue.toFixed(2)}</div>
+        </div>
+      </div>
       <div className="flex-grow overflow-auto">
         {/* lpArray 하나씩 조회해 각 lp 토큰 카드로 뿌려줌. 잔고 있는지 유무는 LpPoolCard 컴포넌트에서 판단 */}
         {currentNetwork == "Ethereum" && provider
@@ -214,7 +221,6 @@ const DeFi = () => {
               />
             ))
           : ""}
-
         {currentNetwork == "Ethereum"
           ? lpV3Array?.map((v, i) => (
               <LPPoolCardUniswapV3
@@ -277,7 +283,6 @@ const DeFi = () => {
               />
             ))
           : ""}
-
         {/* 모달창
         {addLpButtonIsClicked > 0 && (
           <AddLpModal
@@ -298,9 +303,9 @@ const DeFi = () => {
           </button>
         </div>{" "} */}
       </div>
-      <div className="sticky bottom-2 text-right bg-green-200 m-2 px-auto dm-sans-token">
+      {/* <div className="sticky bottom-2 text-right bg-green-200 m-2 px-auto dm-sans-token">
         TOTAL VALUE: ${totalValue.toFixed(2)}
-      </div>
+      </div> */}
     </div>
   );
 };

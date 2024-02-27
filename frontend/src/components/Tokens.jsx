@@ -148,11 +148,14 @@ const Tokens = () => {
   }, [cryptocurrencyBalance, cryptocurrencyPrice]);
 
   return (
-    <div className="container-dashboard dashboard-bg pt-2 relative flex flex-col">
+    <div className="container-dashboard dashboard-feed-bg pt-2 relative flex flex-col">
       <div className="flex-grow overflow-auto">
-        <div className="sticky flex flex-row justify-between px-6 py-2 text-base dm-sans-token text-purple-900">
-          <div>AMOUNT</div>
-          <div>USD VALUE</div>
+        <div className="flex flex-row justify-between items-center pt-2 pb-6 mx-8">
+          <div className="dm-sans font-medium text-xl text-white">Tokens</div>
+          <div className="dm-sans font-base text-purple-50 flex flex-col justify-center items-center">
+            <div className="text-xs text-purple-100">Total Value:</div>
+            <div className="text-2xl"> ${totalValue.toFixed(2)}</div>
+          </div>
         </div>
         {/*cryptocurrency 잔액 나타내기*/}
         <div className="token-container">
@@ -170,7 +173,9 @@ const Tokens = () => {
               <div className="dm-sans-token-info">
                 {cryptocurrencyBalance.toFixed(4)}
               </div>
-              <div className="dm-sans-body-feed text-base">{unit}</div>
+              <div className="dm-sans-body-feed text-base text-purple-100">
+                {unit}
+              </div>
             </div>
             <div className="flex flex-col items-end">
               {/*USD 가치*/}
@@ -178,7 +183,7 @@ const Tokens = () => {
                 {Number(cryptocurrencyBalance * cryptocurrencyPrice).toFixed(4)}
               </div>
               {/*시세*/}
-              <div className="dm-sans-body-feed text-base">
+              <div className="dm-sans-body-feed text-base text-purple-100">
                 {Number(cryptocurrencyPrice).toFixed(4)}
               </div>
             </div>

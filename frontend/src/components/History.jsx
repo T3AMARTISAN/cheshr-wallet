@@ -237,7 +237,7 @@ const TransactionHistory = () => {
   }, []);*/
 
   return (
-    <div className="container-dashboard dashboard-bg pt-2 flex flex-col overflow-auto">
+    <div className="container-dashboard dashboard-feed-bg relative flex flex-col">
       <div className="min-h-full m-5">
         {txHistory?.map((v, i) => (
           <TransactionHistoryCard

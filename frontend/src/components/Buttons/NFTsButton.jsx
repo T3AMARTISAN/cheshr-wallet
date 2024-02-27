@@ -1,3 +1,5 @@
+import { FaGem } from "react-icons/fa";
+
 const NFTsButton = ({ setTabNumber, tabNumber }) => {
   const onClickNFTs = () => {
     setTabNumber(2);
@@ -6,9 +8,12 @@ const NFTsButton = ({ setTabNumber, tabNumber }) => {
   return (
     <button
       onClick={onClickNFTs}
-      className={`dashboard-menu ${tabNumber === 2 && "bg-[#9EFFAE]"}`}
+      className={`dashboard-menu dashboard-menu-flex text-bold ${
+        tabNumber === 2 && "dashboard-menu-active"
+      }`}
     >
-      NFTs
+      <FaGem className="scale-125" />
+      <div className="dm-sans text-lg pt-1">NFT</div>
     </button>
   );
 };
