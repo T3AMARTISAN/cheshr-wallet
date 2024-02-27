@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const TokenCard = ({ ticker, value, totalValue, setTotalValue }) => {
+const TokenCard = ({ ticker, value }) => {
   const [price, setPrice] = useState();
 
   const getPrice = async () => {
