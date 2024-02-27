@@ -216,13 +216,13 @@ const TotalAsset = () => {
       <div className="my-14 pb-4">
         {/* 총 자산 (USD) = DeFi + Token */}
         <div className="dm-sans-title-feed linear-bg-text">
-          ${Number(totalSum + totalValue).toFixed(4)}
+          ${Number(totalSum + totalValue).toFixed(2)}
         </div>
         {/* 네트워크별 네이티브 토큰 총 잔액 */}
         {/* <p className="dm-sans-body-feed">
           {totalValue} {unit}
         </p> */}
-        <p className="dm-sans-body-feed">{Number(totalSum).toFixed(4)}</p>
+        {/* <p className="dm-sans-body-feed">{Number(totalSum).toFixed(4)}</p> */}
         {/* 네트워크 */}
         <NetworkSwitch />
       </div>
