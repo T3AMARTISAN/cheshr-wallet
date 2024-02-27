@@ -207,7 +207,7 @@ export const ImportLPForm = () => {
                   value={newLpAddress}
                   onChange={(e) => setNewLpAddress(e.target.value)}
                   className="modal-inputbox p-2 dm-sans text-sm"
-                  placeholder="Enter LP Contract address"
+                  placeholder="Enter LP contract"
                 ></input>
               </div>
             </div>

@@ -21,7 +21,7 @@ const Main = () => {
       <div className="flex flex-col justify-center gap-1">
         <TotalAsset />
       </div>
-      <div className="w-[480px] h-min-screen mx-auto bg-[#6e4a7f] rounded-t-3xl relative">
+      <div className="w-[45vh] h-min-screen mx-auto menu-bg relative">
         {tabNumber == 0 ? <DeFi /> : ""}
         {tabNumber == 1 ? <Tokens /> : ""}
         {tabNumber == 2 ? <Nfts /> : ""}

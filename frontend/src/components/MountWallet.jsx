@@ -98,7 +98,7 @@ const MountWallet = () => {
                 <Seed onPhraseComplete={handlePhraseComplete} />
               </div>
             )}
-            <div className="flex flex-row justify-around px-20 py-10">
+            <div className="flex flex-row justify-around px-20 py-4">
               <button
                 className={`${
                   phrase || pvk
@@ -120,7 +120,7 @@ const MountWallet = () => {
               <div className="whitespace-pre-line text-center leading-6 text-lg text-purple-50 pb-10">{`Final step!
           What password will you use?`}</div>
               <EOAPassword />
-              <div className="flex flex-row justify-around px-20">
+              <div className="flex flex-row justify-around px-20 pb-4">
                 <button
                   className={`rounded-md p-2 px-4 ${
                     !passwordsMatch

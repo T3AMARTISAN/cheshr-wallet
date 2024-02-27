@@ -141,56 +141,55 @@ const Tokens = () => {
   }, []);
 
   return (
-    <div className="container-dashboard dashboard-feed-bg pt-2 relative flex flex-col">
-      <div className="flex-grow overflow-auto">
-        <div className="flex flex-row justify-between items-center pt-2 pb-6 mx-8">
-          <div className="dm-sans font-medium text-xl text-white">Tokens</div>
-          <div className="dm-sans font-base text-purple-50 flex flex-col justify-center items-center">
-            <div className="text-xs text-purple-100">Total Value:</div>
-            <div className="text-2xl"> ${totalValue.toFixed(2)}</div>
-          </div>
+    <div className="container-dashboard dashboard-feed-bg relative flex flex-col">
+      <div className="flex flex-row justify-between items-center pt-2 pb-6 mx-8">
+        <div className="dm-sans font-medium text-xl text-white">Tokens</div>
+        <div className="dm-sans font-base text-purple-50 flex flex-col justify-center items-center">
+          <div className="text-xs text-purple-100">Total Value:</div>
+          <div className="text-2xl">$100</div>
+          {/* <div className="text-2xl"> ${totalValue.toFixed(2)}</div> */}
         </div>
-        {/*cryptocurrency 잔액 나타내기*/}
-        <div className="token-container">
-          {/* 심볼이미지 */}
-          <div className="token-symbol relative bg-opacity-35">
-            <img
-              src="https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png"
-              alt="USDC"
-              className="absolute inset-0 m-auto rounded-full w-8 h-8 shadow drop-shadow-md"
-            />
-          </div>
-          <div className="grow flex justify-between text-lg">
-            <div className="flex flex-col items-start pl-2">
-              {/* 틱커 */}
-              <div className="dm-sans-token-info">
-                {cryptocurrencyBalance.toFixed(4)}
-              </div>
-              <div className="dm-sans-body-feed text-base text-purple-100">
-                {unit}
-              </div>
+      </div>
+      {/*cryptocurrency 잔액 나타내기*/}
+      <div className="token-container">
+        {/* 심볼이미지 */}
+        <div className="token-symbol relative bg-opacity-35">
+          <img
+            src="https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png"
+            alt="USDC"
+            className="absolute inset-0 m-auto rounded-full w-8 h-8 shadow drop-shadow-md"
+          />
+        </div>
+        <div className="grow flex justify-between text-lg">
+          <div className="flex flex-col items-start pl-2">
+            {/* 틱커 */}
+            <div className="dm-sans-token-info">
+              {cryptocurrencyBalance.toFixed(4)}
             </div>
-            <div className="flex flex-col items-end">
-              {/*USD 가치*/}
-              <div className="dm-sans-token-info">
-                {Number(cryptocurrencyBalance * cryptocurrencyPrice).toFixed(4)}
-              </div>
-              {/*시세*/}
-              <div className="dm-sans-body-feed text-base text-purple-100">
-                {Number(cryptocurrencyPrice).toFixed(4)}
-              </div>
+            <div className="dm-sans-body-feed text-base text-purple-100">
+              {unit}
             </div>
           </div>
+          <div className="flex flex-col items-end">
+            {/*USD 가치*/}
+            <div className="dm-sans-token-info">
+              {Number(cryptocurrencyBalance * cryptocurrencyPrice).toFixed(4)}
+            </div>
+            {/*시세*/}
+            <div className="dm-sans-body-feed text-base text-purple-100">
+              {Number(cryptocurrencyPrice).toFixed(4)}
+            </div>
+          </div>
         </div>
-        {/*ERC 토큰 잔액 나타내기 */}
-        {balance?.map((v, i) => (
-          <TokenCard key={i} ticker={v.ticker} value={v.value} />
-        ))}
       </div>
-      <div className="sticky bottom-2 text-right bg-green-200 m-2 px-auto dm-sans-token">
-        TOTAL VALUE: $108
-      </div>
+      {/*ERC 토큰 잔액 나타내기 */}
+      {balance?.map((v, i) => (
+        <TokenCard key={i} ticker={v.ticker} value={v.value} />
+      ))}
     </div>
+    // {/* <div className="sticky bottom-2 text-right bg-green-200 m-2 px-auto dm-sans-token">
+    //   TOTAL VALUE: $108
+    // </div> */}
   );
 };
 

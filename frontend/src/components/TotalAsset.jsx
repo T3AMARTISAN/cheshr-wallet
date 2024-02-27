@@ -208,7 +208,7 @@ const TotalAsset = () => {
         {/* <p className="dm-sans-body-feed">
           {totalValue} {unit}
         </p> */}
-        <p className="dm-sans-body-feed">{Number(totalSum)}</p>
+        {/* <p className="dm-sans-body-feed">{Number(totalSum)}</p> */}
         {/* 네트워크 */}
         <NetworkSwitch />
       </div>

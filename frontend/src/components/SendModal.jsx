@@ -229,7 +229,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
         </button>
 
         {/* 헤더 */}
-        <div className="dm-sans text-white text-4xl py-4 text-center">SEND</div>
+        <div className="dm-sans text-white text-4xl pt-8 text-center">SEND</div>
 
         {/* 트랜잭션 정보 */}
         <form
@@ -252,7 +252,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
             </div>
 
             {/* 입력란 */}
-            <div className="flex flex-col justify-center items-end gap-3">
+            <div className="flex flex-col justify-end items-end gap-3">
               <input
                 type="text"
                 onChange={(e) => setToAddress(e.target.value)}
@@ -273,12 +273,12 @@ const Send = ({ setSendOpen, sendOpen }) => {
                     <HiSelector />
                   </div>
                   <div
-                    className={`absolute translate-y-8 z-20 modal-dropdown  ${
-                      isClick && "rounded-t-none border-t-0"
+                    className={`absolute z-20 modal-dropdown  ${
+                      isClick && "rounded-t-none border-t-0 -translate-y-2"
                     }`}
                     onClick={onClickSelectOriginal}
                   >
-                    <p className="hover:bg-[#9EFFAE]">
+                    <p className="hover:text-purple-800">
                       {balance} {unit}
                     </p>
                   </div>
@@ -319,7 +319,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
             </div>
           </div>
           {/* 예상가스비 */}
-          <div className="w-96 h-28 bg-purple-100 rounded-lg border border-purple-950 mt-8">
+          <div className="w-[40vh] h-28 bg-purple-50 opacity rounded-lg border border-purple-950 mt-8">
             <div className="dm-sans-title-reveal text-lg text-center py-3 text-green-800">
               Estimated Gas Fee
             </div>
@@ -330,8 +330,11 @@ const Send = ({ setSendOpen, sendOpen }) => {
                   <li>Market -30 sec</li>
                 </div>
                 <div className="text-right">
-                  <li>0.00003411 SepholiaETH</li>
-                  <li>Max Fee: 0.0003525 SepholiaETH</li>
+                  <li>0.00003411 ETH</li>
+                  <li>
+                    <span className="text-xs">Max Fee:</span>{" "}
+                    <span>0.0003525 ETH</span>
+                  </li>
                 </div>
               </div>
             </ul>

@@ -47,7 +47,7 @@ const EOAPassword = () => {
     <>
       <div className="flex flex-col gap-2">
         <input
-          className="inputbox w-96 mx-auto"
+          className="inputbox w-2/3 mx-auto"
           type="password"
           value={password}
           onChange={handlePasswordChange}
@@ -56,14 +56,14 @@ const EOAPassword = () => {
         {password && !passwordValid && (
           <div className="invalid-text -translate-y-9 whitespace-pre text-left">
             <p>
-              💡Include 1 uppercase letter, 1 lowercase letter, 1 number, 1
+              💡Include 1 uppercase, 1 lowercase, 1 number, 1
               symbol.
             </p>
             <p>💡At least 8 characters (12+ recommended).</p>
           </div>
         )}
         <input
-          className="inputbox w-96 mx-auto mb-8"
+          className="inputbox w-2/3 mx-auto mb-8"
           type="password"
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}

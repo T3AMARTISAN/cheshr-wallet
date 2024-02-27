@@ -77,12 +77,16 @@ const NewWallet = () => {
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="pt-12 px-6 h-fit">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (
     <>
-      <div className="pt-28 mt-4 flex flex-col px-6 h-fit">
+      <div className="pt-28 mt-2 flex flex-col px-6 h-fit">
         {!currentAccount ? (
           <>
             <div className="text-lg text-center mb-4 whitespace-pre-line text-purple-50 shadow-yellow-200">
@@ -107,12 +111,12 @@ const NewWallet = () => {
         ) : (
           <>
             {/* 버튼 클릭 후 계정 생성 성공 시 정보 표시 */}
-            <div className="text-lg text-center mb-12 whitespace-pre-line text-purple-50">
+            <div className="text-lg text-center mb-4 whitespace-pre-line text-purple-50">
               {`✨Your address is ready!✨`}
             </div>
             {currentAccount && (
               <>
-                <div className="revealBox flex flex-col gap-6 mb-10 items-start">
+                <div className="revealBox flex flex-col gap-6 mb-6 items-start">
                   <div>
                     <div className="flex flex-row gap-1 pt-2">
                       <div className="dm-sans-title-reveal">Wallet Address</div>
@@ -150,9 +154,9 @@ const NewWallet = () => {
                   </div>
                 </div>
 
-                <div className="flex mb-10 flex-col gap-2 font-light text-md whitespace-pre px-6 text-center">
+                <div className="flex mb-4 flex-col gap-2 font-light text-md whitespace-pre px-6 text-center">
                   <div className="flex flex-row gap-1 items-center">
-                    <div className="consentBox">
+                    <div className="consentBox text-sm">
                       I will not share my seed phrase and private key.
                     </div>
                     <input
@@ -163,7 +167,7 @@ const NewWallet = () => {
                     />
                   </div>
                   <div className="flex flex-row gap-1 items-center">
-                    <div className="consentBox">
+                    <div className="consentBox text-sm">
                       cheshr cannot recover my password.
                     </div>
                     <input
@@ -178,7 +182,7 @@ const NewWallet = () => {
                   <button
                     className={`${
                       isChecked1 && isChecked2
-                        ? "homepageButton-rounded w-28 bg-[#381D45]"
+                        ? "homepageButton-rounded w-28 bg-[#7766aa]"
                         : "homepageButton-inactive"
                     }`}
                     onClick={onClickOK}

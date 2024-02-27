@@ -117,7 +117,7 @@ export const ImportTokenForm = () => {
               type="text"
               onChange={(e) => setTokenAddress(e.target.value)}
               className="modal-inputbox p-2 dm-sans text-sm"
-              placeholder="Enter token contract address"
+              placeholder="Enter token contract"
             ></input>
             <input
               type="text"

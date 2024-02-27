@@ -7,7 +7,7 @@ const PVKey = ({ pvk, setPvk }) => {
   return (
     <div>
       <input
-        className="inputbox w-96 mx-auto"
+        className="inputbox w-[40vh] mx-auto"
         type="password"
         value={pvk}
         placeholder="Enter your private key"
