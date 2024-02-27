@@ -50,11 +50,11 @@ const WalletDropdown = () => {
     <div className="relative">
       <button
         onClick={toggleDropdown}
-        className={`toggle-dropdown focus:outline-none inset-x-0 ${
-          isOpen && "rounded-b-none"
+        className={`wallet-dropdown bg-purple-50 z-20 focus:outline-none inset-x-0 ${
+          isOpen && "rounded-b-none shadow-none drop-shadow-none mb-0"
         }`}
       >
-        <div className="dm-sans flex flex-row gap-3 justify-center">
+        <div className="dm-sans font-normal flex flex-row gap-3 justify-center">
           {currentAccount.substring(0, 5)}...
           {currentAccount.substring(currentAccount.length - 4)}
           <BurgerButton />
@@ -62,19 +62,23 @@ const WalletDropdown = () => {
       </button>
 
       {isOpen && (
-        <div className="z-20 absolute mx-4 w-36 border border-purple-800 bg-white rounded-b-lg shadow-xl">
-          <div className="toggle-menu text-sm">QR Code</div>
-          <div className="toggle-menu text-sm" onClick={onCopyAddress}>
+        <div className="z-10 absolute bg-purple-50 mx-4 w-36 mt-0 rounded-b-lg shadow drop-shadow-xl">
+          <div className="toggle-menu text-black text-sm">QR Code</div>
+          <div
+            className="toggle-menu text-black text-sm"
+            onClick={onCopyAddress}
+          >
             Copy Wallet
           </div>
-          <div className="toggle-menu text-sm" onClick={onClickLogout}>
+          <div
+            className="toggle-menu text-black text-sm"
+            onClick={onClickLogout}
+          >
             Lock Wallet
           </div>
           {/*@TODO*/}
-          <div className="toggle-menu text-sm border border-t-1 border-t-purple-900 border-b-0">
-            🔑 Seed Phrase
-          </div>
-          <div className="toggle-menu text-sm hover:rounded-b-lg ">
+          <div className="toggle-menu text-black  text-sm ">🔑 Seed Phrase</div>
+          <div className="toggle-menu text-black  text-sm hover:rounded-b-lg ">
             🔑 Private Key
           </div>
         </div>

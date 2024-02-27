@@ -9,7 +9,7 @@ const LoadingSpinner = () => {
         height: "50vh",
       }}
     >
-      <div className="animate-pulse">Loading...</div>
+      <div className="text-purple-50 animate-pulse mb-2 ">Loading...</div>
       <div className="spinner"></div>
     </div>
   );

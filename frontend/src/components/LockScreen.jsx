@@ -79,7 +79,7 @@ const LockScreen = () => {
   return (
     <div className="pt-28 mt-12 flex flex-col px-6 h-fit">
       <div className="flex flex-col justify-center dm-sans-body">
-        <div className="whitespace-pre-line text-center leading-6 text-lg pb-10">{`Welcome back!
+        <div className="whitespace-pre-line text-center leading-6 text-lg text-purple-50 pb-10">{`Welcome back!
           Enter your password`}</div>
         <div className="flex flex-row justify-around">
           <input
@@ -99,14 +99,19 @@ const LockScreen = () => {
           <div className="flex flex-row gap-8 justify-around">
             <button
               className={`${
-                !unlockPassword ? "homepageButton-inactive" : "homepageButton"
+                !unlockPassword
+                  ? "homepageButton-inactive rounded-xl w-36"
+                  : "homepageButton-rounded bg-[#69467A] w-36"
               }`}
               disabled={!unlockPassword}
               onClick={onClickConfirm}
             >
               Confirm
             </button>
-            <button className="homepageButton" onClick={onClickReset}>
+            <button
+              className="homepageButton-rounded bg-[#69467A] w-36"
+              onClick={onClickReset}
+            >
               Wallet Reset
             </button>
           </div>

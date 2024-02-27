@@ -193,7 +193,7 @@ export const ImportLPForm = () => {
               {/* 항목 */}
               <div className="flex flex-col justify-center items-start gap-5 mx-2">
                 {/* LP 컨트랙트 주소 */}
-                <div className="dm-sans-title-dashboard bg-lime-200 w-26 px-2">
+                <div className="dm-sans text-xl text-purple-100 w-30 px-2">
                   CONTRACT
                 </div>
               </div>
@@ -220,11 +220,11 @@ export const ImportLPForm = () => {
 
       {addLpButtonIsClicked == 2 && (
         <div className="flex flex-col justify-center items-center">
-          <div className="dm-sans whitespace-pre-line text-center leading-6 text-lg py-8">{`Confirm the details!`}</div>
+          <div className="dm-sans text-white whitespace-pre-line text-center leading-6 text-lg py-8">{`Confirm the details!`}</div>
           {/* 내가 추가한 주소의 페어 이름 보여주기 */}
-          <div className="dm-sans-toggle">{newLp.name}</div>
+          <div className="dm-sans text-white text-xl">{newLp.name}</div>
           {/* 내가 추가한 주소의 lp 컨트랙트 주소 보여주기 */}
-          <div className="dm-sans-toggle">{newLp.address}</div>
+          <div className="dm-sans text-white text-xl">{newLp.address}</div>
           <div>
             {/* 로컬에 lp 추가하고 모달창 끄는 버튼 */}
             <button

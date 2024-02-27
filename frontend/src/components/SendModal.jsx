@@ -219,7 +219,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
   useEffect(() => {});
   return (
     <div className="modal-bg radial-bg-home">
-      <div className="dm-sans container-modal">
+      <div className="dm-sans container-modal lp-card">
         {/* 뒤로가기 버튼 */}
         <button
           className="-translate-x-12 translate-y-8 "
@@ -229,7 +229,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
         </button>
 
         {/* 헤더 */}
-        <div className="dm-sans-title-feed py-4 text-center">SEND</div>
+        <div className="dm-sans text-white text-4xl py-4 text-center">SEND</div>
 
         {/* 트랜잭션 정보 */}
         <form
@@ -240,13 +240,13 @@ const Send = ({ setSendOpen, sendOpen }) => {
             {/* 항목 */}
             <div className="flex flex-col justify-center items-start gap-5 mx-2">
               {/* 보내는 주소 */}
-              <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
+              <div className="dm-sans text-xl text-purple-100 w-24 px-2">
                 TO
               </div>
-              <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
+              <div className="dm-sans text-xl text-purple-100 w-24 px-2">
                 ASSET
               </div>
-              <div className="dm-sans-title-dashboard bg-lime-200 w-24 px-2">
+              <div className="dm-sans text-xl text-purple-100 w-24 px-2">
                 AMOUNT
               </div>
             </div>
@@ -319,7 +319,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
             </div>
           </div>
           {/* 예상가스비 */}
-          <div className="w-96 h-28 bg-teal-100 rounded-lg border border-purple-950 mt-8">
+          <div className="w-96 h-28 bg-purple-100 rounded-lg border border-purple-950 mt-8">
             <div className="dm-sans-title-reveal text-lg text-center py-3 text-green-800">
               Estimated Gas Fee
             </div>

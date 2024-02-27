@@ -26,6 +26,7 @@ const TransactionHistoryCard = ({ to, value, time, type, ticker }) => {
   }, [ticker]);
 
   return (
+    // 결과물 보고 디자인 수정해야함
     <div className="token-container">
       <div className="grow flex justify-between text-lg">
         <div className="flex flex-col items-start pl-2">

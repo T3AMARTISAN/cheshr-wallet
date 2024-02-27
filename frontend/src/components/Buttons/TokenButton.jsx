@@ -1,3 +1,5 @@
+import { FaHockeyPuck } from "react-icons/fa";
+
 const TokenButton = ({ tabNumber, setTabNumber }) => {
   const onClickTokens = () => {
     setTabNumber(1);
@@ -6,9 +8,12 @@ const TokenButton = ({ tabNumber, setTabNumber }) => {
   return (
     <button
       onClick={onClickTokens}
-      className={`dashboard-menu ${tabNumber === 1 && "bg-[#9EFFAE]"}`}
+      className={`dashboard-menu dashboard-menu-flex text-bold ${
+        tabNumber === 1 && "dashboard-menu-active"
+      }`}
     >
-      TOKENS
+      <FaHockeyPuck className="scale-125 -rotate-45" />
+      <div className="dm-sans text-lg pt-1">Token</div>
     </button>
   );
 };

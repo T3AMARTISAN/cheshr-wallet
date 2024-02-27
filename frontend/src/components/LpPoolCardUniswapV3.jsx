@@ -657,12 +657,12 @@ const LpPoolCardUniswapV3 = ({
   return (
     <>
       {lpDollarValue > 0 && isNaN(apy) == false ? (
-        <div className="bg-fuchsia-100 mx-auto rounded-3xl w-11/12 h-fit pb-2 my-10 flex flex-col gap-2">
+        <div className="lp-card mx-auto rounded-3xl w-11/12 h-fit pb-6 mt-4 mb-10 flex flex-col gap-2">
           {/* 헤더 */}
-          <div className="dm-sans-defi flex flex-row justify-between m-4">
+          <div className="dm-sans-defi flex flex-row justify-between items-center m-4">
             {/* 카드이름 */}
-            <div className="flex flex-col">
-              <div>UNISWAP V3 POOL</div>
+            <div className="flex flex-col items-start">
+              <div>Uniswap V3</div>
               <div className="text-sm">
                 <a
                   href={`https://app.uniswap.org/pools/${tokenId}`}
@@ -672,7 +672,7 @@ const LpPoolCardUniswapV3 = ({
                 </a>
               </div>
             </div>
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-end">
               {/* 수익률 */}
               {isInRange ? (
                 <>
@@ -694,13 +694,13 @@ const LpPoolCardUniswapV3 = ({
 
               {/* 수익률 기간토글 */}
               <div className="flex flex-row gap-1 items-center text-xs ">
-                <div className="flex flex-row justify-evenly rounded-md border border-purple-950 divide-x divide-purple-950">
+                <div className="flex flex-row gap-1 rounded-md">
                   <button
                     onClick={() => setApyConstant(1)}
                     className={
                       apyConstant == 1
-                        ? `px-1 bg-green-200 hover:bg-green-100 rounded-s-md`
-                        : `px-1 hover:bg-green-100 rounded-s-md`
+                        ? `apy-toggle-active`
+                        : `apy-toggle-inactive`
                     }
                   >
                     D
@@ -709,8 +709,8 @@ const LpPoolCardUniswapV3 = ({
                     onClick={() => setApyConstant(7)}
                     className={
                       apyConstant == 7
-                        ? `px-1 bg-green-200 hover:bg-green-100 `
-                        : `px-1 hover:bg-green-100 `
+                        ? `apy-toggle-active`
+                        : `apy-toggle-inactive`
                     }
                   >
                     W
@@ -719,8 +719,8 @@ const LpPoolCardUniswapV3 = ({
                     onClick={() => setApyConstant(30)}
                     className={
                       apyConstant == 30
-                        ? `px-1 bg-green-200 hover:bg-green-100 `
-                        : `px-1 hover:bg-green-100 `
+                        ? `apy-toggle-active`
+                        : `apy-toggle-inactive`
                     }
                   >
                     M
@@ -729,14 +729,14 @@ const LpPoolCardUniswapV3 = ({
                     onClick={() => setApyConstant(365)}
                     className={
                       apyConstant == 365
-                        ? `px-1 bg-green-200 hover:bg-green-100 rounded-e-md`
-                        : `px-1 hover:bg-green-100 rounded-e-md`
+                        ? `apy-toggle-active`
+                        : `apy-toggle-inactive`
                     }
                   >
                     Y
                   </button>
                 </div>
-                <span className=" text-base">ⓘ</span>
+                <span className="info-btn text-base">ⓘ</span>
               </div>
             </div>
           </div>
@@ -744,18 +744,21 @@ const LpPoolCardUniswapV3 = ({
           <div className="pb-5">
             {/* 구분 */}
             <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-              <div>PAIR AMOUNT ⓘ</div>
-              <div>USD VALUE</div>
+              <div>
+                {" "}
+                Pair Amount <span className="info-btn">ⓘ</span>
+              </div>
+              <div>USD Value</div>
             </div>
             {/* 제공한 페어 */}
             <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
               <div className="flex flex-col justify-center">
-                <div>
+                <div className="dm-sans-defi-info-numbers text-md">
                   {/* {LPTokenName}: {_pairname} */}
                   {/* {LPTokenName} */}
                   {`${Number(token0Amount).toFixed(4)} ${symbol0}`}
                 </div>
-                <div className="m-sans-body-reveal">
+                <div className="dm-sans-defi-info-numbers text-md">
                   {/* {LPTokenName}: {_pairname} */}
                   {/* {_pairname} */}
                   {`${Number(token1Amount).toFixed(4)} ${symbol1}`}
@@ -763,25 +766,27 @@ const LpPoolCardUniswapV3 = ({
               </div>
               <div>
                 {/* <div>{userLpValue}</div> */}
-                <div className="text-xl">{`$${Number(lpDollarValue).toFixed(
-                  4
-                )}`}</div>
+                <div className="dm-sans-defi-info-numbers text-2xl">
+                  {`$${Number(lpDollarValue).toFixed(4)}`}
+                </div>
               </div>
             </div>
             {/* 보상 */}
             <div className="pt-6">
               <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
-                <div>REWARD AMOUNT ⓘ</div>
-                <div>USD VALUE</div>
+                <div>
+                  REWARD AMOUNT <span className="info-btn">ⓘ</span>
+                </div>
+                <div>USD Value</div>
               </div>
               <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
                 <div className="flex flex-col justify-center">
-                  <div>
+                  <div className="dm-sans-defi-info-numbers text-md">
                     {/* {LPTokenName}: {_pairname} */}
                     {/* {LPTokenName} */}
                     {`${Number(uncollectedFees0).toFixed(4)} ${symbol0}`}
                   </div>
-                  <div>
+                  <div className="dm-sans-defi-info-numbers text-md">
                     {/* {LPTokenName}: {_pairname} */}
                     {/* {_pairname} */}
                     {`${Number(uncollectedFees1).toFixed(4)} ${symbol1}`}
@@ -789,9 +794,9 @@ const LpPoolCardUniswapV3 = ({
                 </div>
                 <div>
                   {/* <div>{userLpValue}</div> */}
-                  <div className="text-xl">{`$${Number(feeDollarValue).toFixed(
-                    4
-                  )}`}</div>
+                  <div className="dm-sans-defi-info-numbers text-2xl">
+                    {`$${Number(feeDollarValue).toFixed(4)}`}
+                  </div>
                 </div>
               </div>
             </div>

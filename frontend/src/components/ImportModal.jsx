@@ -143,7 +143,7 @@ const Import = () => {
 
   return (
     <div className="modal-bg radial-bg-home">
-      <div className="dm-sans container-modal">
+      <div className="dm-sans container-modal lp-card">
         {/* 뒤로가기 버튼 */}
         <button
           onClick={onClickBack}
@@ -153,8 +153,10 @@ const Import = () => {
         </button>
 
         {/* 헤더 */}
-        <div className="dm-sans-title-feed py-4 text-center">IMPORT</div>
-        <div className="dm-sans- whitespace-pre-line text-center leading-6 text-lg pb-8">{`Don't see your assets here?
+        <div className="dm-sans text-white text-4xl py-4 text-center">
+          IMPORT
+        </div>
+        <div className="dm-sans text-white whitespace-pre-line text-center leading-6 text-lg pb-8">{`Don't see your assets here?
           Import them to cheshr!`}</div>
 
         {/* 토글 */}

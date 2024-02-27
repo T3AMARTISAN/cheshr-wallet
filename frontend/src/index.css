@@ -4,85 +4,110 @@
 
 @layer components {
   .container-home {
-    @apply w-[480px] h-screen mx-auto bg-[#CBE5F8];
+    @apply w-[480px] h-screen mx-auto bg-[#000000];
   }
   .container-feed {
     @apply w-[480px] h-screen mx-auto bg-green-50;
   }
   .container-dashboard {
-    @apply w-[480px] h-screen mx-auto bg-[#E3D3F8];
+    @apply w-[480px] h-screen mx-auto grow overflow-auto bg-[#361F42] rounded-t-3xl;
   }
   .container-modal {
-    @apply w-[450px] h-2/3 p-4 bg-[#E3D3F8] border border-teal-950 rounded-md;
+    @apply w-[450px] h-2/3 p-4 rounded-md;
   }
   .roundBlock {
     @apply rounded-lg h-fit pb-10;
   }
   .homepageButton {
-    @apply rounded-md p-2 w-28 bg-indigo-500 border border-indigo-800 text-white text-nowrap active:bg-green-100;
+    @apply rounded-md p-2 w-28 bg-[#AA62CE] text-white text-nowrap active:bg-purple-600 shadow drop-shadow-xl;
   }
   .revealButton {
-    @apply rounded-md p-10 px-10 w-fit bg-white border border-indigo-800 text-indigo-950 text-nowrap active:bg-green-50;
+    @apply rounded-md p-10 px-10 w-fit bg-white border  text-nowrap active:bg-purple-50 shadow drop-shadow-lg;
   }
   .revealBox {
     @apply w-[400px] mx-auto rounded-md p-2 bg-white border border-indigo-800 text-indigo-950 whitespace-pre-wrap;
   }
   .consentBox {
-    @apply w-[360px] mx-auto rounded-md p-1 bg-[#88F7F0] border border-indigo-800 text-indigo-950 text-wrap;
+    @apply w-[360px] mx-auto rounded-md p-1 bg-[#69467A] text-indigo-50 text-wrap shadow drop-shadow-xl;
   }
   .homepageButton-rounded {
-    @apply rounded-2xl p-2 w-60 bg-indigo-500 border border-indigo-800 text-white text-nowrap active:bg-indigo-50 active:text-indigo-950;
+    @apply rounded-xl p-2 w-52 text-purple-50 text-nowrap shadow drop-shadow-lg;
   }
   .homepageButton-inactive {
-    @apply rounded-md p-2 w-28 bg-[#4E4D58] border border-indigo-800 text-[#9E9EAB] text-nowrap cursor-not-allowed;
+    @apply rounded-md p-2 w-28 bg-[#4E4D58] text-[#9E9EAB] text-nowrap cursor-not-allowed shadow drop-shadow-lg;
   }
   .inputbox {
-    @apply w-2/3 rounded-2xl border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700 p-2;
+    @apply w-2/3 rounded-2xl shadow drop-shadow-lg bg-white focus:bg-[#dbc8e4] focus:outline-none focus:text-teal-700 p-2;
   }
   .invalid-text {
-    @apply absolute text-xs text-pink-600 translate-y-10 translate-x-7;
+    @apply absolute text-xs text-rose-500 translate-y-10 translate-x-7;
   }
   .form-checkbox {
     @apply h-6 w-6 bg-red-100 focus:text-purple-600 border-indigo-900 rounded-2xl;
   }
   .toggle-dropdown {
-    @apply relative flex flex-row gap-1 items-center border border-purple-950 bg-white rounded-lg w-36 mx-4 px-3;
+    @apply relative flex flex-row gap-1 items-center shadow drop-shadow-lg text-purple-50 rounded-md w-36 mx-4 px-3;
+  }
+  .wallet-dropdown {
+    @apply relative flex flex-row gap-1 items-center shadow drop-shadow-lg text-black rounded-md w-36 mx-4 px-3;
   }
   .toggle-menu {
-    @apply block px-4 py-2 text-gray-800 hover:bg-[#9EFFAE] text-center;
+    @apply block px-4 py-1 text-purple-50 hover:text-[#AA62CE] text-center;
   }
   .feed-button {
     @apply border border-purple-900 rounded-md bg-[#E3D3F8] w-20 text-center p-1;
   }
   .dashboard-menu {
-    @apply block px-1 text-gray-800 hover:bg-[#9effae58] text-center active:bg-[#9effaeab];
+    @apply block px-1 text-white hover:text-purple-200 text-center;
+  }
+  .dashboard-menu-flex {
+    @apply flex flex-col items-center justify-end;
+  }
+  .dashboard-menu-active {
+    @apply text-purple-300 hover:text-purple-700 border-b-4 border-purple-300;
   }
   .dashboard-bg {
-    @apply flex flex-col border border-x-purple-950;
+    @apply flex flex-col;
   }
   .dashboard-navibar {
-    @apply dm-sans-title-dashboard border border-purple-950 border-b-0 h-16 bg-[#E3D3F8] rounded-t-3xl px-8 flex justify-between items-center;
+    @apply sticky bottom-0 py-4 px-8 flex flex-row justify-between items-center;
   }
   .token-container {
     @apply flex mt-4 mx-6 items-center mb-6;
   }
   .token-symbol {
-    @apply h-12 w-12 rounded-full bg-purple-400 text-center;
+    @apply h-12 w-12 rounded-full bg-[#69467A] text-center;
   }
   .lpcard-container {
     @apply flex mt-4 mx-6 items-center mb-6;
   }
   .modal-bg {
-    @apply fixed top-0 left-0 w-full h-full bg-teal-100 bg-opacity-80 flex justify-center items-center z-20;
+    @apply fixed top-0 left-0 w-full h-full bg-opacity-80 flex justify-center items-center z-20;
   }
   .modal-dropdown {
-    @apply flex flex-row gap-1 p-1 w-60 justify-center items-center rounded-lg mx-auto border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700;
+    @apply flex flex-row gap-1 p-2 w-60 justify-center items-center rounded-lg mx-auto border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700;
   }
   .modal-inputbox {
     @apply w-60 p-1 rounded-lg border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700;
   }
   .modal-button {
-    @apply rounded-md p-2 w-28 bg-indigo-500 border border-indigo-800 text-white text-nowrap active:bg-green-100;
+    @apply rounded-md p-2 w-28 bg-[#69467A] text-white text-nowrap active:bg-[#a088ac];
+  }
+
+  .footer {
+    @apply fixed bottom-0 inset-x-0 mx-auto text-center dm-sans text-xs text-purple-50;
+  }
+
+  .apy-toggle-active {
+    @apply px-1 bg-purple-200 text-black rounded-md;
+  }
+
+  .apy-toggle-inactive {
+    @apply px-1 hover:bg-purple-100 hover:text-black rounded-md;
+  }
+
+  .info-btn {
+    @apply px-1 text-purple-200 hover:text-purple-100 active:text-purple-300;
   }
 
   .spinner {
@@ -90,7 +115,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border-left-color: #09f;
+    border-left-color: #aa62ce;
     animation: spin 1s ease infinite;
   }
 }
@@ -124,16 +149,15 @@
     font-optical-sizing: auto;
     font-weight: 800;
     font-style: normal;
-    font-size: 2.6rem;
-    color: #0c074b;
+    font-size: 2rem;
+    color: #fafafa;
   }
   .dm-sans-title-feed {
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 800;
+    font-weight: 400;
     font-style: normal;
-    font-size: 2rem;
-    color: #060327;
+    font-size: 3.6rem;
   }
   .dm-sans-title-dashboard {
     font-family: "DM Sans", sans-serif;
@@ -163,22 +187,30 @@
     font-optical-sizing: auto;
     font-weight: 600;
     font-style: normal;
-    color: #0a3d4d;
+    font-size: 1.2rem;
+    color: #ffffff;
   }
   .dm-sans-defi {
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 300;
+    font-weight: 400;
     font-style: normal;
     font-size: 1.2rem;
-    color: #110423;
+    color: #e7d8fc;
   }
   .dm-sans-defi-info {
     font-family: "DM Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    color: #040108;
+    color: #e5d2ff;
+  }
+  .dm-sans-defi-info-numbers {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: #ffffff;
   }
   .dm-sans-defi-info-light {
     font-family: "DM Sans", sans-serif;
@@ -192,7 +224,6 @@
     font-optical-sizing: auto;
     font-weight: 200;
     font-style: normal;
-    color: #0c074b;
   }
   .dm-sans-title-reveal {
     font-family: "DM Sans", sans-serif;
@@ -223,10 +254,11 @@
     color: #060327;
   }
   .radial-bg-home {
-    background-image: radial-gradient(
-      circle at right 80%,
-      #f7d7ff 10%,
-      transparent 90%
+    background: radial-gradient(
+      circle at right 85%,
+      #6c3c83 8%,
+      #5a326f 20%,
+      #000000 75%
     );
   }
   .radial-bg-feed {
@@ -235,5 +267,52 @@
       #cbfbd3 50%,
       transparent 80%
     );
+  }
+
+  .linear-bg {
+    background: linear-gradient(180deg, #a99bdc 0%, #261749 100%);
+  }
+  .linear-bg-feed-menu {
+    background: linear-gradient(180deg, #6e4a7f 100%, #261749 100%);
+  }
+  .linear-bg-btn {
+    background: linear-gradient(180deg, #ede8f3 0%, #a883ae 80%);
+  }
+
+  .linear-bg-network {
+    background: linear-gradient(180deg, #aa62ce47 28%, #422b4d 100%);
+  }
+  .linear-bg-network-dropdown {
+    background: linear-gradient(180deg, #422b4d 28%, #7c4b95 100%);
+  }
+  .linear-bg-wallet-dropdown {
+    background: linear-gradient(180deg, #ede8f3 0%, #9072a0 60%);
+  }
+  .linear-bg-wallet-dropdown-menu {
+    background: linear-gradient(180deg, #9072a0 18%, #674e89 60%);
+  }
+
+  .linear-bg-text {
+    background: linear-gradient(180deg, #e2dae8 30%, #a457ca 57%, #d896e9 95%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block; /* Ensures the gradient applies correctly */
+  }
+
+  .network-btn {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
+  }
+
+  .dashboard-feed-bg {
+    background: linear-gradient(180deg, #361f42 0%, #6e4a7f 100%);
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  .lp-card {
+    background: #00000040;
+    background: linear-gradient(180deg, #2f1b3a 30%, #a566c5 70% #4d3659 100%);
+    box-shadow: 0px 10px 8px #00000080;
+    border-radius: 28px;
   }
 }
