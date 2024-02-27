@@ -20,8 +20,6 @@ const Tokens = () => {
     currentAccount,
     setCurrentAccount,
     unit,
-    totalValue,
-    setTotalValue,
     /*currentProvider currentNetwork,*/
   } = useOutletContext();
 
@@ -83,7 +81,6 @@ const Tokens = () => {
       ...prevBalance,
       { ticker: ticker, value: tokenBalances },
     ]);
-    //return { ticker: ticker, value: tokenBalances };
   };
 
   useEffect(() => {
@@ -143,10 +140,6 @@ const Tokens = () => {
     getPrice();
   }, []);
 
-  useEffect(() => {
-    setTotalValue(Number(cryptocurrencyBalance * cryptocurrencyPrice));
-  }, [cryptocurrencyBalance, cryptocurrencyPrice]);
-
   return (
     <div className="container-dashboard dashboard-feed-bg pt-2 relative flex flex-col">
       <div className="flex-grow overflow-auto">
@@ -191,13 +184,7 @@ const Tokens = () => {
         </div>
         {/*ERC 토큰 잔액 나타내기 */}
         {balance?.map((v, i) => (
-          <TokenCard
-            key={i}
-            ticker={v.ticker}
-            value={v.value}
-            totalValue={totalValue}
-            setTotalValue={setTotalValue}
-          />
+          <TokenCard key={i} ticker={v.ticker} value={v.value} />
         ))}
       </div>
       <div className="sticky bottom-2 text-right bg-green-200 m-2 px-auto dm-sans-token">
