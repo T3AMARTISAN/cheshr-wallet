@@ -20,7 +20,7 @@ const Tokens = () => {
     currentAccount,
     setCurrentAccount,
     unit,
-    /*currentProvider currentNetwork,*/
+    /*currentProvider*/ currentNetwork,
   } = useOutletContext();
 
   const findERC20Tokens = async (currentAccount, tokenAddress, ticker) => {
@@ -41,6 +41,7 @@ const Tokens = () => {
     };
 
     const logs = await currentProvider.getLogs(filter);
+    console.log(logs);
     for (const log of logs) {
       // v6 : const abiCoder = ethers.AbiCoder.defaultAbiCoder();
       //      const parsedLog = abiCoder.decode(["uint256"], log.data);
@@ -84,7 +85,8 @@ const Tokens = () => {
   };
 
   useEffect(() => {
-    var currentNetwork = "Polygon";
+    //var currentNetwork = "Polygon";
+    if (!currentNetwork) return;
     if (currentNetwork == "Polygon") {
       setTokenAddress(POLYGON_TOKEN_ADDRESS);
     } else if (currentNetwork == "Ethereum") {
@@ -94,10 +96,11 @@ const Tokens = () => {
     } else if (currentNetwork == "Optimism") {
       setTokenAddress(OPTIMISM_TOKEN_ADDRESS);
     }
-  }, []);
+  }, [currentNetwork]);
 
   useEffect(() => {
-    if (!currentAccount) return;
+    console.log(102, tokenAddress);
+    if (!tokenAddress) return;
     tokenAddress?.map(async (v, i) => {
       await findERC20Tokens(
         "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382",
@@ -114,7 +117,7 @@ const Tokens = () => {
         { ticker: v.ticker, value: v.value },
       ]);
     });
-  }, [currentAccount]);
+  }, [tokenAddress]);
 
   // cryptocurrency 잔액 불러오기
   useEffect(() => {

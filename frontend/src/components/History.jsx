@@ -197,7 +197,7 @@ const TransactionHistory = () => {
       setTokenAddress(OPTIMISM_TOKEN_ADDRESS);
     }
 
-    //findCryptocurrencyHistory();
+    findCryptocurrencyHistory();
     tokenAddress.map(async (v, i) => {
       await findTokensHistory(
         "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382" /*currentAccount*/,
@@ -205,6 +205,7 @@ const TransactionHistory = () => {
         v.name
       );
       delay();
+      console.log(123);
     });
 
     // import한 토큰에대한 정보는 로컬스토리지에 있음
