@@ -103,10 +103,10 @@ export const ImportTokenForm = () => {
           {/* 항목 */}
           <div className="flex flex-col justify-center items-start gap-5 mx-2">
             {/* LP 컨트랙트 주소 */}
-            <div className="dm-sans-title-dashboard bg-lime-200 w-30 px-2">
+            <div className="dm-sans text-xl text-purple-100 w-30 px-2">
               CONTRACT
             </div>
-            <div className="dm-sans-title-dashboard bg-lime-200 w-30 px-2">
+            <div className="dm-sans text-xl text-purple-100 w-30 px-2">
               TICKER
             </div>
           </div>

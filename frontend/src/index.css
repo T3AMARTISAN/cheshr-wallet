@@ -85,13 +85,13 @@
     @apply fixed top-0 left-0 w-full h-full bg-opacity-80 flex justify-center items-center z-20;
   }
   .modal-dropdown {
-    @apply flex flex-row gap-1 p-1 w-60 justify-center items-center rounded-lg mx-auto border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700;
+    @apply flex flex-row gap-1 p-2 w-60 justify-center items-center rounded-lg mx-auto border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700;
   }
   .modal-inputbox {
     @apply w-60 p-1 rounded-lg border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700;
   }
   .modal-button {
-    @apply rounded-md p-2 w-28 bg-[#69467A] text-white text-nowrap active:bg-purple-900;
+    @apply rounded-md p-2 w-28 bg-[#69467A] text-white text-nowrap active:bg-[#a088ac];
   }
 
   .footer {

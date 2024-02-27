@@ -1,5 +1,5 @@
 const ImportToggleButton = ({ isToggled, setIsToggled }) => {
-  const toggleClass = isToggled ? "bg-purple-100" : "bg-[#69467A]";
+  const toggleClass = isToggled ? "bg-purple-200" : "bg-[#69467A]";
   const knobClass = isToggled ? "translate-x-14" : "translate-x-0";
 
   return (
