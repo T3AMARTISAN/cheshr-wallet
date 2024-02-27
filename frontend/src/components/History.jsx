@@ -240,6 +240,9 @@ const TransactionHistory = () => {
   return (
     <div className="container-dashboard dashboard-feed-bg relative flex flex-col">
       <div className="min-h-full m-5">
+        <div className="dm-sans font-medium text-xl text-white py-4 mx-8">
+          Log
+        </div>
         {txHistory?.map((v, i) => (
           <TransactionHistoryCard
             key={i}

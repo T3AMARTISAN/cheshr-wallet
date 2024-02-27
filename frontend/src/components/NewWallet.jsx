@@ -77,7 +77,11 @@ const NewWallet = () => {
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="pt-12 px-6 h-fit">
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (
@@ -178,7 +182,7 @@ const NewWallet = () => {
                   <button
                     className={`${
                       isChecked1 && isChecked2
-                        ? "homepageButton-rounded w-28 bg-[#381D45]"
+                        ? "homepageButton-rounded w-28 bg-[#7766aa]"
                         : "homepageButton-inactive"
                     }`}
                     onClick={onClickOK}

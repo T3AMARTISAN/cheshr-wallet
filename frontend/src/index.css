@@ -10,7 +10,7 @@
     @apply w-[480px] h-screen mx-auto bg-green-50;
   }
   .container-dashboard {
-    @apply w-[480px] h-screen mx-auto grow overflow-auto bg-[#361F42] rounded-t-3xl;
+    @apply w-[480px] h-screen mx-auto grow overflow-auto bg-[#361F42] rounded-custom;
   }
   .container-modal {
     @apply w-[450px] h-2/3 p-4 rounded-md;
@@ -25,7 +25,7 @@
     @apply rounded-md p-10 px-10 w-fit bg-white border  text-nowrap active:bg-purple-50 shadow drop-shadow-lg;
   }
   .revealBox {
-    @apply w-[400px] mx-auto rounded-md p-2 bg-white border border-indigo-800 text-indigo-950 whitespace-pre-wrap;
+    @apply w-[400px] mx-auto rounded-md p-2 bg-white border border-indigo-800 text-indigo-950 whitespace-pre-wrap shadow drop-shadow-lg;
   }
   .consentBox {
     @apply w-[360px] mx-auto rounded-md p-1 bg-[#69467A] text-indigo-50 text-wrap shadow drop-shadow-xl;
@@ -37,7 +37,7 @@
     @apply rounded-md p-2 w-28 bg-[#4E4D58] text-[#9E9EAB] text-nowrap cursor-not-allowed shadow drop-shadow-lg;
   }
   .inputbox {
-    @apply w-2/3 rounded-2xl shadow drop-shadow-lg bg-white focus:bg-[#dbc8e4] focus:outline-none focus:text-teal-700 p-2;
+    @apply w-2/3 rounded-2xl shadow drop-shadow-lg bg-white focus:bg-[#dbc8e4] focus:outline-none focus:text-purple-950 p-2;
   }
   .invalid-text {
     @apply absolute text-xs text-rose-500 translate-y-10 translate-x-7;
@@ -85,15 +85,14 @@
     @apply fixed top-0 left-0 w-full h-full bg-opacity-80 flex justify-center items-center z-20;
   }
   .modal-dropdown {
-    @apply flex flex-row gap-1 p-2 w-60 justify-center items-center rounded-lg mx-auto border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700;
+    @apply flex flex-row gap-1 p-2 w-60 justify-center items-center rounded-lg mx-auto bg-white focus:bg-purple-100 focus:outline-none focus:text-purple-900;
   }
   .modal-inputbox {
-    @apply w-60 p-1 rounded-lg border border-indigo-900 bg-white focus:bg-emerald-100 focus:outline-none focus:text-teal-700;
+    @apply w-60 p-1 rounded-lg border border-indigo-900 bg-white focus:bg-purple-100 focus:outline-none focus:text-purple-800;
   }
   .modal-button {
     @apply rounded-md p-2 w-28 bg-[#69467A] text-white text-nowrap active:bg-[#a088ac];
   }
-
   .footer {
     @apply fixed bottom-0 inset-x-0 mx-auto text-center dm-sans text-xs text-purple-50;
   }
@@ -268,7 +267,14 @@
       transparent 80%
     );
   }
-
+  .radial-bg-modal {
+    background: radial-gradient(
+      circle at right 85%,
+      #6c3c83 8%,
+      #5a326f 20%,
+      #000000 75%
+    );
+  }
   .linear-bg {
     background: linear-gradient(180deg, #a99bdc 0%, #261749 100%);
   }
@@ -291,7 +297,6 @@
   .linear-bg-wallet-dropdown-menu {
     background: linear-gradient(180deg, #9072a0 18%, #674e89 60%);
   }
-
   .linear-bg-text {
     background: linear-gradient(180deg, #e2dae8 30%, #a457ca 57%, #d896e9 95%);
     -webkit-background-clip: text;
@@ -299,20 +304,22 @@
     background-clip: text;
     display: inline-block; /* Ensures the gradient applies correctly */
   }
-
   .network-btn {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
   }
-
   .dashboard-feed-bg {
     background: linear-gradient(180deg, #361f42 0%, #6e4a7f 100%);
-    border-radius: 20px 20px 0px 0px;
+    border-radius: 30px 30px 0px 0px;
   }
-
   .lp-card {
     background: #00000040;
     background: linear-gradient(180deg, #2f1b3a 30%, #a566c5 70% #4d3659 100%);
     box-shadow: 0px 10px 8px #00000080;
     border-radius: 28px;
+  }
+  .menu-bg {
+    background: #6e4a7f;
+    box-shadow: 0px 10px 8px #00000080;
+    border-radius: 30px 30px 0px 0px;
   }
 }
