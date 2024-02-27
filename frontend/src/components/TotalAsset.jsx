@@ -14,7 +14,7 @@ import axios from "axios";
 
 const TotalAsset = () => {
   const testAccount = process.env.REACT_APP_TEST_ACCOUNT;
-  const { unit, importOpen, setImportOpen, currentNetwork } =
+  const { unit, importOpen, setImportOpen, currentNetwork, totalValue } =
     useOutletContext();
   const [sendOpen, setSendOpen] = useState(false);
   const [date, setDate] = useState("");
@@ -149,13 +149,15 @@ const TotalAsset = () => {
       var symbol = "";
       if (ticker == "WETH") {
         symbol = "ETH";
+      } else if (ticker == "USDT") {
+        a = 1;
       } else {
-        symbol = ticker;
+        symbol = ticker.toUpperCase(); //대문자 변환해서 바이낸스에 넣어줘야 함
+        const response = await axios.get(
+          `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
+        );
+        a = response.data.price;
       }
-      const response = await axios.get(
-        `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
-      );
-      a = response.data.price;
     } catch (error) {
       console.error(error);
     }
@@ -164,51 +166,63 @@ const TotalAsset = () => {
       { ticker: ticker, value: Number(tokenBalances * a) },
     ]);
   };
+
   useEffect(() => {
     const Sum = async () => {
       var sum = 0;
       var c;
+
       for (const v of balance) {
-        sum += Number(v.value);
+        if (isNaN(v.value) == true) {
+          sum += 0; //usdt
+        } else {
+          sum += Number(v.value);
+        }
       }
+
       try {
+        setTotalSum(0);
+
         const result = await currentProvider.getBalance(
           "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382"
         );
         const value = Number(ethers.utils.formatEther(String(result)));
 
         var symbol = unit;
-        console.log(1, symbol);
 
         const response = await axios.get(
           `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
         );
         var b = Number(response.data.price);
         c = value * b;
-        console.log(187, typeof c);
       } catch (error) {
         console.error(error);
       }
 
       var q = sum + c;
-      console.log(191, typeof q);
+
       setTotalSum(q);
     };
     Sum();
   }, [balance]);
+  useEffect(() => {}, [totalSum]);
+
   useEffect(() => {
-    console.log(3, Number(totalSum));
-  }, [totalSum]);
+    setTotalSum(0);
+    setBalance([]);
+  }, [currentNetwork]);
   return (
     <div className="flex flex-row items-center justify-between mx-4 whitespace-pre">
       <div className="my-14 pb-4">
         {/* 총 자산 (USD) = DeFi + Token */}
-        <div className="dm-sans-title-feed linear-bg-text">$250.35</div>
+        <div className="dm-sans-title-feed linear-bg-text">
+          ${Number(totalSum + totalValue).toFixed(4)}
+        </div>
         {/* 네트워크별 네이티브 토큰 총 잔액 */}
         {/* <p className="dm-sans-body-feed">
           {totalValue} {unit}
         </p> */}
-        <p className="dm-sans-body-feed">{Number(totalSum)}</p>
+        <p className="dm-sans-body-feed">{Number(totalSum).toFixed(4)}</p>
         {/* 네트워크 */}
         <NetworkSwitch />
       </div>

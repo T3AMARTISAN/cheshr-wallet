@@ -22,11 +22,11 @@ const LpPoolCardUniswapV3Optimism = ({
   token0,
   token1,
   time,
-  totalValue,
-  setTotalValue,
+
   provider,
 }) => {
-  const { currentProvider, currentAccount } = useOutletContext();
+  const { currentProvider, currentAccount, totalValue, setTotalValue } =
+    useOutletContext();
 
   const [sqrtPriceX96, setSqrtPriceX96] = useState();
   const [Decimal0, setDecimal0] = useState();

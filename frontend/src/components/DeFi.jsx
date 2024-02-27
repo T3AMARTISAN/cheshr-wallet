@@ -22,12 +22,14 @@ const DeFi = () => {
     currentNetwork,
     addedLps,
     importOpen,
+    totalValue,
+    setTotalValue,
   } = useOutletContext(); //테스트->실제로 변경  시  setCurrentAccount useEffect 제거하면 됨
 
   const [lpV3Array, setLpV3Array] = useState();
   const [lpV3ArrayPolygon, setLpV3ArrayPolygon] = useState();
   const [lpV3ArrayOptimism, setLpV3ArrayOptimism] = useState();
-  const [totalValue, setTotalValue] = useState(0);
+  // const [totalValue, setTotalValue] = useState(0);
   const [
     nonFungiblePositionManagerContract,
     setNonFungiblePositionManagerContract,
@@ -35,8 +37,8 @@ const DeFi = () => {
   const [provider, setProvider] = useState();
 
   const getProvider = () => {
-    console.log("32 new provider");
     setTotalValue(0);
+
     setLpV2Array([]);
     setLpV3Array([]);
     setLpV3ArrayPolygon([]);
@@ -155,7 +157,7 @@ const DeFi = () => {
     // if (!currentAccount) return;
     if (currentNetwork != "Ethereum") return;
     // if (addLpButtonIsClicked != 0) return;
-    console.log("156 getv2lps entered function");
+
     //모든 lp 담아줄 임시 배열
     var temp = [];
 
@@ -167,19 +169,17 @@ const DeFi = () => {
 
     //로컬에 따로 저장된 게 없을 때에는 json 파일에 있는 주소만으로 lpArray 구성
     if (!localLps) {
-      console.log("166 no local");
       setLpV2Array(temp);
       return;
     }
 
     //로컬에 저장된 게 있는 경우 불러와서 Lp.json과 합쳐서 lpArray 구성
     const parsedLps = JSON.parse(localLps);
-    console.log("165 get local lp", parsedLps);
+
     // setAddedLps(parsedLps);
     temp = [...temp, ...parsedLps];
 
     setLpV2Array(temp);
-    console.log("179", lpV2Array);
   };
 
   // //테스트 시 테스트 지갑 주소 하드코딩 부분. 테스트 ->실제 변경 시 유즈이펙트 제거해주면 됨
@@ -189,12 +189,10 @@ const DeFi = () => {
 
   //로컬에 lp가 추가되거나(AddLpModal.jsx에서) 계정에 로그인되었을 때 useEffect로 전체 lpArray 배열을 업데이트해준다.
   useEffect(() => {
-    console.log("187 getv2lps useeffect entered");
     if (importOpen == true) return;
     if (currentNetwork != "Ethereum") return;
     if (!provider) return;
     getMyV2Lps();
-    console.log("191 getv2lps useeffect done");
   }, [provider, importOpen]);
   return (
     <div className="container-dashboard dashboard-feed-bg relative flex flex-col">
@@ -215,8 +213,6 @@ const DeFi = () => {
                 _pairname={v.name}
                 key={i}
                 time={i}
-                totalValue={totalValue}
-                setTotalValue={setTotalValue}
                 provider={provider}
               />
             ))
@@ -235,8 +231,6 @@ const DeFi = () => {
                 tickUpper={v.tickUpper}
                 token0={v.token0.toLowerCase()}
                 token1={v.token1.toLowerCase()}
-                totalValue={totalValue}
-                setTotalValue={setTotalValue}
                 provider={provider}
               />
             ))
@@ -255,8 +249,6 @@ const DeFi = () => {
                 tickUpper={v.tickUpper}
                 token0={v.token0.toLowerCase()}
                 token1={v.token1.toLowerCase()}
-                totalValue={totalValue}
-                setTotalValue={setTotalValue}
                 lpV3Array={lpV3Array}
                 provider={provider}
               />
@@ -276,8 +268,6 @@ const DeFi = () => {
                 tickUpper={v.tickUpper}
                 token0={v.token0.toLowerCase()}
                 token1={v.token1.toLowerCase()}
-                totalValue={totalValue}
-                setTotalValue={setTotalValue}
                 lpV3Array={lpV3Array}
                 provider={provider}
               />
