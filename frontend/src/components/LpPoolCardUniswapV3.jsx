@@ -22,11 +22,11 @@ const LpPoolCardUniswapV3 = ({
   token0,
   token1,
   time,
-  totalValue,
-  setTotalValue,
+
   provider,
 }) => {
-  const { currentProvider, currentAccount } = useOutletContext();
+  const { currentProvider, currentAccount, totalValue, setTotalValue } =
+    useOutletContext();
 
   const [sqrtPriceX96, setSqrtPriceX96] = useState();
   const [Decimal0, setDecimal0] = useState();
@@ -66,18 +66,18 @@ const LpPoolCardUniswapV3 = ({
     // console.log("34");
 
     tvl = reserve0 * price0 + reserve1 * price1;
-    console.log(
-      "tvll",
-      v3PoolAddress,
-      symbol0,
-      reserve0,
-      price0,
-      symbol1,
-      reserve1,
-      price1,
-      tvl,
-      fee
-    );
+    // console.log(
+    //   "tvll",
+    //   v3PoolAddress,
+    //   symbol0,
+    //   reserve0,
+    //   price0,
+    //   symbol1,
+    //   reserve1,
+    //   price1,
+    //   tvl,
+    //   fee
+    // );
 
     // Function to fetch and log transfer events for a given address
     async function getTotalFromSwapTx() {
@@ -125,22 +125,22 @@ const LpPoolCardUniswapV3 = ({
       }
       var dayVolume = (sum * price0) / 10 ** Decimal0;
       // console.log("dayvolume", symbol0, symbol1, dayVolume);
-      console.log("dayfee", fee, dayVolume * (fee / 100000));
+      // console.log("dayfee", fee, dayVolume * (fee / 100000));
       var apyTemp = ((dayVolume * (fee / 100000) * 365) / tvl) * 100;
       setApy(apyTemp);
-      console.log(
-        "apy",
-        symbol0,
-        symbol1,
-        Decimal0,
-        Decimal1,
-        reserve0,
-        reserve1,
-        price0,
-        price1,
-        tvl,
-        apyTemp
-      );
+      // console.log(
+      //   "apy",
+      //   symbol0,
+      //   symbol1,
+      //   Decimal0,
+      //   Decimal1,
+      //   reserve0,
+      //   reserve1,
+      //   price0,
+      //   price1,
+      //   tvl,
+      //   apyTemp
+      // );
       //   setApy(apyTemp);
       // }
     }
@@ -589,6 +589,8 @@ const LpPoolCardUniswapV3 = ({
         var total =
           Number(totalValue) + Number(lpDollarValue) + Number(feeDollarValue);
         setTotalValue(total);
+        // console.log("592 total", total);
+        // console.log("592 totalvalue", totalValue);
         setAddedTotal(true);
       } else {
         return;

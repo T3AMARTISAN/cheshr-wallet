@@ -22,6 +22,7 @@ const Layout = () => {
   const [lpV2Array, setLpV2Array] = useState(); //사용자의 lp 잔고 조회할 모든 컨트랙트 주소 담은 배열 (여기에 LP.json과 로컬 json 담아준다)
   const [addedLps, setAddedLps] = useState([]); //로컬에 저장된 LP의 목록을 리액트로 불러와 관리(추가)하기 위한 상태변수
   const [importOpen, setImportOpen] = useState(false);
+  const [totalValue, setTotalValue] = useState(0);
 
   return (
     <div className="container-feed radial-bg-feed">
@@ -49,6 +50,8 @@ const Layout = () => {
           setAddedLps,
           importOpen,
           setImportOpen,
+          totalValue,
+          setTotalValue,
         }}
       />
     </div>

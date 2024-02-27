@@ -8,12 +8,16 @@ const LPPoolCard = ({
   _lpContractAddress,
   _lpAbi,
   _pairname,
-  totalValue,
-  setTotalValue,
   provider,
   time,
 }) => {
-  const { currentProvider, currentAccount, addedLps } = useOutletContext();
+  const {
+    currentProvider,
+    currentAccount,
+    addedLps,
+    totalValue,
+    setTotalValue,
+  } = useOutletContext();
 
   const [lpContract, setLpContract] = useState();
   const [LPTokenAmount, setLPTokenAmount] = useState();
@@ -80,7 +84,7 @@ const LPPoolCard = ({
       }
       var dayVolume = (sum * price0) / 10 ** decimal0;
       var apyTemp = ((dayVolume * 0.003 * 365) / tvl) * 100;
-      console.log("apy", _pairname, apyTemp);
+      // console.log("apy", _pairname, apyTemp);
       setApy(apyTemp);
     }
 
@@ -101,9 +105,9 @@ const LPPoolCard = ({
   const setLpCA = async () => {
     try {
       setTimeout(async () => {
-        console.log("35");
+        // console.log("35");
         if (!provider) return;
-        console.log("37", _pairname);
+        // console.log("37", _pairname);
         const contract = new ethers.Contract(
           _lpContractAddress,
           _lpAbi,
@@ -291,10 +295,9 @@ const LPPoolCard = ({
   const addTotal = async () => {
     try {
       if (!userLpValue) return;
-      console.log("224 add total");
+      // console.log("224 add total");
       if (addedTotal == false) {
         var total = Number(totalValue) + Number(userLpValue);
-        console.log("227", total);
         setTotalValue(total);
         setAddedTotal(true);
       } else {
