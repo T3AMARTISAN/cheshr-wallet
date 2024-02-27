@@ -767,12 +767,12 @@ const LpPoolCardUniswapV3Optimism = ({
             {/* 제공한 페어 */}
             <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
               <div className="flex flex-col justify-center">
-                <div>
+                <div className="dm-sans-defi-info-numbers text-md">
                   {/* {LPTokenName}: {_pairname} */}
                   {/* {LPTokenName} */}
                   {`${Number(token0Amount).toFixed(4)} ${symbol0}`}
                 </div>
-                <div className="m-sans-body-reveal">
+                <div className="dm-sans-defi-info-numbers text-md">
                   {/* {LPTokenName}: {_pairname} */}
                   {/* {_pairname} */}
                   {`${Number(token1Amount).toFixed(4)} ${symbol1}`}
@@ -780,9 +780,9 @@ const LpPoolCardUniswapV3Optimism = ({
               </div>
               <div>
                 {/* <div>{userLpValue}</div> */}
-                <div className="text-xl">{`$${Number(lpDollarValue).toFixed(
-                  4
-                )}`}</div>
+                <div className="dm-sans-defi-info-numbers text-2xl">{`$${Number(
+                  lpDollarValue
+                ).toFixed(4)}`}</div>
               </div>
             </div>
             {/* 보상 */}
@@ -795,12 +795,12 @@ const LpPoolCardUniswapV3Optimism = ({
               </div>
               <div className="dm-sans-defi-info-light flex flex-row justify-between items-center mx-4">
                 <div className="flex flex-col justify-center">
-                  <div>
+                  <div className="dm-sans-defi-info-numbers text-md">
                     {/* {LPTokenName}: {_pairname} */}
                     {/* {LPTokenName} */}
                     {`${Number(uncollectedFees0).toFixed(4)} ${symbol0}`}
                   </div>
-                  <div>
+                  <div className="dm-sans-defi-info-numbers text-md">
                     {/* {LPTokenName}: {_pairname} */}
                     {/* {_pairname} */}
                     {`${Number(uncollectedFees1).toFixed(4)} ${symbol1}`}
@@ -808,9 +808,9 @@ const LpPoolCardUniswapV3Optimism = ({
                 </div>
                 <div>
                   {/* <div>{userLpValue}</div> */}
-                  <div className="text-xl">{`$${Number(feeDollarValue).toFixed(
-                    4
-                  )}`}</div>
+                  <div className="dm-sans-defi-info-numbers text-2xl">{`$${Number(
+                    feeDollarValue
+                  ).toFixed(4)}`}</div>
                 </div>
               </div>
             </div>

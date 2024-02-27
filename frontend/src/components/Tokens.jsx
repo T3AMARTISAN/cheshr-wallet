@@ -147,7 +147,7 @@ const Tokens = () => {
           <div className="dm-sans font-medium text-xl text-white">Tokens</div>
           <div className="dm-sans font-base text-purple-50 flex flex-col justify-center items-center">
             <div className="text-xs text-purple-100">Total Value:</div>
-            <div className="text-2xl"> ${totalValue.toFixed(2)}</div>
+            {/* <div className="text-2xl"> ${totalValue.toFixed(2)}</div> */}
           </div>
         </div>
         {/*cryptocurrency 잔액 나타내기*/}
