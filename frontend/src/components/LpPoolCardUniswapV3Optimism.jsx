@@ -689,6 +689,7 @@ const LpPoolCardUniswapV3Optimism = ({
                   <FaExternalLinkAlt />
                 </a>
               </div>
+              <div className="text-sm">Fee {fee / 10000}%</div>
             </div>
             <div className="flex flex-col items-end">
               {/* 수익률 */}
