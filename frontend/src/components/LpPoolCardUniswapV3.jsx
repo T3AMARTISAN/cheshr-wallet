@@ -6,10 +6,13 @@ import { useOutletContext } from "react-router-dom";
 import * as JSBI from "jsbi/dist/jsbi-umd.js";
 //npm i jsbi
 //npm install jsbi@3.2.5
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 import { abiLPUniV3Mainnet } from "../utils/abiLPUniV3.js";
 import { abiMainnetToken } from "../utils/abiToken.js";
 import { UniswapV3 } from "../utils/uniswapV3FactoryContract.js";
+
+//
 
 const LpPoolCardUniswapV3 = ({
   tokenId,
@@ -59,31 +62,13 @@ const LpPoolCardUniswapV3 = ({
   const [apyConstant, setApyConstant] = useState(365);
 
   const getApy = async () => {
-    //tvl 구해야 함. sync event로 가장 최근 블록에서 reserve 구해서 tvl 구해야 함. 이 tvl로 apy 계산해야 함
-    var tvl;
     if (!Decimal0 || !v3PoolAddress || !symbol0 || !symbol1) return;
+    var tvl;
     var total;
-    // console.log("34");
 
     tvl = reserve0 * price0 + reserve1 * price1;
-    // console.log(
-    //   "tvll",
-    //   v3PoolAddress,
-    //   symbol0,
-    //   reserve0,
-    //   price0,
-    //   symbol1,
-    //   reserve1,
-    //   price1,
-    //   tvl,
-    //   fee
-    // );
 
-    // Function to fetch and log transfer events for a given address
     async function getTotalFromSwapTx() {
-      //swap event도 다름
-      // event Swap(address indexed sender, address indexed recipient, int256 amount0, int256 amount1, uint160 sqrtPriceX96, uint128 liquidity, int24 tick);
-
       if (!Decimal0 || !tvl) return;
 
       const erc20Abi = [
@@ -92,12 +77,9 @@ const LpPoolCardUniswapV3 = ({
 
       const contract = new ethers.Contract(v3PoolAddress, erc20Abi, provider);
 
-      // const addresses = ["0x524b7c9b4ca33ba72445dfd2d6404c81d8d1f2e3"];
-
       const startBlock = (await currentProvider.getBlockNumber()) - 1000; // Start block number
       const endBlock = await currentProvider.getBlockNumber();
 
-      // console.log("55");
       const filter = {
         fromBlock: startBlock,
         toBlock: endBlock,
@@ -107,47 +89,29 @@ const LpPoolCardUniswapV3 = ({
             "Swap(address,address,int256,int256,uint160,uint128,int24)"
           ),
           null,
-          null, // Pad the address to 32 bytes
+          null,
         ],
       };
-      const logs = await provider.getLogs(filter); // 여기서 blockNumber 추출 가능
-      // console.log("logs", v3PoolAddress, symbol0, symbol1, logs);
+      const logs = await provider.getLogs(filter);
+
       var parsedLog;
       var totalToken0Swaped = [];
       logs.forEach((log) => {
         parsedLog = contract.interface.parseLog(log);
         totalToken0Swaped.push(Math.abs(Number(parsedLog.args.amount0)));
       });
-      // console.log(totalToken0Swaped);
+
       var sum = 0;
       for (let i = 0; i < totalToken0Swaped.length; i++) {
         sum += totalToken0Swaped[i];
       }
       var dayVolume = (sum * price0) / 10 ** Decimal0;
-      // console.log("dayvolume", symbol0, symbol1, dayVolume);
-      // console.log("dayfee", fee, dayVolume * (fee / 100000));
+
       var apyTemp = ((dayVolume * (fee / 100000) * 365) / tvl) * 100;
       setApy(apyTemp);
-      // console.log(
-      //   "apy",
-      //   symbol0,
-      //   symbol1,
-      //   Decimal0,
-      //   Decimal1,
-      //   reserve0,
-      //   reserve1,
-      //   price0,
-      //   price1,
-      //   tvl,
-      //   apyTemp
-      // );
-      //   setApy(apyTemp);
-      // }
     }
     try {
-      // await getTvl();
       await getTotalFromSwapTx();
-      // console.log(total);
     } catch (err) {
       console.error(`Error fetching logs for address: haha`, err);
     }
@@ -665,12 +629,14 @@ const LpPoolCardUniswapV3 = ({
             {/* 카드이름 */}
             <div className="flex flex-col items-start">
               <div>Uniswap V3</div>
-              <div className="text-sm">
+              <div className="text-sm flex">
+                TOKENID #{tokenId}
                 <a
                   href={`https://app.uniswap.org/pools/${tokenId}`}
                   target="_blank"
+                  className="ml-2"
                 >
-                  TOKENID #{tokenId}
+                  <FaExternalLinkAlt />
                 </a>
               </div>
             </div>
@@ -748,7 +714,14 @@ const LpPoolCardUniswapV3 = ({
             <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
               <div>
                 {" "}
-                Pair Amount <span className="info-btn">ⓘ</span>
+                Pair Amount
+                <a
+                  href={`https://app.uniswap.org/explore/pools/ethereum/${v3PoolAddress}`}
+                  target="_blank"
+                  className="ml-2"
+                >
+                  <span className="info-btn"> ⓘ</span>
+                </a>
               </div>
               <div>USD Value</div>
             </div>

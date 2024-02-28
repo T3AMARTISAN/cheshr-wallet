@@ -4,6 +4,8 @@ import axios from "axios";
 import { useOutletContext } from "react-router-dom";
 import { abiMainnetToken } from "../utils/abiToken.js";
 
+//https://app.uniswap.org/explore/pools/ethereum/0xCBCdF9626bC03E24f779434178A73a0B4bad62eD
+
 const LPPoolCard = ({
   _lpContractAddress,
   _lpAbi,
@@ -457,7 +459,14 @@ const LPPoolCard = ({
             {/* 구분 */}
             <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
               <div>
-                Pair Amount <span className="info-btn">ⓘ</span>
+                Pair Amount
+                <a
+                  href={`https://app.uniswap.org/explore/pools/ethereum/${_lpContractAddress}`}
+                  target="_blank"
+                  className="ml-2"
+                >
+                  <span className="info-btn"> ⓘ</span>
+                </a>
               </div>
               <div>USD Value </div>
             </div>
