@@ -6,6 +6,7 @@ import { useOutletContext } from "react-router-dom";
 import * as JSBI from "jsbi/dist/jsbi-umd.js";
 //npm i jsbi
 //npm install jsbi@3.2.5
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 import { abiOptimismToken } from "../utils/abiToken";
 import { UniswapV3 } from "../utils/uniswapV3FactoryContract.js";
@@ -678,12 +679,14 @@ const LpPoolCardUniswapV3Optimism = ({
             {/* 카드이름 */}
             <div className="flex flex-col items-start">
               <div>Uniswap V3</div>
-              <div className="text-sm">
+              <div className="text-sm flex">
+                TOKENID #{tokenId}
                 <a
                   href={`https://app.uniswap.org/pools/${tokenId}?chain=optimism`}
                   target="_blank"
+                  className="ml-2"
                 >
-                  TOKENID #{tokenId}
+                  <FaExternalLinkAlt />
                 </a>
               </div>
             </div>
@@ -760,7 +763,14 @@ const LpPoolCardUniswapV3Optimism = ({
             {/* 구분 */}
             <div className="dm-sans-defi-info flex flex-row justify-between mx-4 pb-2">
               <div>
-                Pair Amount <span className="info-btn">ⓘ</span>
+                Pair Amount
+                <a
+                  href={`https://app.uniswap.org/explore/pools/optimism/${v3PoolAddress}`}
+                  target="_blank"
+                  className="ml-2"
+                >
+                  <span className="info-btn"> ⓘ</span>
+                </a>
               </div>
               <div>USD Value</div>
             </div>
