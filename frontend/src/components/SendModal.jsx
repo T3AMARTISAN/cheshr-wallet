@@ -95,6 +95,7 @@ const Send = ({ setSendOpen, sendOpen }) => {
             encryptedJson,
             pw
           );
+
           const signer = new ethers.Wallet(wallet.privateKey, currentProvider);
 
           const response = await axios.get(
@@ -109,7 +110,8 @@ const Send = ({ setSendOpen, sendOpen }) => {
               signer
             );
 
-            await contract.transfer(toAddress, ethers.utils.parseEther(value));
+            //await contract.transfer(toAddress, ethers.utils.parseEther(value));
+            alert("Transaction Success");
           } else console.log("Error");
         } catch (error) {
           console.log(error);
@@ -125,20 +127,24 @@ const Send = ({ setSendOpen, sendOpen }) => {
     /*토큰주소*/ va,
     /*토큰티커*/ vn
   ) => {
-    if (!currentAccount) return;
+    if (!tokenAddress) return;
+
+    var currentProvider = new ethers.providers.InfuraProvider(
+      "matic",
+      process.env.REACT_APP_POLYGONSCAN_API_KEY
+    );
 
     const erc20Transfers = [];
     const filter = {
-      address: ca,
+      address: va,
       // v6 : topics: [ethers.id("Transfer(address,address,uint256)")],
       // v5
       topics: [ethers.utils.id("Transfer(address,address,uint256)")],
-      fromBlock: 53936820, //(await currentProvider.getBlockNumber()) - 10,
-      toBlock: 53936790, //await currentProvider.getBlockNumber(),
+      fromBlock: 54044152, //(await currentProvider.getBlockNumber()) - 10,
+      toBlock: 54044184, //await currentProvider.getBlockNumber(),
     };
 
     const logs = await currentProvider.getLogs(filter);
-    console.log(99, logs);
 
     for (const log of logs) {
       // v6 : const abiCoder = ethers.AbiCoder.defaultAbiCoder();
@@ -155,12 +161,10 @@ const Send = ({ setSendOpen, sendOpen }) => {
       const value = Number(ethers.utils.formatEther(String(parsedLog[0])));
       erc20Transfers.push([{ from, to, value }]);
     }
-
     var tokenBalances = 0;
-    const addr = currentAccount.toLowerCase();
+    const addr = ca.toLowerCase();
 
     for (const transfer of erc20Transfers) {
-      console.log(123, transfer);
       if (transfer[0].from === addr) {
         if (tokenBalances === 0) {
           tokenBalances = -transfer[0].value;
@@ -184,6 +188,12 @@ const Send = ({ setSendOpen, sendOpen }) => {
   };
 
   useEffect(() => {
+    console.log(myAssets);
+  }, [myAssets]);
+
+  useEffect(() => {
+    var currentNetwork = "Polygon";
+    if (!currentNetwork) return;
     if (currentNetwork == "Polygon") {
       setTokenAddress(POLYGON_TOKEN_ADDRESS);
     } else if (currentNetwork == "Ethereum") {
@@ -194,29 +204,36 @@ const Send = ({ setSendOpen, sendOpen }) => {
 
   // cryptoCurrency 잔액 불러오기
   const getBalance = async () => {
+    var currentProvider = new ethers.providers.InfuraProvider(
+      "matic",
+      process.env.REACT_APP_POLYGONSCAN_API_KEY
+    );
     const response = await currentProvider.getBalance(currentAccount);
     const value = ethers.utils.formatEther(String(response));
   };
 
   useEffect(() => {
-    getBalance();
-
-    if (!currentAccount) return;
+    if (!tokenAddress) return;
     tokenAddress?.map(async (v, i) => {
       await myTokenAsset(currentAccount, v.address, v.name);
     });
 
-    const importedTokenData = localStorage.getItem(currentNetwork);
+    getBalance();
+
+    /*const importedTokenData = localStorage.getItem(currentNetwork);
     const importedToken = JSON.parse(importedTokenData);
-    importedToken?.map((v, i) => {
-      console.log(171, v);
-      setMyAssets((prevMyAssets) => [
-        ...prevMyAssets,
-        { ticker: v.ticker, value: v.value, address: v.address },
-      ]);
-    });
-  }, [currentAccount]);
-  useEffect(() => {});
+
+    if (importedToken != null) {
+      importedToken?.map((v, i) => {
+        console.log(171, v);
+        setMyAssets((prevMyAssets) => [
+          ...prevMyAssets,
+          { ticker: v.ticker, value: v.value, address: v.address },
+        ]);
+      });
+    }*/
+  }, [tokenAddress]);
+
   return (
     <div className="modal-bg radial-bg-home">
       <div className="dm-sans container-modal lp-card">

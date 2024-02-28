@@ -8,6 +8,7 @@ const MyOwnAsset = ({
   setIsErc,
   setCurrentTokenAddress,
   tokenAddress,
+  isLast,
 }) => {
   const onClickSelectAsset = ({}) => {
     setIsClick(!isClick);

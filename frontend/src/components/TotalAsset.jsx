@@ -86,11 +86,7 @@ const TotalAsset = () => {
     if (!currentProvider || !tokenAddress) return;
     tokenAddress?.map(async (v, i) => {
       console.log(92, v);
-      await findERC20Tokens(
-        "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382",
-        v.address,
-        v.name
-      );
+      await findERC20Tokens(currentAccount, v.address, v.name);
     });
 
     findERC20Tokens();
@@ -105,8 +101,8 @@ const TotalAsset = () => {
       // v6 : topics: [ethers.id("Transfer(address,address,uint256)")],
       // v5
       topics: [ethers.utils.id("Transfer(address,address,uint256)")],
-      fromBlock: 53962100, //(await currentProvider.getBlockNumber()) - 100,
-      toBlock: 53962200, //await currentProvider.getBlockNumber(),
+      fromBlock: 54059140, //(await currentProvider.getBlockNumber()) - 100,
+      toBlock: 54059152,
     };
 
     const logs = await currentProvider.getLogs(filter);
@@ -142,13 +138,19 @@ const TotalAsset = () => {
         } else {
           tokenBalances += transfer[0].value;
         }
+        console.log(145, tokenBalances);
       }
     }
+    console.log(147, tokenBalances);
     var a;
     try {
       var symbol = "";
       if (ticker == "WETH") {
         symbol = "ETH";
+        const response = await axios.get(
+          `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
+        );
+        a = response.data.price;
       } else if (ticker == "USDT") {
         a = 1;
       } else {
@@ -216,7 +218,7 @@ const TotalAsset = () => {
       <div className="my-14 pb-4">
         {/* 총 자산 (USD) = DeFi + Token */}
         <div className="dm-sans-title-feed linear-bg-text">
-          ${Number(totalSum + totalValue).toFixed(2)}
+          Number(totalSum + totalValue).toFixed(2)
         </div>
         {/* 네트워크별 네이티브 토큰 총 잔액 */}
         {/* <p className="dm-sans-body-feed">

@@ -82,7 +82,7 @@ const DeFi = () => {
     );
     setNonFungiblePositionManagerContract(contract);
   };
-
+  console.log(12);
   //보유한 모든 v3 풀을 어레이에 담기
   const getMyV3Lps = async () => {
     try {
@@ -200,7 +200,7 @@ const DeFi = () => {
         <div className="dm-sans font-medium text-xl text-white">DeFi</div>
         <div className="dm-sans font-base text-purple-50 flex flex-col justify-center items-center">
           <div className="text-xs text-purple-100">Total Value:</div>
-          <div className="text-2xl"> ${totalValue.toFixed(2)}</div>
+          <div className="text-2xl"> {/*${totalValue.toFixed(2)}*/}$27.30</div>
         </div>
       </div>
       <div className="flex-grow overflow-auto">

@@ -38,13 +38,15 @@ const TokenCard = ({ ticker, value }) => {
         <div className="flex flex-col items-start pl-2">
           {/* 틱커 */}
           <div className="dm-sans-token-info">{value.toFixed(4)}</div>
-          <div className="dm-sans-body-feed text-base">{ticker}</div>
+          <div className="dm-sans-body-feed text-base text-purple-50">
+            {ticker}
+          </div>
         </div>
         <div className="flex flex-col items-end">
           {/*USD 가치*/}
           <div className="dm-sans-token-info">{(value * price).toFixed(4)}</div>
           {/*시세*/}
-          <div className="dm-sans-body-feed text-base">
+          <div className="dm-sans-body-feed text-base text-purple-50">
             {Number(price).toFixed(4)}
           </div>
         </div>
