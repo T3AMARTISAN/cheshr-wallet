@@ -127,8 +127,8 @@ const LPPoolCard = ({
     try {
       if (!lpContract || userLpValue) return;
       var userLpAmount = await lpContract.balanceOf(
-        "0x524b7c9b4ca33ba72445dfd2d6404c81d8d1f2e3" // 여기를 currentAccount로 바꿔주면 테스트계정 말고 실제 계정으로 작동
-      );
+        "0x524b7c9b4ca33ba72445dfd2d6404c81d8d1f2e3"
+      ); // 여기를 currentAccount로 바꿔주면 테스트계정 말고 실제 계정으로 작동
       userLpAmount = Number(userLpAmount);
 
       setLPTokenAmount(userLpAmount);

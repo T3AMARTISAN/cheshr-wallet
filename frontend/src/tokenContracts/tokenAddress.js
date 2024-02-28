@@ -1,5 +1,5 @@
 export const ETH_TOKEN_ADDRESS = [
-  {
+  /* {
     name: "USDT",
     address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
     abi: [
@@ -392,7 +392,7 @@ export const ETH_TOKEN_ADDRESS = [
       { anonymous: false, inputs: [], name: "Pause", type: "event" },
       { anonymous: false, inputs: [], name: "Unpause", type: "event" },
     ],
-  },
+  },*/
 
   {
     name: "WETH",

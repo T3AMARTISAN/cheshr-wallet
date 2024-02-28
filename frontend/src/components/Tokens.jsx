@@ -20,24 +20,21 @@ const Tokens = () => {
     currentAccount,
     setCurrentAccount,
     unit,
-    /*currentProvider*/ currentNetwork,
+    currentProvider,
+    currentNetwork,
   } = useOutletContext();
 
   const findERC20Tokens = async (currentAccount, tokenAddress, ticker) => {
     if (!currentAccount || !tokenAddress || !ticker) return;
 
-    var currentProvider = new ethers.providers.InfuraProvider(
-      "matic",
-      process.env.REACT_APP_POLYGONSCAN_API_KEY
-    );
     const erc20Transfers = [];
     const filter = {
       address: tokenAddress,
       // v6 : topics: [ethers.id("Transfer(address,address,uint256)")],
       // v5
       topics: [ethers.utils.id("Transfer(address,address,uint256)")],
-      fromBlock: 53962100, //(await currentProvider.getBlockNumber()) - 100,
-      toBlock: 53962200, //await currentProvider.getBlockNumber(),
+      fromBlock: 54059140, //(await currentProvider.getBlockNumber()) - 100,
+      toBlock: 54059177, //await currentProvider.getBlockNumber(),
     };
 
     const logs = await currentProvider.getLogs(filter);
@@ -85,7 +82,6 @@ const Tokens = () => {
   };
 
   useEffect(() => {
-    //var currentNetwork = "Polygon";
     if (!currentNetwork) return;
     if (currentNetwork == "Polygon") {
       setTokenAddress(POLYGON_TOKEN_ADDRESS);
@@ -102,13 +98,9 @@ const Tokens = () => {
     console.log(102, tokenAddress);
     if (!tokenAddress) return;
     tokenAddress?.map(async (v, i) => {
-      await findERC20Tokens(
-        "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382",
-        v.address,
-        v.name
-      );
+      await findERC20Tokens(currentAccount, v.address, v.name);
     });
-    var currentNetwork = "Polygon";
+
     const importedTokenData = localStorage.getItem(currentNetwork);
     const importedToken = JSON.parse(importedTokenData);
     importedToken?.map((v, i) => {
@@ -122,10 +114,6 @@ const Tokens = () => {
   // cryptocurrency 잔액 불러오기
   useEffect(() => {
     const getBalance = async () => {
-      var currentProvider = new ethers.providers.InfuraProvider(
-        "matic",
-        process.env.REACT_APP_POLYGONSCAN_API_KEY
-      );
       var response = await currentProvider.getBalance(
         "0x6c25cf6B6F2635dB80e32bB31e6E6131d3042382" /*currentAccount*/
       );
@@ -149,19 +137,20 @@ const Tokens = () => {
         <div className="dm-sans font-medium text-xl text-white">Tokens</div>
         <div className="dm-sans font-base text-purple-50 flex flex-col justify-center items-center">
           <div className="text-xs text-purple-100">Total Value:</div>
-          <div className="text-2xl">$100</div>
-          {/* <div className="text-2xl"> ${totalValue.toFixed(2)}</div> */}
+          <div className="text-2xl"> ${totalValue.toFixed(2)}</div>
         </div>
       </div>
       {/*cryptocurrency 잔액 나타내기*/}
       <div className="token-container">
         {/* 심볼이미지 */}
         <div className="token-symbol relative bg-opacity-35">
+          /*
           <img
             src="https://raw.githubusercontent.com/dorianbayart/CryptoLogos/main/dist/ethereum/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png"
             alt="USDC"
             className="absolute inset-0 m-auto rounded-full w-8 h-8 shadow drop-shadow-md"
           />
+          */
         </div>
         <div className="grow flex justify-between text-lg">
           <div className="flex flex-col items-start pl-2">
