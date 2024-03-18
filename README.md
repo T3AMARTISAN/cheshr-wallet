@@ -111,7 +111,7 @@
 
 # 🔮 Introducing CHESHR WALLET
 <p align="center">
-<img width="600" alt="image" src="https://github.com/yurright/team3---------/blob/master/cheshrLogo.png">
+  <img width="1100" alt="image" src="https://github.com/T3AMARTISAN/cheshr-wallet/assets/122417190/045b5624-4d94-425c-a366-bf146ca81d3c">
 </p>
 
 CHESHR is a **wallet specialized for DeFi investors**, supporting an optimized website for both Chrome extension and mobile screens.
