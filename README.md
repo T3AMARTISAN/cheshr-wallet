@@ -3,7 +3,6 @@
 </p>
 
 # 🔮 CHESHR WALLET
----------
 CHESHR is a **wallet specialized for DeFi investors**, supporting an optimized website for both Chrome extension and mobile screens.
 
 With the CHESHR Wallet, users can perform basic wallet functions such as transfers and checking token balances, as well as view at a glance information about the value of positions in invested LP pools, fee APY, and whether positions are in range or not. DeFi investors can quickly grasp the status of each DeFi pool through the CHESHR Wallet and adjust their positions by directly accessing the platform via link, allowing them to flexibly respond to the rapidly changing DeFi market.
